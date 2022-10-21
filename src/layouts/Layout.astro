@@ -1,0 +1,47 @@
+---
+export interface Props {
+  title: string;
+}
+import BaseHTML from '@layouts/BaseHTML.astro';
+import Nav from '../components/Nav.astro';
+import { Icon } from 'astro-icon';
+
+const { title } = Astro.props;
+---
+
+<BaseHTML title={title}>
+  <div class='grid gap-4 md:grid-cols-[max-content_1fr_minmax(auto,_90ch)]'>
+    <Nav />
+    <main class='mx-auto w-11/12 sm:w-10/12 md:col-start-3 md:mx-0 md:w-auto'>
+      <a
+        href='#main-content'
+        class='absolute z-10 top-0 p-2 bg-laserwave-hotPink text-white rounded-b-md translate-y-[-120%] right-12 ease-in duration-200 transition-all focus:translate-y-0 focus:outline-laserwave-maximumBlue focus:outline-2 focus:outline focus:outline-offset-4'
+      >
+        Skip to main content
+      </a>
+      <header
+        class='flex sticky top-0 justify-between items-center mb-2 md:static md:top-auto bg-laserwaveContrast-raisinBlack'
+      >
+        <a
+          href='/'
+          class='flex items-center py-2 px-1 text-2xl rounded-md border-4 border-transparent border-double transition-all duration-700 ease-in-out hover:border-blue-600 text-laserwave-hotPink group'
+        >
+          <Icon
+            name='terminal'
+            class='w-7 h-7 transition-all duration-700 ease-in-out group-hover:text-laserwave-maximumBlue group-focus:text-laserwave-maximumBlue'
+          />
+          <h3
+            class='ml-2 leading-none transition-all duration-700 ease-in-out group-hover:text-emerald-200 group-focus:text-emerald-200'
+          >
+            Ben Smith
+          </h3>
+        </a>
+        <a href='#main-nav' class='md:hidden'>
+          <Icon class='w-7 h-7 text-laserwave-hotPink' name='menu-alt3' />
+        </a>
+      </header>
+      <hr class='mb-4 border-2 border-dotted border-laserwave-maximumBlue' />
+      <slot />
+    </main>
+  </div>
+</BaseHTML>

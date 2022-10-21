@@ -1,0 +1,194 @@
+---
+export interface Props {
+  title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang='en'>
+  <head>
+    <meta charset='UTF-8' />
+    <meta name='viewport' content='width=device-width,initial-scale=1' />
+    <link rel='icon' type='image/svg+xml' href='/favicon.svg' />
+    <meta name='generator' content={Astro.generator} />
+    <title>{title}</title>
+  </head>
+  <body
+    class='pt-4 mx-auto min-h-screen font-sans font-medium leading-relaxed text-white md:pt-8 md:w-5/6 md:max-w-7xl bg-laserwaveContrast-raisinBlack'
+  >
+    <slot />
+    <style is:global>
+      @import 'tailwindcss/base';
+      @import 'tailwindcss/components';
+      @import 'tailwindcss/utilities';
+
+      @font-face {
+        font-family: 'Marvin Visions';
+        src: url('/marvin-visions/MarvinVisionsBig-Bold.woff2') format('woff2'),
+          url('/marvin-visions/MarvinVisionsBig-Bold.woff') format('woff'),
+          url('/marvin-visions/MarvinVisionsBig-Bold.eot')
+            format('embedded-opentype');
+      }
+
+      @layer base {
+        /* shiki config */
+        :root {
+          --astro-code-color-text: #eeeeee;
+          --astro-code-color-background: #27212e;
+          --astro-code-token-constant: #ffe261;
+          --astro-code-token-string: #b4dce7;
+          --astro-code-token-comment: #91889b;
+          --astro-code-token-keyword: #40b4c4;
+          --astro-code-token-parameter: #ffffff;
+          --astro-code-token-function: #eb64b9;
+          --astro-code-token-string-expression: #b381c5;
+          --astro-code-token-punctuation: #7b6995;
+          --astro-code-token-link: #74dfc4;
+
+          --laserwave-maximumBlue: #40b4c4;
+          --laserwave-hotPink: #eb64b9;
+          --laserwave-powderBlue: #b4dce7;
+          --laserwave-africanViolet: #b381c5;
+          --laserwave-pearlAqua: #74dfc4;
+          --laserwave-oldLavender: #91889b;
+          --laserwave-romanSilver: #7b6995;
+          --laserwave-mustard: #ffe261;
+          --laserwave-raisinBlack: #27212e;
+        }
+        @media (prefers-contrast: more) {
+          :root {
+            --astro-code-color-text: #eeeeee;
+            --astro-code-color-background: #19151e;
+            --astro-code-token-constant: #ffe261;
+            --astro-code-token-string: #acdfef;
+            --astro-code-token-comment: #b4abbe;
+            --astro-code-token-keyword: #1ed3ec;
+            --astro-code-token-parameter: #ffffff;
+            --astro-code-token-function: #ff52bf;
+            --astro-code-token-string-expression: #d887f5;
+            --astro-code-token-punctuation: #b4a8c8;
+            --astro-code-token-link: #3feabf;
+
+            --laserwaveContrast-maximumBlue: #1ed3ec;
+            --laserwaveContrast-hotPink: #ff52bf;
+            --laserwaveContrast-powderBlue: #acdfef;
+            --laserwaveContrast-africanViolet: #d887f5;
+            --laserwaveContrast-pearlAqua: #3feabf;
+            --laserwaveContrast-oldLavender: #b4abbe;
+            --laserwaveContrast-romanSilver: #b4a8c8;
+            --laserwaveContrast-mustard: #ffe261;
+            --laserwaveContrast-raisinBlack: #19151e;
+          }
+        }
+
+        /* START type system */
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+          color: theme(colors.laserwave.hotPink);
+          font-family: 'Marvin Visions', system-ui, sans-serif;
+          letter-spacing: 0.05em;
+        }
+
+        p {
+          margin-bottom: 1rem;
+        }
+
+        h1:not([class]),
+        h2:not([class]),
+        h3:not([class]),
+        h4:not([class]),
+        h5:not([class]) {
+          margin: 3rem 0 1.38rem;
+        }
+
+        h1 {
+          font-size: 3.052rem;
+          line-height: 1.3;
+          margin-top: 0;
+        }
+
+        h2 {
+          font-size: 2.441rem;
+        }
+
+        h3 {
+          font-size: 1.953rem;
+        }
+
+        h4 {
+          font-size: 1.563rem;
+        }
+
+        h5 {
+          font-size: 1.25rem;
+        }
+
+        h6:not([class]),
+        small,
+        .text_small {
+          font-size: 0.8rem;
+        }
+        /* END type system */
+
+        html {
+          scroll-behavior: smooth;
+        }
+        @media (prefers-reduced-motion: reduce) {
+          html {
+            scroll-behavior: auto;
+          }
+        }
+
+        p {
+          margin: 1rem 0;
+        }
+
+        a {
+          text-decoration: none;
+        }
+
+        /* code blocks */
+        pre {
+          border-radius: theme(borderRadius.lg);
+          padding: theme(padding.6);
+        }
+
+        /* default link styles */
+        a:not([class]) {
+          box-shadow: inset 0 -0.25em 0 0 rgba(244, 114, 182, 0.45);
+          color: var(--laserwave-hotPink);
+          transition: box-shadow 0.25s ease-in-out, color 0.25s linear;
+        }
+        a:not([class]):hover,
+        a:not([class]):focus-visible {
+          box-shadow: inset 0 -1.5em 0 0 rgba(244, 114, 182, 0.45);
+          color: white;
+        }
+
+        /* style external markdown links */
+        a:has(span.external-link) {
+          display: inline-flex;
+          align-items: center;
+          width: max-content;
+        }
+        a > span.external-link {
+          height: 1rem;
+          width: 1rem;
+          margin-left: 0.25rem;
+        }
+        a > span.external-link > svg {
+          display: inline;
+          vertical-align: top;
+          height: 1rem;
+          width: 1rem;
+        }
+      }
+    </style>
+  </body>
+</html>

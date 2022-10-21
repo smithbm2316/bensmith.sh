@@ -1,0 +1,122 @@
+---
+import { Icon } from 'astro-icon';
+
+interface NavLink {
+  title: string;
+  url: string;
+  pack?: string;
+  icon: string;
+  external?: boolean;
+}
+
+const navLinks: NavLink[] = [
+  {
+    title: 'Home',
+    url: '/',
+    icon: 'home',
+  },
+  {
+    title: 'About',
+    url: '/about',
+    icon: 'user-circle',
+  },
+  {
+    title: 'Projects',
+    url: '/projects',
+    icon: 'briefcase',
+  },
+  {
+    title: 'Blog',
+    url: '/blog',
+    icon: 'newspaper',
+  },
+  {
+    title: 'Uses',
+    url: '/uses',
+    icon: 'chip',
+  },
+  {
+    title: 'Github',
+    url: 'https://github.com/smithbm2316',
+    pack: 'mdi',
+    icon: 'github',
+    external: true,
+  },
+  {
+    title: 'Email',
+    url: 'mailto:bsmithdev@mailbox.org',
+    icon: 'mail-open',
+    external: true,
+  },
+  {
+    title: 'LinkedIn',
+    url: 'https://linkedin.com/in/smithbm2316',
+    pack: 'mdi',
+    icon: 'linkedin',
+    external: true,
+  },
+];
+---
+
+<aside
+  class='[&>*]:mb-4 row-start-2 md:row-start-1 bg-laserwave-raisinBlack p-4 min-h-screen md:h-min md:min-h-min md:sticky top-0 rounded-t-md md:rounded-md w-11/12 sm:w-10/12 md:w-auto mx-auto md:mx-0'
+>
+  <nav id='main-nav'>
+    <h4 class='text-white'>Menu</h4>
+    <ul class='flex flex-col list-none'>
+      {
+        navLinks.map(({ url, pack, icon, external, title }) => (
+          <li>
+            {external ? (
+              <a
+                href={url}
+                rel='noreferrer'
+                target='_blank'
+                class='flex items-center p-2 hover:text-white hover:no-underline text-laserwave-hotPink hover:text-laserwave-hotPink'
+              >
+                <Icon class='w-7 h-7' pack={pack} name={icon} />
+                <span class='ml-2'>{title}</span>
+                <Icon class='ml-2 w-4 h-4' name='external-link' />
+              </a>
+            ) : (
+              <a
+                href={url}
+                aria-current={Astro.url.pathname === url ? 'page' : undefined}
+                class='flex items-center p-2 hover:text-white hover:no-underline text-laserwave-hotPink hover:bg-laserwave-hotPink'
+              >
+                <Icon class='w-7 h-7' pack={pack} name={icon} />
+                <span class='ml-2'>{title}</span>
+              </a>
+            )}
+          </li>
+        ))
+      }
+    </ul>
+  </nav>
+  <div id='latest-posts'>
+    <h4 class='text-white'>Latest Posts</h4>
+    <ul>
+      {
+        ['post one', 'post two', 'post three', 'post four'].map((post) => (
+          <li class='p-2'>
+            <a href={`/blog/${post}`} class='underline text-laserwave-hotPink'>
+              {post}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</aside>
+<style>
+  /* styles for link to current page */
+  a[aria-current='page'] {
+    position: relative;
+  }
+  a[aria-current='page']:before {
+    content: '> ';
+    position: absolute;
+    left: -0.5em;
+    color: theme(colors.laserwaveContrast.maximumBlue);
+  }
+</style>

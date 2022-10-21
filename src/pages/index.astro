@@ -1,0 +1,51 @@
+---
+import Layout from '@layouts/Layout.astro';
+import { Image } from '@astrojs/image/components';
+import profilePic from '@assets/profile_pic.jpg';
+import Link from '@components/Link.astro';
+---
+
+<Layout title='Ben Smith'>
+  <section class='mb-10'>
+    <Image
+      src={profilePic}
+      alt='Me!'
+      format='webp'
+      class='rounded-2xl border-laserwave-maximumBlue border-double border-8'
+    />
+    <p>
+      I'm a developer with a passion for constructing quality user experiences
+      for the web!
+    </p>
+
+    <ul class='flex justify-around my-2'>
+      <li>
+        <Link href='https://github.com/smithbm2316'>GitHub</Link>
+      </li>
+      <li>
+        <Link href='https://www.linkedin.com/in/smithbm2316'>LinkedIn</Link>
+      </li>
+      <li>
+        <Link href='mailto:bsmithdev@mailbox.org'>Email</Link>
+      </li>
+    </ul>
+  </section>
+</Layout>
+
+<style>
+  section {
+    margin-bottom: 2.5rem;
+  }
+  img {
+    border-radius: 1rem;
+    border-color: var(--laserwave-maximumBlue);
+    border-style: double;
+    border-width: 0.5rem;
+  }
+
+  ul {
+    display: flex;
+    justify-content: space-around;
+    margin-block: 0.5rem;
+  }
+</style>

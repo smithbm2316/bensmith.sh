@@ -1,0 +1,44 @@
+---
+import Icon from 'astro-icon';
+
+interface Props {
+  href: HTMLAnchorElement['href'];
+  class?: HTMLAnchorElement['className'];
+  rel?: HTMLAnchorElement['rel'];
+  [key: string]: string;
+}
+const { href, rel, ...props } = Astro.props as Props;
+const isExternal = href.substring(0, 1) !== '/';
+---
+
+<a
+  href={href}
+  rel={isExternal ? 'nofollow noopener noreferrer' : null}
+  {...props}
+>
+  {
+    isExternal ? (
+      <span class='inline-flex items-center'>
+        <slot />
+        <Icon class='w-4 h-4 ml-2 inline' name='external-link' />
+      </span>
+    ) : (
+      <slot />
+    )
+  }
+</a>
+
+<style>
+  a {
+    box-shadow: inset 0 -0.25em 0 0 rgba(244, 114, 182, 0.45);
+    color: var(--laserwave-hotPink);
+    display: inline;
+    width: min-content;
+    transition: box-shadow 0.25s ease-in-out, color 0.25s linear;
+  }
+  a:hover,
+  a:focus-visible {
+    box-shadow: inset 0 -1.5em 0 0 rgba(244, 114, 182, 0.45);
+    color: white;
+  }
+</style>
