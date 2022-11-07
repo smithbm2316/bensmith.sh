@@ -10,16 +10,15 @@ const { title } = Astro.props;
 ---
 
 <BaseHTML title={title}>
+  <a
+    id='skip-content'
+    href='#main-content'
+  >
+    Skip to main content
+  </a>
   <div class='wrapper'>
     <Nav />
     <main>
-      <a
-        id='skip-content'
-        href='#main-content'
-        tabindex='1'
-      >
-        Skip to main content</a
-      >
       <header>
         <a
           href='/'
@@ -31,6 +30,7 @@ const { title } = Astro.props;
         <a
           href='#main-nav'
           class='mobile-menu'
+          aria-label='Mobile menu'
         >
           <Icon name='menu-alt3' />
         </a>
@@ -88,8 +88,9 @@ const { title } = Astro.props;
   }
   #skip-content:focus {
     outline-color: var(--laserwave-maximumBlue);
-    outline-offset: 0.5rem;
-    outline-width: 0.5rem;
+    outline-offset: 0.3rem;
+    outline-width: 0.4rem;
+    outline-style: double;
     transform: translateY(0);
   }
   @media screen and (prefers-reduced-motion: reduced) {

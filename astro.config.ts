@@ -25,7 +25,6 @@ export default defineConfig({
     solidJs(),
     sitemap(),
   ],
-  output: 'static',
   markdown: {
     syntaxHighlight: 'shiki',
     shikiConfig: {
@@ -33,12 +32,9 @@ export default defineConfig({
       wrap: true,
     },
   },
+  output: 'static',
   server: {
     port: 2323,
   },
-  vite: {
-    ssr: {
-      external: ['svgo'],
-    },
-  },
+  site: 'https://bensmith.sh',
 });
