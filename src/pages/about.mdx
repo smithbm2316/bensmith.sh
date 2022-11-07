@@ -7,7 +7,10 @@ import { Image } from '@astrojs/image/components';
 
 # About
 
-<Image src={import('@assets/my-background.jpeg')} alt='Me!' />
+<div class='about-image-grid'>
+  <Image src={import('../assets/IMG_8442.jpg')} alt='Me at Ghiradelli Square in San Francisco, CA' width='600' aspectRatio='1:1' fit='cover' position='center' />
+  <Image src={import('../assets/IMG_7343.jpg')} alt='Me enjoying tacos and a margarita' width='600' aspectRatio='1:1' fit='cover' position='center' />
+</div>
 
 ## My Background
 
@@ -34,7 +37,8 @@ design, specifically in the world of web technologies. My main goal as a
 front-end developer is to successfully combine usability-focused
 interfaces with clean and aesthetic design.
 
-<Image src={import('@assets/coffee.jpeg')} alt='Me drinking coffee' />
+<Image src={import('../assets/IMG_7794.jpg')} alt='My friend and I holding our new coffee mugs' width='1200'
+aspectRatio='16 / 9' />
 
 ## When I'm Not Coding
 
@@ -52,7 +56,7 @@ in hand watching Manchester United play. I grew up playing soccer, and
 while I don't get the opportunity to play as much anymore, I still
 avidly follow the English Premier League.
 
-<Image src={import('@assets/friends.jpeg')} alt='Me and my college friends' />
+<Image src={import('@assets/DSC_0062.jpg')} alt='A photo from my college graduation shoot' width='1200' />
 
 ## Looking Forward
 

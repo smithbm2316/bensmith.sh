@@ -225,3 +225,19 @@ a > span.external-link > svg {
   margin-left: 0.5rem;
   line-height: 1;
 }
+
+.about-image-grid {
+  display: grid;
+  grid-gap: 2rem;
+}
+.about-image-grid > img:last-of-type {
+  display: none;
+}
+@media screen and (min-width: 640px) {
+  .about-image-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .about-image-grid > img:last-of-type {
+    display: inline-block;
+  }
+}
