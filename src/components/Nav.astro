@@ -58,12 +58,10 @@ const navLinks: NavLink[] = [
 ];
 ---
 
-<aside
-  class='[&>*]:mb-4 row-start-2 md:row-start-1 bg-laserwave-raisinBlack p-4 min-h-screen md:h-min md:min-h-min md:sticky top-0 rounded-t-md md:rounded-md w-11/12 sm:w-10/12 md:w-auto mx-auto md:mx-0'
->
+<aside>
   <nav id='main-nav'>
-    <h4 class='text-white'>Menu</h4>
-    <ul class='flex flex-col list-none'>
+    <h4>Menu</h4>
+    <ul>
       {
         navLinks.map(({ url, pack, icon, external, title }) => (
           <li>
@@ -72,51 +70,170 @@ const navLinks: NavLink[] = [
                 href={url}
                 rel='noreferrer'
                 target='_blank'
-                class='flex items-center p-2 hover:text-white hover:no-underline text-laserwave-hotPink hover:text-laserwave-hotPink'
               >
-                <Icon class='w-7 h-7' pack={pack} name={icon} />
-                <span class='ml-2'>{title}</span>
-                <Icon class='ml-2 w-4 h-4' name='external-link' />
+                <Icon
+                  class='icon'
+                  pack={pack}
+                  name={icon}
+                />
+                <span>{title}</span>
+                <Icon
+                  class='external-icon'
+                  name='external-link'
+                />
               </a>
             ) : (
               <a
                 href={url}
                 aria-current={Astro.url.pathname === url ? 'page' : undefined}
-                class='flex items-center p-2 hover:text-white hover:no-underline text-laserwave-hotPink hover:bg-laserwave-hotPink'
               >
-                <Icon class='w-7 h-7' pack={pack} name={icon} />
-                <span class='ml-2'>{title}</span>
+                <Icon
+                  class='icon'
+                  pack={pack}
+                  name={icon}
+                />
+                <span>{title}</span>
               </a>
             )}
+            <svg
+              fill='currentColor'
+              viewBox='0 0 20 20'
+              xmlns='http://www.w3.org/2000/svg'
+              aria-hidden='true'
+            >
+              <path
+                fill-rule='evenodd'
+                d='M7.293 14.707a1 1 0 010-1.414L10.586
+10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z'
+                clip-rule='evenodd'
+              />
+            </svg>
           </li>
         ))
       }
     </ul>
   </nav>
-  <div id='latest-posts'>
-    <h4 class='text-white'>Latest Posts</h4>
+  <div class='latest-posts'>
+    <h4>Latest Posts</h4>
     <ul>
       {
-        ['post one', 'post two', 'post three', 'post four'].map((post) => (
-          <li class='p-2'>
-            <a href={`/blog/${post}`} class='underline text-laserwave-hotPink'>
-              {post}
-            </a>
+        [
+          'post one with longer title name',
+          'post two',
+          'post three',
+          'post four',
+        ].map((post) => (
+          <li>
+            <a href={`/blog/${post}`}>{post}</a>
           </li>
         ))
       }
     </ul>
   </div>
 </aside>
+
 <style>
-  /* styles for link to current page */
-  a[aria-current='page'] {
+  aside {
+    background-color: var(--laserwave-raisinBlack);
+    border-top-left-radius: 0.375rem;
+    border-top-right-radius: 0.375rem;
+    grid-row-start: 2;
+    padding: 1rem;
+    min-height: 100vh;
+    margin-inline: auto;
+    width: 91.66667%;
+  }
+  aside > * {
+    margin-bottom: 1rem;
+  }
+  @media screen and (min-width: 640px) {
+    aside {
+      width: 83.333333%;
+    }
+  }
+  @media screen and (min-width: 768px) {
+    aside {
+      border-radius: 0.375rem;
+      grid-row-start: 1;
+      height: min-content;
+      margin-inline: 0;
+      min-height: min-content;
+      position: sticky;
+      top: 0;
+      max-width: 13rem;
+      width: auto;
+    }
+  }
+
+  h4 {
+    color: white;
+  }
+
+  ul {
+    display: flex;
+    flex-direction: column;
+    list-style-type: none;
+  }
+
+  li {
     position: relative;
   }
-  a[aria-current='page']:before {
-    content: '> ';
+
+  a {
+    border-radius: 0.4em;
+    color: var(--laserwave-hotPink);
+    display: flex;
+    align-items: center;
+    padding: 0.5rem;
+  }
+  a:hover,
+  a:focus-visible {
+    background-color: var(--laserwave-hotPink);
+    color: white;
+    outline: none;
+    text-decoration: none;
+  }
+  a > span {
+    margin-inline: 0.5rem;
+  }
+
+  .icon {
+    width: 1.75rem;
+    height: 1.75rem;
+  }
+
+  .external-icon {
+    width: 1rem;
+    height: 1rem;
+  }
+
+  a ~ svg {
+    height: 0;
+    width: 0;
+  }
+
+  /* styles for link to current page */
+  a[aria-current='page'] {
+    background-color: var(--laserwave-raisinBlack);
+    position: relative;
+  }
+  a[aria-current='page']:hover,
+  a[aria-current='page']:focus-visible {
+    background-color: var(--laserwave-hotPink);
+    outline: none;
+  }
+  a[aria-current='page'] ~ svg {
+    color: var(--laserwave-maximumBlue);
+    height: 1.5rem;
+    width: 1.5rem;
     position: absolute;
-    left: -0.5em;
-    color: theme(colors.laserwaveContrast.maximumBlue);
+    left: -1.1rem;
+    top: 50%;
+    translate: 0 -50%;
+  }
+  a[aria-current='page']:hover ~ svg,
+  a[aria-current='page']:focus-visible ~ svg {
+    outline: none;
+    translate: -0.1rem -50%;
   }
 </style>

@@ -18,9 +18,9 @@ const isExternal = href.substring(0, 1) !== '/';
 >
   {
     isExternal ? (
-      <span class='inline-flex items-center'>
+      <span>
         <slot />
-        <Icon class='w-4 h-4 ml-2 inline' name='external-link' />
+        <Icon name='external-link' />
       </span>
     ) : (
       <slot />
@@ -29,6 +29,18 @@ const isExternal = href.substring(0, 1) !== '/';
 </a>
 
 <style>
+  span {
+    display: inline-flex;
+    align-items: center;
+  }
+
+  svg {
+    width: 1rem;
+    height: 1rem;
+    margin-left: 0.5rem;
+    display: inline;
+  }
+
   a {
     box-shadow: inset 0 -0.25em 0 0 rgba(244, 114, 182, 0.45);
     color: var(--laserwave-hotPink);

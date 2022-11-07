@@ -3,13 +3,13 @@
   "compilerOptions": {
     "jsx": "preserve",
     "jsxImportSource": "solid-js",
-    "baseUrl": ".",
+    "baseUrl": "src",
     "paths": {
-      "@assets/*": ["./src/assets/*"],
-      "@components/*": ["./src/components/*"],
-      "@layouts/*": ["./src/layouts/*"],
-      "@migrations/*": ["./src/migrations/*"],
-      "@pages/*": ["./src/pages/*"]
+      "@assets/*": ["assets/*"],
+      "@components/*": ["components/*"],
+      "@layouts/*": ["layouts/*"],
+      "@migrations/*": ["migrations/*"],
+      "@pages/*": ["pages/*"]
     }
   }
 }

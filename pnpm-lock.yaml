@@ -7,7 +7,6 @@ specifiers:
   '@astrojs/rss': ^1.0.2
   '@astrojs/sitemap': ^1.0.0
   '@astrojs/solid-js': ^1.2.1
-  '@astrojs/tailwind': ^2.1.1
   '@typescript-eslint/parser': ^5.40.1
   astro: ^1.5.1
   astro-icon: ^0.7.3
@@ -17,7 +16,6 @@ specifiers:
   heroicons: ^2.0.12
   prettier: ^2.7.1
   prettier-plugin-astro: ^0.6.0
-  rustywind: ^0.15.1
   sharp: '>=0.31.0'
   solid-js: ^1.4.3
   tailwindcss: ^3.0.24
@@ -30,7 +28,6 @@ dependencies:
   '@astrojs/rss': 1.0.2
   '@astrojs/sitemap': 1.0.0
   '@astrojs/solid-js': 1.2.1_solid-js@1.5.9
-  '@astrojs/tailwind': 2.1.1_tailwindcss@3.2.0
   astro: 1.5.2
   astro-icon: 0.7.3
   heroicons: 2.0.12
@@ -45,7 +42,6 @@ devDependencies:
   eslint-plugin-jsx-a11y: 6.6.1_eslint@8.25.0
   prettier: 2.7.1
   prettier-plugin-astro: 0.6.0
-  rustywind: 0.15.1
   typescript: 4.8.4
 
 packages:
@@ -211,17 +207,6 @@ packages:
       solid-js: 1.5.9
     transitivePeerDependencies:
       - '@babel/core'
-    dev: false
-
-  /@astrojs/tailwind/2.1.1_tailwindcss@3.2.0:
-    resolution: {integrity: sha512-Il6FODtu4AlwadleJS3VWmAOOmeCDKvAo3iof46p4iHtdeWLClyuH9kJXWrlzCS+QOfBSIfXxvwPJ3cbK5COlA==}
-    peerDependencies:
-      tailwindcss: ^3.0.24
-    dependencies:
-      '@proload/core': 0.3.3
-      autoprefixer: 10.4.12_postcss@8.4.18
-      postcss: 8.4.18
-      tailwindcss: 3.2.0
     dev: false
 
   /@astrojs/telemetry/1.0.1:
@@ -949,11 +934,6 @@ packages:
     engines: {node: '>=0.4.0'}
     hasBin: true
 
-  /agent-base/5.1.1:
-    resolution: {integrity: sha512-TMeqbNl2fMW0nMjTEPOwe3J/PRFP4vqeoNuQMG0HlMrtm5QxKqdvAkZ1pRBQ/ulIyDD5Yq0nJ7YbdD8ey0TO3g==}
-    engines: {node: '>= 6.0.0'}
-    dev: true
-
   /ajv/6.12.6:
     resolution: {integrity: sha512-j3fVLgvTo527anyYyJOGTYJbG+vnnQYvE0m5mmkc1TK+nxAppkCLMIL0aZ4dblVCNoGShhm+kzE4ZUykBoMg4g==}
     dependencies:
@@ -1168,22 +1148,6 @@ packages:
       '@astrojs/compiler': 0.27.2
       synckit: 0.8.4
     dev: true
-
-  /autoprefixer/10.4.12_postcss@8.4.18:
-    resolution: {integrity: sha512-WrCGV9/b97Pa+jtwf5UGaRjgQIg7OK3D06GnoYoZNcG1Xb8Gt3EfuKjlhh9i/VtT16g6PYjZ69jdJ2g8FxSC4Q==}
-    engines: {node: ^10 || ^12 || >=14}
-    hasBin: true
-    peerDependencies:
-      postcss: ^8.1.0
-    dependencies:
-      browserslist: 4.21.4
-      caniuse-lite: 1.0.30001422
-      fraction.js: 4.2.0
-      normalize-range: 0.1.2
-      picocolors: 1.0.0
-      postcss: 8.4.18
-      postcss-value-parser: 4.2.0
-    dev: false
 
   /axe-core/4.4.3:
     resolution: {integrity: sha512-32+ub6kkdhhWick/UjvEwRchgoetXqTK14INLqbGm5U2TzBkBNF3nQtLYm8ovxSkQWArjEQvftCKryjZaATu3w==}
@@ -2544,10 +2508,6 @@ packages:
       fetch-blob: 3.2.0
     dev: false
 
-  /fraction.js/4.2.0:
-    resolution: {integrity: sha512-MhLuK+2gUcnZe8ZHlaaINnQLl0xRIGRfcGk2yl8xoQAfHrSsL3rYu6FCmBdkdbhc9EPlwyGHewaRsvwRMJtAlA==}
-    dev: false
-
   /fs-constants/1.0.0:
     resolution: {integrity: sha512-y6OAwoSIf7FyjMIv94u+b5rdheZEjzR63GTyZJm5qh4Bi+2YgwLCcI/fPFZkL5PSixOt6ZNKm+w+Hfp/Bciwow==}
     dev: false
@@ -2884,16 +2844,6 @@ packages:
   /http-cache-semantics/4.1.0:
     resolution: {integrity: sha512-carPklcUh7ROWRK7Cv27RPtdhYhUsela/ue5/jKzjegVvXDqM2ILE9Q2BGn9JZJh1g87cp56su/FgQSzcWS8cQ==}
     dev: false
-
-  /https-proxy-agent/4.0.0:
-    resolution: {integrity: sha512-zoDhWrkR3of1l9QAL8/scJZyLu8j/gBkcwcaQOZh7Gyh/+uJQzGVETdgT30akuwkpL8HTRfssqI3BZuV18teDg==}
-    engines: {node: '>= 6.0.0'}
-    dependencies:
-      agent-base: 5.1.1
-      debug: 4.3.4
-    transitivePeerDependencies:
-      - supports-color
-    dev: true
 
   /human-signals/3.0.1:
     resolution: {integrity: sha512-rQLskxnM/5OCldHo+wNXbpVgDn5A17CUoKX+7Sokwaknlq7CdSnphy0W39GU8dw59XiCXmFXDg4fRuckQRKewQ==}
@@ -3965,11 +3915,6 @@ packages:
     engines: {node: '>=0.10.0'}
     dev: false
 
-  /normalize-range/0.1.2:
-    resolution: {integrity: sha512-bdok/XvKII3nUpklnV6P2hxtMNrCboOjAcyBuQnWEhO665FwrSNRxU+AqpsyvO6LgGYPspN+lu5CLtw4jPRKNA==}
-    engines: {node: '>=0.10.0'}
-    dev: false
-
   /npm-run-path/5.1.0:
     resolution: {integrity: sha512-sJOdmRGrY2sjNTRMbSvluQqg+8X7ZK61yvzBEIDhz4f8z1TZFYABsqjjCBd/0PUNE9M6QDgHJXQkGUEm7Q+l9Q==}
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
@@ -4333,10 +4278,6 @@ packages:
     resolution: {integrity: sha512-hrzC564QIl0r0vy4l6MvRLhafmUowhO/O3KgVSoXIbbA2Sz4j8HGpJc6T2cubRVwMwpdiG/vKGfhT4IixmKN9w==}
     dev: false
 
-  /proxy-from-env/1.1.0:
-    resolution: {integrity: sha512-D+zkORCbA9f1tdWRK0RaCR3GPv50cMxcrz4X8k5LTSUD1Dkw47mKJEZQNunItRTkWwgtaUSo1RVFRIG9ZXiFYg==}
-    dev: true
-
   /pump/3.0.0:
     resolution: {integrity: sha512-LwZy+p3SFs1Pytd/jYct4wpv49HiYCqd9Rlc5ZVdk0V+8Yzv6jR5Blk3TRmPL1ft69TxP0IMZGJ+WPFU2BFhww==}
     dependencies:
@@ -4618,17 +4559,6 @@ packages:
     resolution: {integrity: sha512-5l4VyZR86LZ/lDxZTR6jqL8AFE2S0IFLMP26AbjsLVADxHdhB/c0GUsH+y39UfCi3dzz8OlQuPmnaJOMoDHQBA==}
     dependencies:
       queue-microtask: 1.2.3
-
-  /rustywind/0.15.1:
-    resolution: {integrity: sha512-v6aYevbeKO2YGaymUM6zWAANz6CQqVDhXBklZEx/dYo9xEd49Yc+4S6srbB6Cb+gZTVs8KinhmIC0L4RoZ4IyA==}
-    hasBin: true
-    requiresBuild: true
-    dependencies:
-      https-proxy-agent: 4.0.0
-      proxy-from-env: 1.1.0
-    transitivePeerDependencies:
-      - supports-color
-    dev: true
 
   /s.color/0.0.15:
     resolution: {integrity: sha512-AUNrbEUHeKY8XsYr/DYpl+qk5+aM+DChopnWOPEzn8YKzOhv4l2zH6LzZms3tOZP3wwdOyc0RmTciyi46HLIuA==}

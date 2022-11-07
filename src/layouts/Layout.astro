@@ -3,45 +3,178 @@ export interface Props {
   title: string;
 }
 import BaseHTML from '@layouts/BaseHTML.astro';
-import Nav from '../components/Nav.astro';
+import Nav from '@components/Nav.astro';
 import { Icon } from 'astro-icon';
 
 const { title } = Astro.props;
 ---
 
 <BaseHTML title={title}>
-  <div class='grid gap-4 md:grid-cols-[max-content_1fr_minmax(auto,_90ch)]'>
+  <div class='wrapper'>
     <Nav />
-    <main class='mx-auto w-11/12 sm:w-10/12 md:col-start-3 md:mx-0 md:w-auto'>
+    <main>
       <a
+        id='skip-content'
         href='#main-content'
-        class='absolute z-10 top-0 p-2 bg-laserwave-hotPink text-white rounded-b-md translate-y-[-120%] right-12 ease-in duration-200 transition-all focus:translate-y-0 focus:outline-laserwave-maximumBlue focus:outline-2 focus:outline focus:outline-offset-4'
+        tabindex='1'
       >
-        Skip to main content
-      </a>
-      <header
-        class='flex sticky top-0 justify-between items-center mb-2 md:static md:top-auto bg-laserwaveContrast-raisinBlack'
+        Skip to main content</a
       >
+      <header>
         <a
           href='/'
-          class='flex items-center py-2 px-1 text-2xl rounded-md border-4 border-transparent border-double transition-all duration-700 ease-in-out hover:border-blue-600 text-laserwave-hotPink group'
+          class='home-logo group-parent'
         >
-          <Icon
-            name='terminal'
-            class='w-7 h-7 transition-all duration-700 ease-in-out group-hover:text-laserwave-maximumBlue group-focus:text-laserwave-maximumBlue'
-          />
-          <h3
-            class='ml-2 leading-none transition-all duration-700 ease-in-out group-hover:text-emerald-200 group-focus:text-emerald-200'
-          >
-            Ben Smith
-          </h3>
+          <Icon name='terminal' />
+          <h3>Ben Smith</h3>
         </a>
-        <a href='#main-nav' class='md:hidden'>
-          <Icon class='w-7 h-7 text-laserwave-hotPink' name='menu-alt3' />
+        <a
+          href='#main-nav'
+          class='mobile-menu'
+        >
+          <Icon name='menu-alt3' />
         </a>
       </header>
-      <hr class='mb-4 border-2 border-dotted border-laserwave-maximumBlue' />
+      <hr />
       <slot />
     </main>
   </div>
 </BaseHTML>
+
+<style>
+  .wrapper {
+    display: grid;
+    grid-gap: 1rem;
+  }
+  @media screen and (min-width: 768px) {
+    .wrapper {
+      grid-template-columns: max-content 1fr minmax(auto, 90ch);
+    }
+  }
+
+  main {
+    margin-inline: auto;
+    width: 91.666667%;
+  }
+  @media screen and (min-width: 640px) {
+    main {
+      width: 83.333333%;
+    }
+  }
+  @media screen and (min-width: 768px) {
+    main {
+      grid-column-start: 3;
+      margin-inline: 0;
+      width: auto;
+    }
+  }
+
+  /* skip nav link */
+  #skip-content {
+    color: white;
+    background-color: var(--laserwave-hotPink);
+    position: absolute;
+    top: 0;
+    right: 3rem;
+    z-index: 10;
+    padding: 0.5rem;
+    transition-property: all;
+    transition-duration: 200ms;
+    transition-timing-function: cubic-bezier(0.4, 0, 1, 1);
+    color: #ffffff;
+    border-bottom-right-radius: 0.375rem;
+    border-bottom-left-radius: 0.375rem;
+    transform: translateY(-120%);
+  }
+  #skip-content:focus {
+    outline-color: var(--laserwave-maximumBlue);
+    outline-offset: 0.5rem;
+    outline-width: 0.5rem;
+    transform: translateY(0);
+  }
+  @media screen and (prefers-reduced-motion: reduced) {
+    #skip-content {
+      transition: none;
+    }
+  }
+
+  /* header */
+  header {
+    display: flex;
+    position: sticky;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--laserwaveContrast-raisinBlack);
+  }
+  @media screen and (min-width: 768px) {
+    header {
+      position: static;
+      top: auto;
+    }
+  }
+
+  .home-logo {
+    color: var(--laserwave-hotPink);
+    display: flex;
+    padding-left: 0.25rem;
+    padding-right: 0.25rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    transition-property: all;
+    transition-duration: 0.5s;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    font-size: 1.5rem;
+    line-height: 2rem;
+    align-items: center;
+    border-radius: 0.375rem;
+    border-width: 4px;
+    border-color: transparent;
+    border-style: double;
+  }
+
+  /* mobile-menu */
+  .mobile-menu > svg {
+    width: 1.75rem;
+    height: 1.75rem;
+    color: var(--laserwave-hotPink);
+  }
+  .mobile-menu:hover > svg,
+  .mobile-menu:focus-visible > svg {
+    outline: none;
+    color: var(--laserwave-maximumBlue);
+  }
+  @media screen and (min-width: 768px) {
+    .mobile-menu {
+      display: none;
+    }
+  }
+
+  .group-parent:hover .group-child,
+  .group-parent:focus-visible .group-child {
+    border-color: var(--laserwave-maximumBlue);
+    color: var(--laserwave-maximumBlue);
+  }
+
+  .home-logo > svg {
+    height: 1.75rem;
+    width: 1.75rem;
+    transition-property: all;
+    transition-duration: 700ms;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .home-logo > h3 {
+    margin-left: 0.5rem;
+    transition-property: all;
+    transition-duration: 700ms;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    line-height: 1;
+  }
+
+  hr {
+    margin-bottom: 1rem;
+    border-width: 2px;
+    border-style: dotted;
+    border-color: var(--laserwave-maximumBlue);
+  }
+</style>
