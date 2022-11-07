@@ -1,4 +1,5 @@
 ---
+import { Icon } from 'astro-icon';
 import Layout from '@layouts/Layout.astro';
 import { Image } from '@astrojs/image/components';
 import profilePic from '@assets/profile_pic.jpg';
@@ -10,40 +11,120 @@ import Link from '@components/Link.astro';
     <Image
       src={profilePic}
       alt='Me!'
+      aspectRatio='1:1'
+      width={1000}
+      height={1000}
+      loading='eager'
+      background='#19151e'
     />
-    <p>
-      I'm a developer with a passion for constructing quality user experiences
-      for the web!
-    </p>
+    <div class='content'>
+      <a
+        href='/'
+        class='home-logo group'
+      >
+        <Icon name='terminal' />
+        <h1>Ben Smith</h1>
+      </a>
 
-    <ul>
-      <li>
-        <Link href='https://github.com/smithbm2316'>GitHub</Link>
-      </li>
-      <li>
-        <Link href='https://www.linkedin.com/in/smithbm2316'>LinkedIn</Link>
-      </li>
-      <li>
-        <Link href='mailto:bsmithdev@mailbox.org'>Email</Link>
-      </li>
-    </ul>
+      <p>
+        I'm a web developer with a passion for the command line, coffee, and
+        crafting delightful user experiences for the web!
+      </p>
+
+      <ul>
+        <li>
+          <Link href='https://github.com/smithbm2316'>GitHub</Link>
+        </li>
+        <li>
+          <Link href='https://www.linkedin.com/in/smithbm2316'>LinkedIn</Link>
+        </li>
+        <li>
+          <Link href='mailto:bsmithdev@mailbox.org'>Email</Link>
+        </li>
+      </ul>
+    </div>
   </section>
 </Layout>
 
 <style>
   section {
-    margin-bottom: 2.5rem;
+    margin-block: 2.5rem;
   }
+
+  @media screen and (min-width: 1024px) {
+    section {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      grid-template-areas: 'content img';
+      grid-gap: 2rem;
+    }
+  }
+
   img {
     border-radius: 1rem;
     border-color: var(--laserwave-maximumBlue);
     border-style: double;
     border-width: 0.5rem;
+    display: inline-block;
+    grid-area: img;
+  }
+
+  .content {
+    grid-area: content;
+  }
+
+  .home-logo {
+    margin-left: -0.5rem;
+    width: max-content;
+  }
+  .home-logo > h1 {
+    font-size: 3rem;
+    margin-left: 0.5rem;
+  }
+  .home-logo > svg {
+    width: 3rem;
+    height: 3rem;
+  }
+  @media screen and (min-width: 1024px) {
+    .home-logo > h1 {
+      font-size: 3rem;
+    }
+    .home-logo > svg {
+      width: 3rem;
+      height: 3rem;
+    }
+  }
+  @media screen and (min-width: 1280px) {
+    .home-logo {
+      margin-left: -0.6rem;
+    }
+    .home-logo > h1 {
+      font-size: 4rem;
+    }
+    .home-logo > svg {
+      width: 4rem;
+      height: 4rem;
+    }
+  }
+
+  p {
+    font-weight: 600;
+    padding-bottom: 1rem;
+  }
+  @media screen and (min-width: 1280px) {
+    p {
+      font-size: 1.2rem;
+    }
   }
 
   ul {
     display: flex;
     justify-content: space-around;
     margin-block: 0.5rem;
+  }
+  @media screen and (min-width: 1024px) {
+    ul {
+      justify-content: space-between;
+    }
   }
 </style>

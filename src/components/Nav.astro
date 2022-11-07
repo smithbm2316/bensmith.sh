@@ -6,7 +6,6 @@ interface NavLink {
   url: string;
   pack?: string;
   icon: string;
-  external?: boolean;
 }
 
 const navLinks: NavLink[] = [
@@ -35,25 +34,31 @@ const navLinks: NavLink[] = [
     url: '/uses',
     icon: 'chip',
   },
+];
+
+const externalLinks: NavLink[] = [
   {
     title: 'Github',
     url: 'https://github.com/smithbm2316',
     pack: 'mdi',
     icon: 'github',
-    external: true,
   },
   {
     title: 'Email',
     url: 'mailto:bsmithdev@mailbox.org',
     icon: 'mail-open',
-    external: true,
   },
   {
     title: 'LinkedIn',
     url: 'https://linkedin.com/in/smithbm2316',
     pack: 'mdi',
     icon: 'linkedin',
-    external: true,
+  },
+  {
+    title: 'Built with Astro',
+    pack: 'mdi',
+    url: 'https://astro.build',
+    icon: 'rocket',
   },
 ];
 ---
@@ -63,38 +68,19 @@ const navLinks: NavLink[] = [
     <h4>Menu</h4>
     <ul>
       {
-        navLinks.map(({ url, pack, icon, external, title }) => (
+        navLinks.map(({ url, pack, icon, title }) => (
           <li>
-            {external ? (
-              <a
-                href={url}
-                rel='noreferrer'
-                target='_blank'
-              >
-                <Icon
-                  class='icon'
-                  pack={pack}
-                  name={icon}
-                />
-                <span>{title}</span>
-                <Icon
-                  class='external-icon'
-                  name='external-link'
-                />
-              </a>
-            ) : (
-              <a
-                href={url}
-                aria-current={Astro.url.pathname === url ? 'page' : undefined}
-              >
-                <Icon
-                  class='icon'
-                  pack={pack}
-                  name={icon}
-                />
-                <span>{title}</span>
-              </a>
-            )}
+            <a
+              href={url}
+              aria-current={Astro.url.pathname === url ? 'page' : undefined}
+            >
+              <Icon
+                class='icon'
+                pack={pack}
+                name={icon}
+              />
+              <span>{title}</span>
+            </a>
             <svg
               fill='currentColor'
               viewBox='0 0 20 20'
@@ -111,18 +97,39 @@ const navLinks: NavLink[] = [
           </li>
         ))
       }
+      <hr class='link-divider' />
+      {
+        externalLinks.map(({ url, pack, icon, title }) => (
+          <li>
+            <a
+              href={url}
+              rel='noreferrer'
+              target='_blank'
+            >
+              <Icon
+                class='icon'
+                pack={pack}
+                name={icon}
+              />
+              <span>{title}</span>
+              <Icon
+                class='external-icon'
+                name='external-link'
+              />
+            </a>
+          </li>
+        ))
+      }
     </ul>
   </nav>
+</aside>
+
+<!--
   <div class='latest-posts'>
     <h4>Latest Posts</h4>
     <ul>
       {
-        [
-          'post one with longer title name',
-          'post two',
-          'post three',
-          'post four',
-        ].map((post) => (
+        [].map((post) => (
           <li>
             <a href={`/blog/${post}`}>{post}</a>
           </li>
@@ -130,7 +137,7 @@ const navLinks: NavLink[] = [
       }
     </ul>
   </div>
-</aside>
+  -->
 
 <style>
   aside {
@@ -141,6 +148,7 @@ const navLinks: NavLink[] = [
     padding: 1rem;
     min-height: 100vh;
     margin-inline: auto;
+    min-width: max-content;
     width: 91.66667%;
   }
   aside > * {
@@ -235,5 +243,11 @@ const navLinks: NavLink[] = [
   a[aria-current='page']:focus-visible ~ svg {
     outline: none;
     translate: -0.1rem -50%;
+  }
+
+  .link-divider {
+    margin-block: 1rem;
+    margin-inline: 0.5rem;
+    color: var(--laserwave-oldLavender);
   }
 </style>

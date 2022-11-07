@@ -4,6 +4,9 @@
     url('/marvin-visions/MarvinVisionsBig-Bold.woff') format('woff'),
     url('/marvin-visions/MarvinVisionsBig-Bold.eot')
     format('embedded-opentype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
 }
 
 /* shiki config */
@@ -182,4 +185,43 @@ a > span.external-link > svg {
   vertical-align: top;
   height: 1rem;
   width: 1rem;
+}
+
+.home-logo {
+  color: var(--laserwave-hotPink);
+  display: flex;
+  padding-block: 0.5rem;
+  font-size: 1.5rem;
+  line-height: 2rem;
+  align-items: center;
+  border-radius: 0.375rem;
+  border-width: 4px;
+  border-color: transparent;
+  border-style: double;
+  margin-left: -0.4rem;
+}
+
+.group,
+.group > * {
+  transition-property: all;
+  transition-duration: 0.5s;
+  transition-timing-function: ease-in-out;
+}
+
+.group:hover,
+.group:focus-visible,
+.group:hover > *,
+.group:focus-visible > * {
+  border-color: var(--laserwave-maximumBlue);
+  color: var(--laserwave-maximumBlue);
+}
+
+.home-logo > svg {
+  height: 1.75rem;
+  width: 1.75rem;
+}
+
+.home-logo > h3 {
+  margin-left: 0.5rem;
+  line-height: 1;
 }
