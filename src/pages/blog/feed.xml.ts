@@ -1,5 +1,17 @@
 import rss from '@astrojs/rss';
 
+interface Post {
+  url: string;
+  frontmatter: {
+    title: string;
+    pubDate?: Date;
+    draft?: boolean;
+  };
+}
+
+const postImportResult = import.meta.glob('./**/*.{md, mdx}', { eager: true });
+const posts = Object.values(postImportResult) as Post[];
+
 export const get = () =>
   rss({
     // `<title>` field in output xml
@@ -10,9 +22,14 @@ export const get = () =>
     // SITE will use "site" from your project's astro.config.
     site: import.meta.env.SITE,
     // list of `<item>`s in output xml
-    // simple example: generate items for every md file in /src/pages
-    // see "Generating items" section for required frontmatter and advanced use cases
-    items: import.meta.glob('./**/*.mdx'),
+    items: posts
+      .filter((post) => !post.frontmatter.draft)
+      .map((post) => ({
+        link: post.url,
+        title: post.frontmatter.title,
+        pubDate: post.frontmatter.pubDate ?? new Date(),
+      })),
     // (optional) inject custom xml
     customData: `<language>en-us</language>`,
+    stylesheet: '/pretty-feed-v3.xsl',
   });
