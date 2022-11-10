@@ -1,59 +1,9 @@
 ---
 import { Icon } from 'astro-icon';
+import { internalSiteLinks, externalLinks as extLinks } from '@data/links';
 
-interface NavLink {
-  title: string;
-  url: string;
-  pack?: string;
-  icon: string;
-}
-
-const navLinks: NavLink[] = [
-  {
-    title: 'Home',
-    url: '/',
-    icon: 'home',
-  },
-  {
-    title: 'About',
-    url: '/about',
-    icon: 'user-circle',
-  },
-  {
-    title: 'Projects',
-    url: '/projects',
-    icon: 'briefcase',
-  },
-  {
-    title: 'Blog',
-    url: '/blog',
-    icon: 'newspaper',
-  },
-  {
-    title: 'Uses',
-    url: '/uses',
-    icon: 'chip',
-  },
-];
-
-const externalLinks: NavLink[] = [
-  {
-    title: 'Github',
-    url: 'https://github.com/smithbm2316',
-    pack: 'mdi',
-    icon: 'github',
-  },
-  {
-    title: 'Email',
-    url: 'mailto:bsmithdev@mailbox.org',
-    icon: 'mail-open',
-  },
-  {
-    title: 'LinkedIn',
-    url: 'https://linkedin.com/in/smithbm2316',
-    pack: 'mdi',
-    icon: 'linkedin',
-  },
+const externalLinks = [
+  ...extLinks,
   {
     title: 'Built with Astro',
     pack: 'mdi',
@@ -68,7 +18,7 @@ const externalLinks: NavLink[] = [
     <h4>Menu</h4>
     <ul>
       {
-        navLinks.map(({ url, pack, icon, title }) => (
+        internalSiteLinks.map(({ url, pack, icon, title }) => (
           <li>
             <a
               href={url}

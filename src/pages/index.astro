@@ -44,6 +44,13 @@ import Link from '@components/Link.astro';
       </ul>
     </div>
   </section>
+  <a
+    id='mastodon-verification'
+    aria-hidden='true'
+    rel='me'
+    href='https://fosstodon.org/@smithbm2316'
+    >Mastodon</a
+  >
 </Layout>
 
 <style>
@@ -126,5 +133,9 @@ import Link from '@components/Link.astro';
     ul {
       justify-content: space-between;
     }
+  }
+
+  #mastodon-verification {
+    display: none;
   }
 </style>

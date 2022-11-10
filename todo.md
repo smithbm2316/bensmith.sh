@@ -9,3 +9,5 @@
   - (https://developer.mozilla.org/en-US/docs/Web/API/Web_Speech_API/Using_the_Web_Speech_API#speech_synthesis)
 - [ ] Add a dedicated page (and link/headline to it on the homepage) with credits for all of the fonts, icons, tools, and such that you use in your site
 - [ ] [use emoji package for Astro](https://github.com/seanmcp/astro-emoji#readme)
+- [ ] get open graph metadata set up for blog posts
+- [ ] set up general metadata for site in <head> tag
