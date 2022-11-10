@@ -16,7 +16,7 @@ const { title } = Astro.props;
   >
     Skip to main content
   </a>
-  <div class='wrapper'>
+  <div id='wrapper'>
     <Nav />
     <main>
       <header>
@@ -42,13 +42,15 @@ const { title } = Astro.props;
 </BaseHTML>
 
 <style>
-  .wrapper {
+  #wrapper {
     display: grid;
     grid-gap: 1rem;
+    padding-top: 1rem;
   }
   @media screen and (min-width: 768px) {
-    .wrapper {
+    #wrapper {
       grid-template-columns: max-content 1fr minmax(auto, 90ch);
+      padding-top: 2rem;
     }
   }
 

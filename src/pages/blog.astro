@@ -1,0 +1,29 @@
+---
+import Layout from '@layouts/Layout.astro';
+const allPosts = await Astro.glob('./blog/**/*.{md,mdx}');
+const publishedPosts = allPosts.filter((post) => !post.frontmatter.draft);
+---
+
+<Layout title='Blog Posts'>
+  <section>
+    <h1>Blog</h1>
+    <h2>Latest Posts</h2>
+    <ul>
+      {
+        publishedPosts.length > 0 ? (
+          publishedPosts.map((post) => {
+            if (post.frontmatter.draft) return null;
+
+            return (
+              <li>
+                <a href={post.url}>{post.frontmatter.title}</a>
+              </li>
+            );
+          })
+        ) : (
+          <p>Under construction!</p>
+        )
+      }
+    </ul>
+  </section>
+</Layout>

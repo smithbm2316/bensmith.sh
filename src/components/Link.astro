@@ -4,10 +4,9 @@ import Icon from 'astro-icon';
 interface Props {
   href: HTMLAnchorElement['href'];
   class?: HTMLAnchorElement['className'];
-  rel?: HTMLAnchorElement['rel'];
   [key: string]: string;
 }
-const { href, rel, ...props } = Astro.props as Props;
+const { href, ...props } = Astro.props as Props;
 const isExternal = href.substring(0, 1) !== '/';
 ---
 

@@ -1,0 +1,95 @@
+---
+import BaseHTML from '@layouts/BaseHTML.astro';
+import Link from '@components/Link.astro';
+
+interface Link {
+  title: string;
+  url: string;
+  pack?: string;
+  icon: string;
+}
+
+const links: Link[] = [
+  {
+    title: 'Blog',
+    url: '/blog',
+    icon: 'newspaper',
+  },
+  {
+    title: 'GitHub',
+    url: 'https://github.com/smithbm2316',
+    pack: 'mdi',
+    icon: 'github',
+  },
+  {
+    title: 'YouTube',
+    url: 'https://youtube.com/@smithbm2316',
+    pack: 'mdi',
+    icon: 'youtube',
+  },
+  {
+    title: 'Email',
+    url: 'mailto:bsmithdev@mailbox.org',
+    icon: 'mail-open',
+  },
+  {
+    title: 'Twitter',
+    url: 'https://twitter.com/smithbm2316',
+    pack: 'mdi',
+    icon: 'twitter',
+  },
+  {
+    title: 'LinkedIn',
+    url: 'https://linkedin.com/in/smithbm2316',
+    pack: 'mdi',
+    icon: 'linkedin',
+  },
+];
+---
+
+<BaseHTML title='Ben Smith - Web Developer'>
+  <main>
+    <div>
+      <a
+        class='home-link'
+        href='/'
+        ><h1>Ben Smith</h1>
+      </a>
+      <ul>
+        {
+          links.map(({ title, url }) => (
+            <li>
+              <Link href={url}>{title}</Link>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </main>
+</BaseHTML>
+
+<style>
+  main {
+    display: grid;
+    place-items: center;
+    text-align: center;
+    min-height: 100vh;
+  }
+
+  main *:focus-visible {
+    outline-offset: 2px;
+    outline-color: var(--laserwave-hotPink);
+    outline-style: solid;
+    outline-width: 1px;
+  }
+
+  .home-link {
+    border-radius: 8px;
+    color: var(--laserwave-hotPink);
+    display: inline-block;
+  }
+  .home-link:hover,
+  .home-link:focus-visible {
+    text-decoration: underline;
+  }
+</style>

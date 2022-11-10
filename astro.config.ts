@@ -11,14 +11,15 @@ import solidJs from '@astrojs/solid-js';
 /*
  * MARKDOWN PLUGINS
  */
-// transform external links to use rel='nofollow' and open in new tab with target='_blank'
-// import rehypeExternalLinks from './plugins/rehypeExternalLinks';
+import { readingTime } from './plugins/remarkPlugins';
 
 // https://astro.build/config
 export default defineConfig({
   integrations: [
     prefetch(),
-    mdx(),
+    mdx({
+      extendPlugins: 'markdown',
+    }),
     image({
       serviceEntryPoint: '@astrojs/image/sharp',
     }),
@@ -26,6 +27,8 @@ export default defineConfig({
     sitemap(),
   ],
   markdown: {
+    extendDefaultPlugins: true,
+    remarkPlugins: [readingTime],
     syntaxHighlight: 'shiki',
     shikiConfig: {
       theme: 'css-variables',
