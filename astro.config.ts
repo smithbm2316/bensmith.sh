@@ -11,7 +11,7 @@ import solidJs from '@astrojs/solid-js';
 /*
  * MARKDOWN PLUGINS
  */
-import { readingTime } from './plugins/remarkPlugins';
+import { injectFrontmatter } from './plugins/remarkPlugins';
 
 // https://astro.build/config
 export default defineConfig({
@@ -28,7 +28,7 @@ export default defineConfig({
   ],
   markdown: {
     extendDefaultPlugins: true,
-    remarkPlugins: [readingTime],
+    remarkPlugins: [injectFrontmatter],
     syntaxHighlight: 'shiki',
     shikiConfig: {
       theme: 'css-variables',

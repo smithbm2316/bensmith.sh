@@ -17,3 +17,5 @@
 - [ ] progressively enhance SVG icons with gradient masks
   - [the code](https://codepen.io/argyleink/pen/xxzgMOG)
   - [youtube short](https://youtu.be/-H9alSFdEZA)
+- [ ] write a blog post on setting up a RSS feed for astro
+  - [W3 RSS feed validator](https://validator.w3.org/feed/)

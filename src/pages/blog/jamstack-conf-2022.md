@@ -1,6 +1,5 @@
 ---
 title: Jamstack Conf 2022 Takeways
-layout: ../../layouts/BlogPost.astro
 pubDate: ''
 draft: true
 ---

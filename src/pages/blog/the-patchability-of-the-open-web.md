@@ -1,6 +1,5 @@
 ---
 title: The Patchability of the Open Web
-layout: ../../layouts/BlogPost.astro
 pubDate: November 3, 2022
 draft: true
 ---
