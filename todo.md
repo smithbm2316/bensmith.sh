@@ -11,3 +11,9 @@
 - [ ] [use emoji package for Astro](https://github.com/seanmcp/astro-emoji#readme)
 - [ ] get open graph metadata set up for blog posts
 - [ ] set up general metadata for site in <head> tag
+- [ ] add a [badge](https://astro.badg.es/contributors/) to your site once you've contributed
+- [ ] add [website carbon](https://www.websitecarbon.com/badge/) badge to your site to show off the
+  footprint
+- [ ] progressively enhance SVG icons with gradient masks
+  - [the code](https://codepen.io/argyleink/pen/xxzgMOG)
+  - [youtube short](https://youtu.be/-H9alSFdEZA)

@@ -24,6 +24,15 @@ const posts = PostsSchema.parse(
   ),
 );
 
+// set up some custom XML tags to inject into the RSS feed
+const customDataTags = [
+  // enable Atom feed feature
+  // prettier-ignore
+  `<atom:link href="${import.meta.env.SITE}blog/feed.xml" rel="self" type="application/rss+xml" />`,
+  // enable english language metadata
+  `<language>en-us</language>`,
+];
+
 export const get = () =>
   rss({
     title: 'Ben Smith\u2019s Blog',
@@ -63,10 +72,13 @@ export const get = () =>
         }
       }),
     // (optional) inject custom xml
-    customData: `<language>en-us</language>`,
+    customData: customDataTags.join(''),
     // inject the `xmlns:content` attribute with the namespace that defines how the
     // <content:encoded> element should work (as it's not part of the RSS 2.0 spec by default)
     xmlns: {
+      // enables Atom feed features
+      // https://validator.w3.org/feed/docs/warning/MissingAtomSelfLink.html
+      atom: 'http://www.w3.org/2005/Atom',
       content: 'http://purl.org/rss/1.0/modules/content/',
     },
   });
