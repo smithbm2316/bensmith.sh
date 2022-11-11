@@ -1,6 +1,6 @@
 ---
 import Layout from '@layouts/Layout.astro';
-const allPosts = await Astro.glob('./blog/**/*.{md,mdx}');
+const allPosts = await Astro.glob('./blog/**/*.md');
 const publishedPosts = allPosts.filter((post) => !post.frontmatter.draft);
 ---
 
