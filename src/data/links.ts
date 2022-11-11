@@ -17,14 +17,19 @@ export const internalSiteLinks: LinkWithIcon[] = [
     icon: 'user-circle',
   },
   {
-    title: 'Projects',
-    url: '/projects',
-    icon: 'briefcase',
-  },
-  {
     title: 'Blog',
     url: '/blog',
     icon: 'newspaper',
+  },
+  {
+    title: 'RSS Feed',
+    url: '/blog/feed.xml',
+    icon: 'rss',
+  },
+  {
+    title: 'Projects',
+    url: '/projects',
+    icon: 'briefcase',
   },
   {
     title: 'Uses',
