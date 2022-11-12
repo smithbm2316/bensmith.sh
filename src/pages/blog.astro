@@ -2,28 +2,74 @@
 import Layout from '@layouts/Layout.astro';
 const allPosts = await Astro.glob('./blog/**/*.md');
 const publishedPosts = allPosts.filter((post) => !post.frontmatter.draft);
+
+const tagsSet = new Set();
+for (const post of publishedPosts) {
+  if (typeof post.frontmatter.tags !== 'string') {
+    continue;
+  }
+
+  const postTags = post.frontmatter.tags?.split(', ');
+  for (const tag of postTags) {
+    tagsSet.add(tag);
+  }
+}
+const tags = Array.from(tagsSet).sort();
 ---
 
-<Layout title='Blog Posts'>
+<Layout title='Blog'>
   <section>
     <h1>Blog</h1>
     <h2>Latest Posts</h2>
-    <ul>
-      {
-        publishedPosts.length > 0 ? (
-          publishedPosts.map((post) => {
-            if (post.frontmatter.draft) return null;
+    {
+      publishedPosts.length > 0 ? (
+        <ul>
+          {publishedPosts.map((post) => (
+            <li>
+              <a
+                class='default-link'
+                href={post.url}
+              >
+                {post.frontmatter.title}
+              </a>
+            </li>
+          ))}
+        </ul>
+      ) : null
+    }
 
-            return (
+    {
+      tags?.length > 0 ? (
+        <>
+          <h2>Tags</h2>
+          <ul>
+            {tags.map((tag) => (
               <li>
-                <a href={post.url}>{post.frontmatter.title}</a>
+                <a
+                  class='default-link'
+                  href={`/blog/tags/${tag}`}
+                >
+                  {tag}
+                </a>
               </li>
-            );
-          })
-        ) : (
-          <p>Under construction!</p>
-        )
-      }
-    </ul>
+            ))}
+          </ul>
+        </>
+      ) : null
+    }
   </section>
 </Layout>
+
+<style>
+  h2 {
+    margin-block: 2rem;
+  }
+
+  li {
+    margin-block: 1rem;
+  }
+  li::marker {
+    color: var(--laserwave-maximumBlue);
+    content: '• ';
+  }
+</style>

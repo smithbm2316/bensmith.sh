@@ -1,10 +1,7 @@
 ---
-meta:
-  title: Dean Lipsitz
+title: Dean Lipsitz
+draft: true
 ---
-
-# Dean Lipsitz
-
 I began work on this project in August of 2019 when a family friend
 reached out to me looking for someone to build a website for him. He
 wanted to make his services, references, and contact information more

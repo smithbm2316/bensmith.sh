@@ -1,10 +1,101 @@
 ---
 import Layout from '@layouts/Layout.astro';
-const { title, readingTime } = Astro.props.frontmatter;
+
+const {
+  title,
+  readingTime,
+  description,
+  showMeTheCode,
+  tags: tagsString,
+} = Astro.props.frontmatter;
+const tags = typeof tagsString === 'string' ? tagsString.split(', ') : [];
 ---
 
 <Layout title={title}>
   <h1>{title}</h1>
-  <p>{readingTime}</p>
+  {typeof description === 'string' ? <h2>{description}</h2> : null}
+  <div class='tags-and-time'>
+    <ul>
+      {
+        tags.map((tag) => (
+          <li>
+            <a href={`/blog/tags/${tag}`}>{tag}</a>
+          </li>
+        ))
+      }
+    </ul>
+    <p>{readingTime}</p>
+  </div>
+  {
+    typeof showMeTheCode === 'boolean' && showMeTheCode ? (
+      <div class='tldr'>
+        <a
+          class='default-link'
+          href='#show-me-the-code'
+        >
+          TLDR? Show me the code already!
+        </a>
+      </div>
+    ) : null
+  }
   <slot />
 </Layout>
+
+<style>
+  h1 {
+    margin-block: 2rem;
+  }
+
+  h2 {
+    font-family: var(--font-sans);
+    font-weight: 500;
+    font-size: 3rem;
+  }
+
+  .tags-and-time {
+    background-color: var(--laserwave-raisinBlack);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-block: 2rem;
+    padding: 0.5rem 1rem;
+    border-radius: 0.6rem;
+    box-shadow: inset 0 2px 4px 0 rgb(0 0 0 / 0.25);
+  }
+
+  ul {
+    display: flex;
+    gap: 1rem;
+  }
+
+  li > a {
+    color: var(--laserwave-maximumBlue);
+    border-radius: 0.25rem;
+    display: inline-block;
+    position: relative;
+  }
+  li > a:hover {
+    text-decoration: underline;
+  }
+  li > a:focus-visible {
+    outline-offset: 2px;
+    outline: 1px solid var(--laserwave-maximumBlue);
+  }
+  li > a:before {
+    content: '#';
+    top: 0;
+    bottom: 0;
+    left: 0;
+  }
+
+  .tags-and-time > p {
+    margin: 0;
+  }
+
+  .tldr {
+    font-size: 1.25rem;
+    font-style: italic;
+    margin-block-end: 1rem;
+  }
+</style>

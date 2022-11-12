@@ -76,21 +76,6 @@ const externalLinks = [
   </nav>
 </aside>
 
-<!--
-  <div class='latest-posts'>
-    <h4>Latest Posts</h4>
-    <ul>
-      {
-        [].map((post) => (
-          <li>
-            <a href={`/blog/${post}`}>{post}</a>
-          </li>
-        ))
-      }
-    </ul>
-  </div>
-  -->
-
 <style>
   aside {
     background-color: var(--laserwave-raisinBlack);
@@ -98,7 +83,7 @@ const externalLinks = [
     border-top-right-radius: 0.375rem;
     grid-row-start: 2;
     padding: 1rem;
-    min-height: 100vh;
+    min-height: calc(100vh - 2rem);
     margin-inline: auto;
     min-width: max-content;
     width: 91.66667%;

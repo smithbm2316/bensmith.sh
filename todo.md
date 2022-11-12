@@ -19,3 +19,4 @@
   - [youtube short](https://youtu.be/-H9alSFdEZA)
 - [ ] write a blog post on setting up a RSS feed for astro
   - [W3 RSS feed validator](https://validator.w3.org/feed/)
+- [ ] add latest posts section to nav

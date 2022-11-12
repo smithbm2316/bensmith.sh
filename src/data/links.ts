@@ -22,15 +22,15 @@ export const internalSiteLinks: LinkWithIcon[] = [
     icon: 'newspaper',
   },
   {
-    title: 'RSS Feed',
+    title: 'RSS',
     url: '/blog/feed.xml',
     icon: 'rss',
   },
-  {
+  /* {
     title: 'Projects',
     url: '/projects',
     icon: 'briefcase',
-  },
+  }, */
   {
     title: 'Uses',
     url: '/uses',

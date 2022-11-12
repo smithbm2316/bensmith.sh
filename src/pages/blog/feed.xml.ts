@@ -1,19 +1,6 @@
 import rss from '@astrojs/rss';
-import { z } from 'zod';
-
-// set up a zod schema for what content we will receive from the import.meta.glob execution below
-const PostsSchema = z.array(
-  z.object({
-    url: z.string(),
-    frontmatter: z.object({
-      title: z.string(),
-      pubDate: z.string(),
-      draft: z.boolean().optional(),
-    }),
-    compiledContent: z.function().returns(z.string()),
-    rawContent: z.function().returns(z.string()),
-  }),
-);
+import { PostsSchema } from '@models/Posts';
+import sanitizeHtml from 'sanitize-html';
 
 // import all markdown files with Vite's import.meta.glob synchronously and validate them
 const posts = PostsSchema.parse(
@@ -47,24 +34,24 @@ export const get = () =>
         const postData = {
           title: post.frontmatter.title,
           link: post.url,
-          pubDate: new Date(post.frontmatter.pubDate),
+          pubDate: post.frontmatter.pubDate
+            ? new Date(post.frontmatter.pubDate)
+            : new Date(),
         };
 
-        // Parse the raw content of our post to get the first 140 characters for our description
-        let description = post.rawContent().substring(0, 140);
-        if (description) {
-          // strip out any partial words by finding the last space in the string and appending a
-          // '...' to it
-          const lastSpaceIndex = description.lastIndexOf(' ');
-          description = description.substring(0, lastSpaceIndex);
-          description += '...';
-
+        // check if we have a description or excerpt and use it for the RSS feed's description
+        // property if we do
+        const descriptionOrExcerpt =
+          post.frontmatter.description ?? post.frontmatter.excerpt;
+        if (descriptionOrExcerpt) {
           return {
             // include our common post data
             ...postData,
-            description,
+            description: descriptionOrExcerpt,
             // add a <content> section with the HTML output from our post, and encode it properly
-            customData: `<content:encoded><![CDATA[${post.compiledContent()}]]></content:encoded>`,
+            customData: `<content:encoded><![CDATA[${sanitizeHtml(
+              post.compiledContent(),
+            )}]]></content:encoded>`,
           };
         } else {
           // if we don't have a description, then don't generate a <content> tag either

@@ -1,6 +1,7 @@
 ---
 title: Jamstack Conf 2022 Takeways
 pubDate: ''
+tags: jamstack, conference
 draft: true
 ---
 

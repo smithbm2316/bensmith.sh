@@ -1,10 +1,7 @@
 ---
-meta:
-  title: Healing Odyssey
+title: Healing Odyssey
+draft: true
 ---
-
-# Healing Odyssey
-
 During my fall quarter of 2019, I began a course at UCI called _Project
 in System Software Design_, where I worked with a non-profit
 organization called Healing Odyssey to modernize the design of their

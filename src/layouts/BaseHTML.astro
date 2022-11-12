@@ -3,7 +3,7 @@ import 'tailwindcss/src/css/preflight.css';
 import '../styles/global.css';
 
 export interface Props {
-  title: string;
+  title?: string;
 }
 
 const { title } = Astro.props;
@@ -26,7 +26,9 @@ const { title } = Astro.props;
       name='generator'
       content={Astro.generator}
     />
-    <title>{title}</title>
+    <title>
+      {typeof title === 'string' ? `${title} - Ben Smith` : 'Ben Smith'}
+    </title>
   </head>
   <body>
     <slot />

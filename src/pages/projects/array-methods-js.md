@@ -1,10 +1,7 @@
 ---
-meta:
-  title: Array Methods
+title: Array Methods
+draft: true
 ---
-
-# Array Methods
-
 After working through Wes Bos' _Beginner Javascript_ course
 throughout my winter quarter at UCI this year, I wanted to build a
 project to cement my understanding of a few of the higher-order array

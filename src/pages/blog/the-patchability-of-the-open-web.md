@@ -1,6 +1,7 @@
 ---
 title: The Patchability of the Open Web
 pubDate: November 3, 2022
+tags: open-web, web
 draft: true
 ---
 One of the best parts of being a web developer is being able to tinker with the sites/applications that I visit on the web. I'm able to block network requests that I'm not a fan of, edit the styling of elements on any page with a little bit of CSS or Javascript, implement features with WebExtensions that I need that the sites/applications don't provide me like Vim keybindings in my browser for easier keyboard navigation. 
