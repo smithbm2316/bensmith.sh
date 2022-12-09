@@ -1,15 +1,16 @@
 ---
 export interface Props {
   title: string;
+  og?: string | undefined;
 }
 import BaseHTML from '@layouts/BaseHTML.astro';
 import Nav from '@components/Nav.astro';
 import { Icon } from 'astro-icon';
 
-const { title, frontmatter } = Astro.props;
+const { title, frontmatter, og } = Astro.props;
 ---
 
-<BaseHTML title={title ?? frontmatter.title}>
+<BaseHTML title={title ?? frontmatter.title} og={og}>
   <a
     id='skip-content'
     href='#main-content'

@@ -8,7 +8,13 @@ const {
   description,
   showMeTheCode,
   tags: tagsString,
+  url,
 } = Astro.props.frontmatter;
+
+// check to see if our public folder has an OG image for the particular post we are given from `url`
+const ogBlogImages = await Astro.glob('../../public/og/blog/*.png');
+const ogImg = ogBlogImages.find(png => png?.default?.src?.includes(url));
+const og = ogImg ? `${url}.png` : undefined;
 
 const tags = typeof tagsString === 'string' ? tagsString.split(', ') : [];
 
@@ -18,9 +24,11 @@ let datetime: string | undefined;
 if (typeof date === 'string' && date !== 'Invalid Date') {
   datetime = date;
 }
+
+// const ogImg = `${import.meta.env.SITE}og/${og ?? 'fallback.png'}`;
 ---
 
-<Layout title={title}>
+<Layout title={title} og={og}>
   <h1>{title}</h1>
   {typeof description === 'string' ? <h2>{description}</h2> : null}
   <div class='metadata'>
