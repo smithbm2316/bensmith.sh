@@ -136,4 +136,5 @@ export const get = () => rss({
 ```
 
 <br />
-Thanks for reading! If this post was helpful, please let me know on [Twitter](https://twitter.com/smithbm2316) or [Mastodon](https://fosstodon.org/@smithbm2316). I'd love to hear any feedback, typos I may have made, and hopefully that this post made getting up and running with an RSS feed in our Astro site easier for you.
+
+Thanks for reading! If this post was helpful, please let me know on [Twitter](https://twitter.com/smithbm2316) or [Mastodon](https://fosstodon.org/@smithbm2316), I'd love to hear any feedback you might have.
