@@ -3,18 +3,28 @@ import Layout from '@layouts/Layout.astro';
 
 const {
   title,
+  pubDate,
   readingTime,
   description,
   showMeTheCode,
   tags: tagsString,
 } = Astro.props.frontmatter;
+
 const tags = typeof tagsString === 'string' ? tagsString.split(', ') : [];
+
+// make sure we don't have an invalid date before we try to display it in our post
+const date = new Date(pubDate).toString();
+let datetime: string | undefined;
+if (typeof date === 'string' && date !== 'Invalid Date') {
+  datetime = date;
+}
 ---
 
 <Layout title={title}>
   <h1>{title}</h1>
   {typeof description === 'string' ? <h2>{description}</h2> : null}
-  <div class='tags-and-time'>
+  <div class='metadata'>
+    {datetime !== undefined && <time datetime={datetime}>{pubDate}</time>}
     <ul>
       {
         tags.map((tag) => (
@@ -52,16 +62,26 @@ const tags = typeof tagsString === 'string' ? tagsString.split(', ') : [];
     font-size: 3rem;
   }
 
-  .tags-and-time {
+  .metadata {
     background-color: var(--laserwave-raisinBlack);
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 1rem;
     flex-wrap: wrap;
     margin-block: 2rem;
     padding: 0.5rem 1rem;
     border-radius: 0.6rem;
     box-shadow: inset 0 2px 4px 0 rgb(0 0 0 / 0.25);
+  }
+  .metadata > p {
+    margin: 0;
+  }
+  @media screen and (max-width: 640px) {
+    .metadata {
+      flex-direction: column;
+      align-items: flex-start;
+    }
   }
 
   ul {
@@ -87,10 +107,6 @@ const tags = typeof tagsString === 'string' ? tagsString.split(', ') : [];
     top: 0;
     bottom: 0;
     left: 0;
-  }
-
-  .tags-and-time > p {
-    margin: 0;
   }
 
   .tldr {
