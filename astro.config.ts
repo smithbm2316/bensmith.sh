@@ -17,9 +17,7 @@ import { injectFrontmatter } from './plugins/remarkPlugins';
 export default defineConfig({
   integrations: [
     prefetch(),
-    mdx({
-      extendPlugins: 'markdown',
-    }),
+    mdx({ extendPlugins: false, remarkPlugins: [] }),
     image({
       serviceEntryPoint: '@astrojs/image/sharp',
     }),
