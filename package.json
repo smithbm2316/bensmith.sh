@@ -1,31 +1,23 @@
 {
   "name": "astro-portfolio",
   "type": "module",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "private": true,
   "scripts": {
     "dev": "ASTRO_ENV=development astro dev",
     "start": "ASTRO_ENV=production astro build && astro preview",
     "build": "ASTRO_ENV=production astro build",
     "preview": "ASTRO_ENV=production astro preview",
-    "astro": "astro",
-    "pre-commit": "rustywind --write ."
+    "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/image": "^0.15.1",
-    "@astrojs/mdx": "^0.17.2",
-    "@astrojs/prefetch": "^0.1.2",
-    "@astrojs/rss": "^2.1.1",
-    "@astrojs/sitemap": "^1.1.0",
-    "@astrojs/solid-js": "^2.0.2",
-    "@resvg/resvg-js": "^2.4.1",
-    "astro": "^2.0.16",
-    "astro-icon": "^0.8.0",
-    "heroicons": "^2.0.16",
-    "satori": "^0.4.0",
-    "satori-html": "^0.3.2",
-    "sharp": "^0.31.3",
-    "solid-js": "^1.6.11",
+    "@astrojs/mdx": "^2.1.0",
+    "@astrojs/rss": "^4.0.3",
+    "@astrojs/sitemap": "^3.0.5",
+    "@iconify-json/mdi": "^1.1.64",
+    "astro": "^4.2.4",
+    "astro-icon": "^1.0.2",
+    "sharp": "^0.33.2",
     "tailwindcss": "^3.2.7",
     "zod": "^3.20.6"
   },
@@ -40,7 +32,6 @@
     "prettier-plugin-astro": "^0.8.0",
     "reading-time": "^1.5.0",
     "sanitize-html": "^2.10.0",
-    "svgo": "2.8.0",
-    "typescript": "^4.9.5"
+    "typescript": "^5.3.3"
   }
 }
