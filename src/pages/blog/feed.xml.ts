@@ -20,7 +20,7 @@ const customDataTags = [
   `<language>en-us</language>`,
 ];
 
-export const get = () =>
+export const GET = () =>
   rss({
     title: 'Ben Smith\u2019s Blog',
     description: 'Ben\u2019s writings and thoughts about tech',

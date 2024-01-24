@@ -1,32 +1,31 @@
 ---
-import { Icon } from 'astro-icon';
+import { Icon } from 'astro-icon/components';
 import { internalSiteLinks, externalLinks as extLinks } from '@data/links';
 
 const externalLinks = [
   ...extLinks,
   {
     title: 'Built with Astro',
-    pack: 'mdi',
     url: 'https://astro.build',
-    icon: 'rocket',
+    icon: 'mdi:rocket',
   },
 ];
 ---
 
 <aside>
   <nav id='main-nav'>
-    <h4>Menu</h4>
+    <h4 class='name'>Menu</h4>
     <ul>
       {
-        internalSiteLinks.map(({ url, pack, icon, title }) => (
+        internalSiteLinks.map(({ url, icon, title }) => (
           <li>
             <a
               href={url}
+              class='link'
               aria-current={Astro.url.pathname === url ? 'page' : undefined}
             >
               <Icon
                 class='icon'
-                pack={pack}
                 name={icon}
               />
               <span>{title}</span>
@@ -51,16 +50,16 @@ const externalLinks = [
     <hr class='link-divider' />
     <ul>
       {
-        externalLinks.map(({ url, pack, icon, title }) => (
+        externalLinks.map(({ url, icon, title }) => (
           <li>
             <a
               href={url}
+              class='link'
               rel='noreferrer'
               target='_blank'
             >
               <Icon
                 class='icon'
-                pack={pack}
                 name={icon}
               />
               <span>{title}</span>
@@ -124,7 +123,7 @@ const externalLinks = [
     position: relative;
   }
 
-  a {
+  a.link {
     border-radius: 0.4em;
     color: var(--laserwave-hotPink);
     display: flex;
@@ -186,5 +185,9 @@ const externalLinks = [
     margin-block: 1rem;
     margin-inline: 0.5rem;
     color: var(--laserwave-oldLavender);
+  }
+
+  .name {
+    margin: 0;
   }
 </style>

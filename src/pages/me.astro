@@ -2,7 +2,7 @@
 import BaseHTML from '@layouts/BaseHTML.astro';
 import { internalSiteLinks, externalLinks } from '@data/links';
 import type { LinkWithIcon } from '@data/links';
-import { Icon } from 'astro-icon';
+import { Icon } from 'astro-icon/components';
 
 const links: LinkWithIcon[] = [
   ...internalSiteLinks.filter((link) => link.url === '/blog'),
@@ -20,16 +20,16 @@ const links: LinkWithIcon[] = [
       </a>
       <ul>
         {
-          links.map(({ title, url, icon, pack }) => (
+          links.map(({ title, url, icon }) => (
             <li>
               <a
                 href={url}
+                class='linktree-link'
                 rel='noreferrer'
                 target='_blank'
               >
                 <Icon
                   class='icon'
-                  pack={pack}
                   name={icon}
                 />
                 <span>{title}</span>
@@ -69,21 +69,21 @@ const links: LinkWithIcon[] = [
     text-decoration: underline;
   }
 
-  li > a {
+  .linktree-link {
     border-radius: 0.4em;
     color: var(--laserwave-hotPink);
     display: inline-flex;
     align-items: center;
     padding: 0.5rem;
   }
-  li > a:hover,
-  li > a:focus-visible {
+  .linktree-link:hover,
+  .linktree-link:focus-visible {
     background-color: var(--laserwave-hotPink);
     color: white;
     outline: none;
     text-decoration: none;
   }
-  li > a > span {
+  .linktree-link > span {
     margin-inline: 0.5rem;
   }
 

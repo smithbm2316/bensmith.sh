@@ -1,7 +1,7 @@
 ---
-import { Icon } from 'astro-icon';
+import { Icon } from 'astro-icon/components';
 import Layout from '@layouts/Layout.astro';
-import { Image } from '@astrojs/image/components';
+import { Image } from 'astro:assets';
 import profilePic from '@assets/profile_pic.jpeg';
 import Link from '@components/Link.astro';
 ---
@@ -11,11 +11,10 @@ import Link from '@components/Link.astro';
     <Image
       src={profilePic}
       alt='Me!'
-      aspectRatio='1:1'
       width={1000}
       height={1000}
       loading='eager'
-      background='#19151e'
+      style='object-fit: cover; object-position: center; aspect-ratio: 1 / 1;'
     />
     <div class='content'>
       <a
@@ -23,7 +22,7 @@ import Link from '@components/Link.astro';
         class='home-logo group'
       >
         <Icon name='terminal' />
-        <h1>Ben Smith</h1>
+        <h1 class='name'>Ben Smith</h1>
       </a>
 
       <p>
@@ -74,6 +73,9 @@ import Link from '@components/Link.astro';
     border-width: 0.5rem;
     display: inline-block;
     grid-area: img;
+
+    aspect-ratio: 1 / 1;
+    background-color: #19151e;
   }
 
   .content {
@@ -137,5 +139,10 @@ import Link from '@components/Link.astro';
 
   #mastodon-verification {
     display: none;
+  }
+
+  .name {
+    margin-inline-start: 0.25em;
+    margin-block: 0;
   }
 </style>

@@ -3,30 +3,28 @@ layout: ../layouts/Layout.astro
 title: About
 ---
 
-import { Image } from '@astrojs/image/components';
+import { Image } from 'astro:assets';
+import pointReyesTree from '../assets/point-reyes-tree.jpeg';
+import ghiradelli from '../assets/ghiradelli.jpg';
+import goldenHourGrad from '../assets/golden-hour-grad.jpg';
+import onyxWithJonathan from '../assets/onyx-with-jonathan.jpg';
 
 # About
 
 <div class='about-image-grid'>
   <Image
-    src={import('@assets/point-reyes-tree.jpeg')}
+    src={pointReyesTree}
     alt=''
     width='600'
-    aspectRatio='1:1'
-    fit='cover'
-    position='center'
-    quality={100}
-    format='webp'
+    height='600'
+    style='object-fit: cover; object-position: center; aspect-ratio: 1 / 1;'
   />
   <Image
-    src={import('@assets/ghiradelli.jpg')}
+    src={ghiradelli}
     alt=''
     width='600'
-    aspectRatio='1:1'
-    fit='cover'
-    position='center'
-    quality={100}
-    format='webp'
+    height='600'
+    style='object-fit: cover; object-position: center; aspect-ratio: 1 / 1;'
   />
 </div>
 
@@ -38,24 +36,18 @@ I grew up in the San Francisco Bay Area for the entirety of my childhood, before
 
 <div class='about-image-grid'>
   <Image
-    src={import('@assets/golden-hour-grad.jpg')}
+    src={goldenHourGrad}
     alt=''
     width='600'
-    aspectRatio='1:1'
-    fit='cover'
-    position='center'
-    quality={100}
-    format='webp'
+    height='600'
+    style='object-fit: cover; object-position: center; aspect-ratio: 1 / 1;'
   />
   <Image
-    src={import('@assets/onyx-with-jonathan.jpg')}
+    src={onyxWithJonathan}
     alt=''
     width='600'
-    aspectRatio='1:1'
-    fit='cover'
-    position='right'
-    quality={100}
-    format='webp'
+    height='600'
+    style='object-fit: cover; object-position: right; aspect-ratio: 1 / 1;'
   />
 </div>
 

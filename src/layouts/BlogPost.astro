@@ -13,7 +13,7 @@ const {
 
 // check to see if our public folder has an OG image for the particular post we are given from `url`
 const ogBlogImages = await Astro.glob('../../public/og/blog/*.png');
-const ogImg = ogBlogImages.find(png => png?.default?.src?.includes(url));
+const ogImg = ogBlogImages.find((png) => png?.default?.src?.includes(url));
 const og = ogImg ? `${url}.png` : undefined;
 
 const tags = typeof tagsString === 'string' ? tagsString.split(', ') : [];
@@ -28,7 +28,10 @@ if (typeof date === 'string' && date !== 'Invalid Date') {
 // const ogImg = `${import.meta.env.SITE}og/${og ?? 'fallback.png'}`;
 ---
 
-<Layout title={title} og={og}>
+<Layout
+  title={title}
+  og={og}
+>
   <h1>{title}</h1>
   {typeof description === 'string' ? <h2>{description}</h2> : null}
   <div class='metadata'>
@@ -37,7 +40,12 @@ if (typeof date === 'string' && date !== 'Invalid Date') {
       {
         tags.map((tag) => (
           <li>
-            <a href={`/blog/tags/${tag}`}>{tag}</a>
+            <a
+              class='tag'
+              href={`/blog/tags/${tag}`}
+            >
+              {tag}
+            </a>
           </li>
         ))
       }
@@ -97,20 +105,20 @@ if (typeof date === 'string' && date !== 'Invalid Date') {
     gap: 1rem;
   }
 
-  li > a {
+  .tag {
     color: var(--laserwave-maximumBlue);
     border-radius: 0.25rem;
     display: inline-block;
     position: relative;
   }
-  li > a:hover {
+  .tag:hover {
     text-decoration: underline;
   }
-  li > a:focus-visible {
+  .tag:focus-visible {
     outline-offset: 2px;
     outline: 1px solid var(--laserwave-maximumBlue);
   }
-  li > a:before {
+  .tag:before {
     content: '#';
     top: 0;
     bottom: 0;
