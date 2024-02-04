@@ -1,0 +1,106 @@
+---
+import ResumeLayout from '@layouts/ResumeLayout.astro';
+import '../styles/tailwind.css';
+
+const skills = {
+  Languages: [
+    'Javascript',
+    'Typescript',
+    'CSS',
+    'HTML',
+    'GraphQL',
+    'Bash',
+    'Shell',
+    // we're stretching here
+    'SQL',
+    'Lua',
+    'Python',
+    'Golang',
+  ],
+  Frameworks: ['React', 'Next.js', 'Astro', 'Remix'],
+  'CI/CD': [
+    'Github Actions',
+    'Jest',
+    'Cypress',
+    'Storybook',
+    'Playwright',
+    'Mock Service Worker',
+  ],
+  Miscellaneous: [
+    'TailwindCSS',
+    'Vite',
+    'Node.js',
+    'Docker',
+    'HTMX',
+    'XState',
+    'Deno',
+    'NPM',
+    'Yarn',
+    'PNPM',
+    'ESLint',
+    'Prettier',
+    'Turborepo',
+    'Monorepos',
+    'Chakra UI',
+    'Styled Components',
+    'Apollo Client GraphQL',
+    'Auth0',
+    'Alpine.js',
+  ],
+};
+
+const projects = {
+  'Ofra Cosmetics': ['i did a thing'],
+  'ScoutUS Pro': ['i did a thing 2, electric boogaloo'],
+  'Pioneer Sands': ['i did a thing 3'],
+  "Ink'd Greetings": ['i did a thing 4'],
+};
+---
+
+<ResumeLayout>
+  <h1>Resume</h1>
+
+  <section aria-labelledby='heading-skills'>
+    <h2 id='heading-skills'>Skills</h2>
+    {
+    Object.entries(skills).map(([category, skillsList]) => (
+      <>
+        <h3>{category}</h3>
+        <ul>
+          {skillsList.map((skill) => (
+            <li>{skill}</li>
+          ))}
+        </ul>
+      </>
+    ))
+    }
+  </section>
+
+  <section aria-labelledby='heading-projects'>
+    <h2 id='heading-projects'>Projects</h2>
+    {
+    Object.entries(projects).map(([project, bulletPoints]) => (
+      <>
+        <h3>{project}</h3>
+        <ul>
+          {bulletPoints.map((bullet) => (
+            <li>{bullet}</li>
+          ))}
+        </ul>
+      </>
+    ))
+    }
+  </section>
+
+  <section aria-labelledby='heading-education'>
+    <h2 id='heading-education'>Education</h2>
+  </section>
+
+  <section aria-labelledby='heading-work'>
+    <h2 id='heading-work'>Work Experience</h2>
+  </section>
+
+  <section aria-labelledby='heading-references'>
+    <h2 id='references'>References</h2>
+  </section>
+</ResumeLayout>

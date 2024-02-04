@@ -28,8 +28,4 @@ export default defineConfig({
     port: 2323,
   },
   site: 'https://bensmith.sh',
-  /* site:
-    process.env.ASTRO_ENV === 'production'
-      ? 'https://bensmith.sh'
-      : 'http://localhost:2323', */
 });
