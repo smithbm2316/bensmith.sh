@@ -1,7 +1,9 @@
 ---
 import Layout from '@layouts/Layout.astro';
 const allPosts = await Astro.glob('./blog/**/*.md');
-const publishedPosts = allPosts.filter((post) => !post.frontmatter.draft);
+const publishedPosts = allPosts
+  .filter((post) => !post.frontmatter.draft)
+  .sort((a, b) => (a.frontmatter.pubDate > b.frontmatter.pubDate ? -1 : 0));
 
 const tagsSet = new Set();
 for (const post of publishedPosts) {
