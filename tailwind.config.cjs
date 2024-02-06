@@ -31,24 +31,13 @@ module.exports = {
       },
     },
   },
-  plugins: [],
-  /* plugins: [
-    plugin(function ({ addComponents, theme }) {
-      addComponents({
-        '.link': {
-          boxShadow: 'inset 0 -0.25em 0 0 rgba(244, 114, 182, 0.45)',
-          color: theme('colors.laserwave.hotPink'),
-          transition: 'box-shadow 0.25s ease-in-out, color 0.25s linear',
-          '&:hover': {
-            boxShadow: 'inset 0 -1.5em 0 0 rgba(244, 114, 182, 0.45)',
-            color: theme('colors.white'),
-          },
-          '&:focus-visible': {
-            boxShadow: 'inset 0 -1.5em 0 0 rgba(244, 114, 182, 0.45)',
-            color: theme('colors.white'),
-          },
-        },
-      });
+  plugins: [
+    // overwrite your post draft with the draft inside of obsidian
+    // cp -iv ~/documents/notes/blog-drafts/tailwind-is-good-enough.md src/pages/blog/tailwind-is-good-enough.md
+    // add variants to allow us to apply styles only to the kiosk or web app
+    plugin(function ({ addVariant }) {
+      addVariant('kiosk', ':is([data-rendering-on="kiosk"] &)');
+      addVariant('web', ':is([data-rendering-on="web"] &)');
     }),
-  ], */
+  ],
 };
