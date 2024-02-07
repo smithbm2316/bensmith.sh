@@ -18,14 +18,14 @@ const og = ogImg ? `${url}.png` : undefined;
 
 const tags = typeof tagsString === 'string' ? tagsString.split(', ') : [];
 
-// make sure we don't have an invalid date before we try to display it in our post
-const date = new Date(pubDate).toString();
-let datetime: string | undefined;
-if (typeof date === 'string' && date !== 'Invalid Date') {
-  datetime = date;
-}
-
-// const ogImg = `${import.meta.env.SITE}og/${og ?? 'fallback.png'}`;
+const [year, month, day]: [number, number, number] = pubDate
+  .split('-')
+  .map((part: string) => parseInt(part, 10));
+// date object constructor expects the month index, not the actual month number
+const monthIndex = month - 1;
+const publishedDate = new Intl.DateTimeFormat('en-US', {
+  dateStyle: 'long',
+}).format(new Date(year, monthIndex, day));
 ---
 
 <Layout
@@ -35,7 +35,7 @@ if (typeof date === 'string' && date !== 'Invalid Date') {
   <h1>{title}</h1>
   {typeof description === 'string' ? <h2>{description}</h2> : null}
   <div class='metadata'>
-    {datetime !== undefined && <time datetime={datetime}>{pubDate}</time>}
+    <p>{publishedDate}</p>
     <ul>
       {
         tags.map((tag) => (
