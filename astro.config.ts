@@ -15,7 +15,9 @@ import { injectFrontmatter } from './plugins/remarkPlugins';
 // https://astro.build/config
 export default defineConfig({
   integrations: [
-    mdx(),
+    mdx({
+      remarkPlugins: [],
+    }),
     sitemap(),
     icon(),
     tailwind({
