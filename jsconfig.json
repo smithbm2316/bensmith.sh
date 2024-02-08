@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json.schemastore.org/jsconfig.json",
+  "compilerOptions": {
+    "checkJs": true,
+    "allowJs": true,
+    "strict": true,
+    "noEmit": true,
+    "noImplicitAny": false
+  },
+  "include": ["eleventy.config.js", "src/**/*.js", "global.d.ts"],
+  "exclude": ["node_modules", "**/node_modules/*"]
+}

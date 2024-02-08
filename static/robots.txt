@@ -1,4 +1,0 @@
-Sitemap: https://bensmith.sh/sitemap.xml
-
-User-agent: *
-Allow: /

@@ -1,0 +1,15 @@
+<main class="flow" style="--flow-space: 2em;">
+  <h1>Tags</h1>
+
+  <ul 
+    webc:if="Array.isArray(collections.postTags) && collections.postTags.length > 0"
+    class="tags-list" 
+  >
+    <li
+      webc:for="tag of collections.postTags"
+      webc:if="tag"
+    >
+      <a :href="`/tags/${tag}`" @text="tag"></a>
+    </li>
+  </ul>
+</main>

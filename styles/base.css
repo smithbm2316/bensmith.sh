@@ -1,15 +1,3 @@
-/* Load Inter font */
-:root {
-  font-family: var(--ff-sans);
-  @supports (font-variation-settings: normal) {
-    font-family: var(--ff-sans-var);
-  }
-  /* fix for Chrome */
-  font-feature-settings:
-    "liga" 1,
-    "calt" 1;
-}
-
 body {
   background-color: var(--bg);
   color: var(--fg);
@@ -41,15 +29,22 @@ h6 {
 h1 {
   font-size: var(--fs-xxl);
 }
-h2 {
+h2,
+.post-heading-wrapper:has(h2) > a {
   font-size: var(--fs-xl);
 }
 h3,
-h4 {
+h4, 
+.post-heading-wrapper:has(h3) > a,
+.post-heading-wrapper:has(h4) > a 
+{
   font-size: var(--fs-lg);
 }
 h5,
-h6 {
+h6,
+.post-heading-wrapper:has(h5) > a,
+.post-heading-wrapper:has(h6) > a
+{
   font-size: var(--fs-md);
 }
 

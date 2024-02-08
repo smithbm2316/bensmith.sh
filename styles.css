@@ -1,0 +1,75 @@
+@import 'tailwindcss';
+@import './styles/base.css';
+@import './styles/vars.css';
+@import './styles/components.css';
+
+/**
+ * manually specify the source files to search for utilities in (replaces the
+ * `content` property of a JS tailwind config).
+ *
+ * feature PR: https://github.com/tailwindlabs/tailwindcss/pull/14078
+ * changelog: https://github.com/tailwindlabs/tailwindcss/blob/next/CHANGELOG.md#400-alpha18---2024-07-25
+ */
+@source './src/**/*.webc';
+@source './src/**/*.md';
+
+:root {
+  color-scheme: dark light;
+}
+
+.flow > * + * {
+  margin-block-start: var(--flow-space, 1em);
+}
+
+/*
+ * element to be used in an intersection observer to show/hide the
+ * <return-to-top> button
+ */
+#return-to-top-intersection {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+  width: 1px;
+  height: 1px;
+  content: "";
+  top: 75vh;
+  left: 0;
+}
+
+/*
+ * make sure that code snippet classes are scrollable with touch actions
+ */
+pre[class]:has(code[class]) {
+  touch-action: pan-x;
+}
+
+:focus-visible {
+  outline-color: currentColor;
+  outline-offset: 2px;
+  outline-style: solid;
+  outline-width: 1px;
+}
+
+
+/*
+ * uses the same algorithm as the .with-sidebar-r class, but forgoes the sidebar
+ * to constrain the element's direct child to a maximum width of var(--content).
+ */
+.readable {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: var(--gap-col);
+
+  & > :first-child {
+    flex-grow: 999;
+    flex-basis: min(100%, var(--content));
+    max-width: min(100%, var(--content));
+    margin-inline: auto;
+  }
+}
+
+a {
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+}

@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json.schemastore.org/djlint.json",
+  "profile": "nunjucks",
+  "indent": 2,
+  "format_css": true,
+  "css": {
+    "indent_size": 2
+  },
+  "format_js": true,
+  "js": {
+    "indent_size": 2
+  },
+  "blank_line_after_tag": "load,extends,include,set",
+  "preserve_blank_lines": false
+}

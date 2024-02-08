@@ -1,0 +1,86 @@
+<nav aria-labelledby="article-toc-heading">
+  <details style="cursor: pointer">
+    <summary id="article-toc-heading">
+      Table of Contents
+    </summary>
+
+    <ul webc:if="headings.length > 0">
+      <li>
+        <a href="#top">Return to top</a>
+      </li>
+      <li webc:for="heading of headings">
+        <a :href="`#${slugify(heading)}`" @text="heading"></a>
+      </li>
+    </ul>
+  </details>
+</nav>
+
+<style>
+  post-toc {
+    display: block;
+    font-size: var(--fs-sm);
+
+    details {
+      cursor: pointer;
+    }
+
+    summary {
+      font-size: var(--fs-base);
+      font-family: var(--ff-serif);
+      @supports (font-variation-settings: normal) {
+        font-family: var(--ff-serif-var);
+      }
+    }
+
+    ul {
+      list-style-type: disc;
+      list-style-position: inside;
+      margin: 0;
+      padding-inline-start: 0.5em;
+      padding-block: 1em;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5em;
+
+      a {
+        color: var(--primary);
+      }
+      a:is(:hover, :active) {
+        color: var(--fg);
+      }
+    }
+  }
+</style>
+
+<script webc:bucket="defer">
+  window.customElements.define(
+    "post-toc",
+    class PostTOCElement extends HTMLElement {
+      /**
+       * If our table of contents is currently active in its own column due to
+       * our `article-container` container query, then set the `<details>` element
+       * to be `open="true"` by default
+       */
+      autoExpandOnDesktop() {
+        try {
+          let detailsElement = this.querySelector(":scope details");
+          if (
+            getComputedStyle(detailsElement).getPropertyValue(
+              "--auto-open-toc",
+            ) === "true"
+          ) {
+            detailsElement.open = true;
+          }
+        } catch (err) {
+          if (this.dataset.debug === "true") {
+            console.log(err);
+          }
+        }
+      }
+
+      connectedCallback() {
+        this.autoExpandOnDesktop();
+      }
+    },
+  );
+</script>
