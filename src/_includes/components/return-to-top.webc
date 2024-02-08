@@ -1,0 +1,111 @@
+<button class="hidden" aria-hidden="true">
+  <span class="sr-only">Return to top</span>
+  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 10.5 12 3m0 0 7.5 7.5M12 3v18"></path>
+  </svg>
+</button>
+
+<style webc:scoped>
+:host button:not([class="hidden"]) {
+  display: flex;
+}
+:host button {
+  position: fixed;
+  bottom: 0.5rem;
+  right: 0.5rem;
+  z-index: 10;
+
+  border: 2px solid var(--dark-800);
+  border-radius: 50%;
+  background-color: var(--dark-700);
+  color: var(--fg);
+  justify-items: center;
+  align-items: center;
+  transition: border-color 0.25s ease;
+
+  &:is(:hover, :active, :focus-visible) {
+    border-color: currentColor;
+  }
+
+  padding: 0.5em;
+  & svg {
+    height: 1.5rem;
+    width: 1.5rem;
+  }
+
+  /* make the button bigger on touchscreen devices */
+  @media screen and (pointer: coarse) {
+    padding: 0.75em;
+
+    & svg {
+      height: 1.75rem;
+      width: 1.75rem;
+    }
+  }
+}
+</style>
+
+<script webc:bucket="defer">
+  window.customElements.define(
+    "return-to-top",
+    class ReturnToTopElement extends HTMLElement {
+      connectedCallback() {
+        try {
+          let button = this.querySelector(":scope button");
+          if (!button) {
+            return;
+          }
+
+          let returnToTop = {
+            intersectionElement: document.querySelector(
+              "#return-to-top-intersection",
+            ),
+            isVisible: false,
+          };
+          if (!returnToTop.intersectionElement) {
+            return;
+          }
+
+          // setup an intersection observer that will watch the element with the
+          // id of `#return-to-top-intersection` to show/hide our <return-to-top>
+          // button as we scroll up/down the page
+          let observer = new IntersectionObserver((entries) => {
+            for (let entry of entries) {
+              if (!returnToTop.isVisible && entry.boundingClientRect.y < 0) {
+                button.classList.remove("hidden");
+                button.ariaHidden = null;
+                returnToTop.isVisible = true;
+              } else if (
+                returnToTop.isVisible && entry.boundingClientRect.y >= 0
+              ) {
+                button.classList.add("hidden");
+                button.ariaHidden = "true";
+                returnToTop.isVisible = false;
+              }
+            }
+          }, {
+            rootMargin: "0px",
+            threshold: 1.0,
+          });
+          observer.observe(returnToTop.intersectionElement);
+
+          // set up a click handler for our button to scroll to the top of the page
+          button.addEventListener("click", () => {
+            window.scrollTo({
+              // make sure to be inclusive to users who prefer reduced motion
+              behavior:
+                window.matchMedia("(prefers-reduced-motion: no-preference)")
+                  ? "smooth"
+                  : "auto",
+              top: 0,
+            });
+          });
+        } catch (err) {
+          if (this.dataset.debug === "true") {
+            console.log(err);
+          }
+        }
+      }
+    },
+  );
+</script>

@@ -1,12 +1,8 @@
-# site build output
-www/
+# build output
+_site/
 
-# build output for go program and local bin for tool dependencies
-bin/
-
-# templ output files
-*_templ.go
-*_templ.txt
+# 11ty fetch cache directory
+.cache/
 
 # dependencies
 node_modules/
@@ -19,7 +15,11 @@ pnpm-debug.log*
 
 # environment variables
 .env
+.env.local
 .env.production
 
 # macOS-specific files
 .DS_Store
+
+# tailwind built css
+src/assets/styles.css

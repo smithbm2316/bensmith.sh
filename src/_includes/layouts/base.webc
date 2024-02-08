@@ -1,0 +1,12 @@
+---
+layout: layouts/base-html.webc
+---
+
+<with-main-nav>
+  <main-nav :@page='page'></main-nav>
+  <div class="readable">
+    <template @raw="content" webc:nokeep></template>
+    <div id="return-to-top-intersection" aria-hidden="true"></div>
+  </div>
+</with-main-nav>
+<return-to-top></return-to-top>

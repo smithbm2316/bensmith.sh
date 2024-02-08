@@ -1,0 +1,156 @@
+---
+layout: layouts/base-html.webc
+loadPrismCSS: true
+---
+
+<script webc:setup>
+  let postData = collections.posts.find((post) => post.page.url === page.url);
+  if (!postData) {
+    throw new Error("Couldn't find a matching post for the current page.");
+  }
+  let { data, content, rawInput } = postData;
+  // filter out eleventy general tags
+  data.tags = data.tags ? data.tags.filter(tag => tag !== 'posts' && tag !== 'postTags') : [];
+
+  // pool all the article headings from the page content into an array so we can create a TOC easily
+  /** @type {string[]} */
+  let headings = [];
+  let matches = rawInput.matchAll(/^#{1,6}\s(?<heading>.*)$/gm);
+  for (let match of matches) {
+    if (match.groups?.heading) {
+      headings.push(match.groups.heading);
+    }
+  }
+</script>
+
+<with-main-nav>
+  <main-nav :@page='page'></main-nav>
+  <main class="readable">
+    <article>
+      <header>
+        <h1 @text="data.title"></h1>
+        <div class="post-metadata">
+          <time :datetime='machineDate(data.date)' @text='humanDate(data.date)'></time>
+          <ul 
+            webc:if='data.tags.length > 0' 
+            class="tags-list"
+          >
+            <li webc:for='tag of data.tags'>
+              <a :href='`/tags/${tag}`' @text='tag'></a>
+            </li>
+          </ul>
+        </div>
+      </header>
+
+      <post-toc webc:if='headings.length !== 0' :headings='headings'></post-toc>
+      <div class="article-content flow" style="--flow-space: 1.5em" @raw="content"></div>
+    </article>
+    <div id="return-to-top-intersection" aria-hidden="true"></div>
+  </main>
+</with-main-nav>
+<return-to-top></return-to-top>
+
+<style>
+  /* https://css-tricks.com/books/greatest-css-tricks/the-yellow-flash/ */
+  :is(h1, h2, h3, h4, h5, h6):target {
+    animation: bg-flash 2s;
+  }
+
+  /*
+   * setup a container query on the <div> that our WithMainNav component wraps
+   * the <article> element with (it will have a class of .readable on it)
+   */
+  .with-main-nav > :last-child {
+    container: article-container / inline-size;
+  }
+
+  header > *,
+  post-toc {
+    margin-block-end: 3rem;
+  }
+
+  h1 {
+    line-height: 1.25;
+  }
+
+  .post-metadata {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    row-gap: 0.6em;
+    column-gap: 1.2em;
+
+    background-color: var(--dark-950);
+    border: 0.15em solid var(--dark-700);
+    padding: 0.6em 0.9em;
+    margin-inline: -0.9em;
+
+    time {
+      font-family: var(--ff-serif);
+      @supports (font-variation-settings: normal) {
+        font-family: var(--ff-serif-var);
+      }
+    }
+  }
+
+  .post-heading-wrapper {
+    display: flex;
+    column-gap: 1em;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+    align-items: center;
+
+    & > a {
+      color: var(--primary);
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  /* calc(var(--content) + var(--toc-column) + var(--gap-col) * 2) */
+  @container article-container (width >= 96ch) {
+    article {
+      display: grid;
+      grid-template-columns: 1fr var(--content) minmax(24ch, 1fr);
+      grid-template-areas:
+        "auto-col header   blank"
+        "auto-col content  toc";
+      column-gap: var(--gap-col);
+
+      max-width: unset;
+    }
+
+    header {
+      grid-area: header;
+    }
+
+    .article-content {
+      grid-area: content;
+    }
+
+    post-toc {
+      grid-area: toc;
+
+      nav {
+        position: sticky;
+        top: var(--viewport-padding);
+      }
+
+      summary {
+        font-size: var(--fs-md);
+      }
+    }
+
+    /*
+     * consumed in our web component script for our <post-toc> component.
+     * only set this variable when our container query is active
+     */
+    post-toc details {
+      --auto-open-toc: true;
+    }
+  }
+</style>

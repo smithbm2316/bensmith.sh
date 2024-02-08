@@ -89,10 +89,10 @@
   --fs-xxxl: clamp(3.43rem, 1.29vi + 3.17rem, 4.21rem);
 
   /* font family stacks */
-  --ff-sans: Inter, system-ui, sans-serif;
-  --ff-sans-var: InterVariable, system-ui, sans-serif;
-  --ff-serif: "Young Serif", Inter, system-ui, sans-serif;
-  --ff-serif-var: "Young Serif", InterVariable, system-ui, sans-serif;
+  --ff-sans: system-ui, sans-serif;
+  --ff-sans-var: system-ui, sans-serif;
+  --ff-serif: "Young Serif", system-ui, sans-serif;
+  --ff-serif-var: "Young Serif", system-ui, sans-serif;
 }
 
 /*

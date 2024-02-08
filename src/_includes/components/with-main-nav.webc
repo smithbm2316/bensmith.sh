@@ -1,0 +1,27 @@
+<div webc:root='override' class='with-main-nav'>
+  <slot></slot>
+</div>
+
+<style>
+.with-main-nav {
+  container: layout / inline-size;
+
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  column-gap: var(--gap-col);
+  row-gap: var(--gap-row);
+  margin: var(--viewport-padding);
+
+  & > :first-child {
+    flex-grow: 1;
+    min-width: var(--sidebar);
+  }
+
+  & > :last-child {
+    flex-basis: 0;
+    flex-grow: 999;
+    min-width: min(100%, var(--content));
+  }
+}
+</style>

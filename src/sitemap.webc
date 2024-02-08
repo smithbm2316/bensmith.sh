@@ -1,0 +1,12 @@
+---
+permalink: sitemap.xml
+eleventyExcludeFromCollections: true
+---
+<?xml version="1.0" encoding="utf-8"?>
+<urlset xmlns="https://www.sitemaps.org/schemas/sitemap/0.9">
+  <!--- sort alphabetically by url --->
+  <url webc:for="page of collections.all.sort((a,b) => a.url < b.url ? -1 : a.url > b.url ? 1 : 0)">
+    <loc @text="url(site.url + page.url)"></loc>
+    <lastmod @text="page.date.toISOString()"></lastmod>
+  </url>
+</urlset>

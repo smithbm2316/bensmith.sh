@@ -1,0 +1,5 @@
+[[redirects]]
+from = "/blog/feed.xml"
+to = "/feeds/rss.xml"
+status = 301
+

@@ -1,0 +1,34 @@
+---
+layout: layouts/base.webc
+title: Writing
+override:tags: []
+eleventyImport:
+  collections:
+    - posts
+    - postTags
+---
+
+<script webc:setup>
+  let posts = collections.posts.sort((a, b) =>
+    a.data.date < b.data.date ? 1 : -1
+  );
+</script>
+
+<main class="flow">
+  <h1 @text='title'></h1>
+
+  <h2>Latest Posts</h2>
+  <ul class="posts-list" webc:if="posts.length > 0">
+    <li webc:for="post of posts">
+      <a :href="url(post.url)" @text="post.data.title"></a>
+      <time :datetime="machineDate(post.data.date)" @text="humanDate(post.data.date)"></time>
+    </li>
+  </ul>
+
+  <h2>Tags</h2>
+  <ul class="tags-list" role="list">
+    <li webc:for="tag of collections.postTags">
+      <a :href="url(`/tags/${tag}`)" @text="tag"></a>
+    </li>
+  </ul>
+</main>

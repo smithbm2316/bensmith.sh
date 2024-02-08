@@ -1,0 +1,64 @@
+---
+layout: layouts/base.webc
+---
+
+<main class="flow">
+  <h1>Hey, I'm Ben Smith</h1>
+  <p @text="site.description"></p>
+
+  <ul>
+    <li webc:for="link of socials">
+      <a rel="noreferrer" :href="link.href" @text="link.text"></a>
+    </li>
+  </ul>
+
+  <p>
+    <span @text="p1[0]"></span>
+    <a href="https://www.vincit.com" rel="noreferrer" @text="p1[1]"></a>
+    <span @text="p1[2]"></span>
+  </p>
+  <p>
+    <span @text="p2[0]"></span>
+    <em @text="p2[1]"></em>
+  </p>
+  <p @text="p3[0]"></p>
+</main>
+
+<style>
+  main {
+    container: main-content / inline-size
+  }
+
+  main ul {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+
+    row-gap: 0.6em;
+    column-gap: 1.2em;
+
+    background-color: var(--dark-950);
+    border: 0.15em solid var(--dark-700);
+    padding: 0.6em 0.9em;
+    margin-inline: -0.9em;
+
+    @container main-content (width >= 45ch) {
+      justify-content: space-evenly;
+    }
+
+    a {
+      color: var(--primary);
+
+      &:hover,
+      &:active {
+        color: var(--fg);
+      }
+    }
+  }
+
+  @container main-content (min-width: 60ch) {
+    main ul {
+      justify-content: space-evenly;
+    }
+  }
+</style>

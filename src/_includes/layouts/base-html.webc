@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta name="author" :content="site.author.name">
+  <meta name="description" :content="site.description">
+  <!--- <link :href="site.favicon" rel="icon" type="image/svg+xml"> --->
+
+  <title @text="pageTitle(title)"></title>
+
+  <link href="/assets/styles.css" rel="preload" as="style" webc:keep>
+  <link href="/assets/styles.css" rel="stylesheet" webc:keep>
+
+  <!-- custom fonts -->
+  <link href="/assets/young-serif.css" rel="preload" as="style" webc:keep>
+  <link href="/assets/young-serif.css" rel="stylesheet" webc:keep>
+
+  <link href="/assets/prism-theme.css" rel="preload" as="style" webc:if="loadPrismCSS" webc:keep>
+  <link href="/assets/prism-theme.css" rel="stylesheet" webc:if="loadPrismCSS" webc:keep>
+
+  <!-- `critical`/inline bucket -->
+  <style @raw="getBundle('css', 'critical')" webc:keep></style>
+  <script @raw="getBundle('js', 'critical')" type="module" webc:keep></script>
+  <script webc:nokeep webc:bucket="critical">
+    if (!window.CSSPropertyRule) {
+      document.documentElement.classList.add('atproperty-fallback');
+    }
+  </script>
+
+  <!-- `default` bucket -->
+  <link :href="getBundleFileUrl('css')" rel="preload" as="style" webc:keep>
+  <link :href="getBundleFileUrl('css')" rel="stylesheet" webc:keep>
+  <script :src="getBundleFileUrl('js')" type="module" webc:keep></script>
+</head>
+
+<body>
+  <template @raw="content" webc:nokeep></template>
+
+  <!-- `defer` bucket -->
+  <script :src="getBundleFileUrl('js', 'defer')" defer type="module" webc:keep></script>
+
+  <!-- goatcounter analytics -->
+  <script
+    webc:if="process.env.SITE_ENV !== 'development'"
+    webc:keep
+    data-goatcounter="https://smithbm2316.goatcounter.com/count"
+    src="https://gc.zgo.at/count.js"
+    async
+    defer
+  >
+  </script>
+</body>
+</html>

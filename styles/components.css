@@ -1,0 +1,145 @@
+.posts-list {
+  display: grid;
+  gap: 0.5em;
+
+  li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: calc(2em + 1vw);
+    border-block-end: 1px solid var(--dark-700);
+
+    font-weight: 500;
+    padding-block: 1em;
+  }
+
+  a {
+    font-size: var(--fs-md);
+    text-decoration: none;
+    max-width: 32ch;
+
+    &:hover,
+    &:focus-visible {
+      text-decoration: underline;
+    }
+  }
+
+  time {
+    font-size: var(--fs-sm);
+  }
+}
+
+.tags-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5em;
+
+  li > a {
+    --padding-block-size: 0.15em;
+    --padding-inline-size: 0.6em;
+    --tag-hole-punch-size: 0.45em;
+
+    background-color: var(--dark-800);
+    display: inline-block;
+    font-size: var(--fs-sm);
+    font-weight: 600;
+    padding-block: var(--padding-block-size);
+    padding-inline-start: var(--padding-inline-size);
+    padding-inline-end: calc(
+      var(--padding-block-size) + var(--padding-inline-size) +
+        var(--tag-hole-punch-size)
+    );
+    text-decoration: none;
+    position: relative;
+    /* clips the element to match the ::before element's path, otherwise
+     * the background color of this element will escape the bounds
+     * 
+     * order: 123456
+     * 
+     * 1-----------------6\
+     * |                   \5
+     * |                    |
+     * |                    |
+     * |                   /4
+     * 2-----------------3/
+     */
+    clip-path: polygon(
+      /* 1 */ 0% 0%,
+      /* 2 */ 0% 100%,
+      /* 3 */ calc(100% - 0.45em) 100%,
+      /* 4 */ 100% calc(100% - 0.45em),
+      /* 5 */ 100% 0.45em,
+      /* 6 */ calc(100% - 0.45em) 0%
+    );
+
+    /* clip path border to overlay on top of the tag
+     * order: 12345678930abc
+     * 
+     * 1--------------------c\
+     * |  4--------------5\   \
+     * |  |                \6  \b
+     * |  |                |   |
+     * |  |                |   |
+     * |  |                /7  /a
+     * |  9--------------8/   /               
+     * 2--3-----------------0/
+     */
+    &::before {
+      position: absolute;
+      inset: 0;
+      background-color: var(--dark-600);
+      content: "";
+      clip-path: polygon(
+        /* 1 */ 0% 0%,
+        /* 2 */ 0% 100%,
+        /* 3 */ 0.15em 100%,
+        /* 4 */ 0.15em 0.15em,
+        /* 5 */ calc(100% - 0.525em) 0.15em,
+        /* 6 */ calc(100% - 0.15em) 0.525em,
+        /* 7 */ calc(100% - 0.15em) calc(100% - 0.525em),
+        /* 8 */ calc(100% - 0.525em) calc(100% - 0.15em),
+        /* 9 */ 0.15em calc(100% - 0.15em),
+        /* 3 */ 0.15em 100%,
+        /* 0 */ calc(100% - 0.45em) 100%,
+        /* a */ 100% calc(100% - 0.45em),
+        /* b */ 100% 0.45em,
+        /* c */ calc(100% - 0.45em) 0%
+      );
+    }
+
+    /* decorative circle that appears to the right of the tag's content */
+    &::after {
+      content: "";
+      height: 0.45em;
+      width: 0.45em;
+      clip-path: circle(50% at 50% 50%);
+      background-color: var(--dark-500);
+      position: absolute;
+      top: 50%;
+      right: var(--tag-hole-punch-size);
+      transform: translateY(-50%);
+    }
+
+    /*
+     * since we are using `clip-path` to hide all content that expands from
+     * beyond the element, we need to set a negative outline-offset so that
+     * the outline shows up
+     */
+    &:focus-visible {
+      outline-offset: -0.4em;
+    }
+
+    /* add slight hover transitions to the links that are children of <li> */
+    transition: transform 0.3s ease-out;
+    will-change: transform;
+    &:hover {
+      transition: transform 0.15s ease-in;
+    }
+    &:nth-child(odd):hover {
+      transform: rotate(5deg);
+    }
+    &:nth-child(even):hover {
+      transform: rotate(-5deg);
+    }
+  }
+}
