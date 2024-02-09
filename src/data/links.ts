@@ -12,12 +12,12 @@ export const internalSiteLinks: LinkWithIcon[] = [
   },
   {
     title: 'About',
-    url: '/about',
+    url: '/about/',
     icon: 'user-circle',
   },
   {
     title: 'Blog',
-    url: '/blog',
+    url: '/blog/',
     icon: 'newspaper',
   },
   {
@@ -32,12 +32,12 @@ export const internalSiteLinks: LinkWithIcon[] = [
   }, */
   {
     title: 'Uses',
-    url: '/uses',
+    url: '/uses/',
     icon: 'chip',
   },
   {
     title: 'Linktree',
-    url: '/me',
+    url: '/me/',
     icon: 'link',
   },
 ];
@@ -50,7 +50,7 @@ export const externalLinks: LinkWithIcon[] = [
   },
   {
     title: 'YouTube',
-    url: 'https://youtube.com/@smithbm2316',
+    url: 'https://www.youtube.com/@smithbm2316',
     icon: 'mdi:youtube',
   },
   {
