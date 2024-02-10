@@ -11,11 +11,6 @@ export const internalSiteLinks: LinkWithIcon[] = [
     icon: 'home',
   },
   {
-    title: 'About',
-    url: '/about/',
-    icon: 'user-circle',
-  },
-  {
     title: 'Blog',
     url: '/blog/',
     icon: 'newspaper',
@@ -44,21 +39,6 @@ export const internalSiteLinks: LinkWithIcon[] = [
 
 export const externalLinks: LinkWithIcon[] = [
   {
-    title: 'GitHub',
-    url: 'https://github.com/smithbm2316',
-    icon: 'mdi:github',
-  },
-  {
-    title: 'YouTube',
-    url: 'https://www.youtube.com/@smithbm2316',
-    icon: 'mdi:youtube',
-  },
-  {
-    title: 'Twitter',
-    url: 'https://twitter.com/smithbm2316',
-    icon: 'mdi:twitter',
-  },
-  {
     title: 'Email',
     url: 'mailto:bsmithdev@mailbox.org',
     icon: 'mdi:email-open',
@@ -67,5 +47,20 @@ export const externalLinks: LinkWithIcon[] = [
     title: 'LinkedIn',
     url: 'https://linkedin.com/in/smithbm2316',
     icon: 'mdi:linkedin',
+  },
+  {
+    title: 'GitHub',
+    url: 'https://github.com/smithbm2316',
+    icon: 'mdi:github',
+  },
+  {
+    title: 'Twitter',
+    url: 'https://twitter.com/smithbm2316',
+    icon: 'mdi:twitter',
+  },
+  {
+    title: 'YouTube',
+    url: 'https://www.youtube.com/@smithbm2316',
+    icon: 'mdi:youtube',
   },
 ];
