@@ -1,7 +1,7 @@
 # Change these variables as necessary.
-MAIN_PACKAGE_PATH := .
+MAIN_PACKAGE_PATH := ./cmd/web
 BINARY_NAME := www
-STATIC_DIR := static
+STATIC_DIR := ./build/static
 
 # ==================================================================================== #
 # HELPERS

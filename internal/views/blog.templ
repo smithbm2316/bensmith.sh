@@ -1,0 +1,44 @@
+package views
+
+import (
+	"path"
+	"bensmith.sh/internal/models"
+)
+
+templ headerComponent(title string) {
+	<head>
+		<title>{ title }</title>
+		<link rel="preload" as="style" href="/static/main.css"/>
+		<link rel="stylesheet" href="/static/main.css"/>
+	</head>
+}
+
+templ contentComponent(title string, body templ.Component) {
+	<body>
+		<h1>{ title }</h1>
+		<div class="content">
+			@body
+		</div>
+	</body>
+}
+
+templ ContentPage(title string, body templ.Component) {
+	<html>
+		@headerComponent(title)
+		@contentComponent(title, body)
+	</html>
+}
+
+templ IndexPage(posts []models.Post) {
+	<html>
+		@headerComponent("My Blog")
+		<body>
+			<h1>My Blog</h1>
+			for _, post := range posts {
+				<div>
+					<a href={ templ.SafeURL(path.Join(post.Date.Format("2006/01/02"), post.Slug)) }>{ post.Title }</a>
+				</div>
+			}
+		</body>
+	</html>
+}

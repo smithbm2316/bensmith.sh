@@ -8,6 +8,8 @@ import (
 	"os"
 	"path"
 
+	"bensmith.sh/internal/models"
+	"bensmith.sh/internal/views"
 	"github.com/a-h/templ"
 	"github.com/yuin/goldmark"
 )
@@ -20,11 +22,11 @@ func Unsafe(html string) templ.Component {
 }
 
 func main() {
-	posts := GetPosts()
+	posts := models.GetPosts()
 
 	// Output path.
 	rootPath := "build"
-	if err := os.Mkdir(rootPath, 0755); err != nil {
+	if err := os.MkdirAll(rootPath, os.ModePerm); err != nil {
 		log.Fatalf("failed to create output directory: %v", err)
 	}
 
@@ -35,7 +37,7 @@ func main() {
 		log.Fatalf("failed to create output file: %v", err)
 	}
 	// Write it out.
-	err = indexPage(posts).Render(context.Background(), f)
+	err = views.IndexPage(posts).Render(context.Background(), f)
 	if err != nil {
 		log.Fatalf("failed to write index page: %v", err)
 	}
@@ -43,7 +45,7 @@ func main() {
 	// Create a page for each post.
 	for _, post := range posts {
 		// Create the output directory.
-		dir := path.Join(rootPath, post.date.Format("2006/01/02"), post.slug)
+		dir := path.Join(rootPath, post.Date.Format("2006/01/02"), post.Slug)
 		if err := os.MkdirAll(dir, 0755); err != nil && err != os.ErrExist {
 			log.Fatalf("failed to create dir %q: %v", dir, err)
 		}
@@ -57,7 +59,7 @@ func main() {
 
 		// Convert the markdown to HTML, and pass it to the template.
 		var buf bytes.Buffer
-		if err := goldmark.Convert([]byte(post.content), &buf); err != nil {
+		if err := goldmark.Convert([]byte(post.Content), &buf); err != nil {
 			log.Fatalf("failed to convert markdown to HTML: %v", err)
 		}
 
@@ -65,7 +67,7 @@ func main() {
 		content := Unsafe(buf.String())
 
 		// Use templ to render the template containing the raw HTML.
-		err = contentPage(post.slug, content).Render(context.Background(), f)
+		err = views.ContentPage(post.Slug, content).Render(context.Background(), f)
 		if err != nil {
 			log.Fatalf("failed to write output file: %v", err)
 		}

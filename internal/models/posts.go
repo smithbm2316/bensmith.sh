@@ -1,29 +1,29 @@
-package main
+package models
 
 import (
 	"time"
 )
 
 type Post struct {
-	date    time.Time
-	title   string
-	slug    string
-	content string
+	Date    time.Time
+	Title   string
+	Slug    string
+	Content string
 }
 
 func GetPosts() []Post {
 	posts := []Post{
 		{
-			date:    time.Date(2023, time.January, 1, 0, 0, 0, 0, time.UTC),
-			title:   "Tailwind is good enough",
-			slug:    "/tailwind-is-good-enough",
-			content: `**_Tailwind is good enough._**`,
+			Date:    time.Date(2023, time.January, 1, 0, 0, 0, 0, time.UTC),
+			Title:   "Tailwind is good enough",
+			Slug:    "/tailwind-is-good-enough",
+			Content: `**_Tailwind is good enough._**`,
 		},
 		{
-			date:  time.Date(2023, time.May, 1, 0, 0, 0, 0, time.UTC),
-			title: "The patchability of the open web",
-			slug:  "/patchability-of-the-open-web",
-			content: `One of the best parts of being a web developer is being able to tinker with the sites/applications that I visit on the web. I'm able to block network requests that I'm not a fan of, edit the styling of elements on any page with a little bit of CSS or Javascript, implement features with WebExtensions that I need that the sites/applications don't provide me like Vim keybindings in my browser for easier keyboard navigation. 
+			Date:  time.Date(2023, time.May, 1, 0, 0, 0, 0, time.UTC),
+			Title: "The patchability of the open web",
+			Slug:  "/patchability-of-the-open-web",
+			Content: `One of the best parts of being a web developer is being able to tinker with the sites/applications that I visit on the web. I'm able to block network requests that I'm not a fan of, edit the styling of elements on any page with a little bit of CSS or Javascript, implement features with WebExtensions that I need that the sites/applications don't provide me like Vim keybindings in my browser for easier keyboard navigation. 
 
 Javascript and the web have a lot of clunky, hacky, and strange parts to it. People often say that Javascript and the open web are a mess of cobbled together features and protocols. However, I prefer to look at the web as a *beautiful mess* that *still* is a place that is truly open to anyone that dares to try and tame it.
 
