@@ -1,7 +1,9 @@
 # Change these variables as necessary.
 MAIN_PACKAGE_PATH := ./cmd/web
-BINARY_NAME := www
-STATIC_DIR := ./build/static
+TOOL_BIN := bin
+BINARY_NAME := bensmith.sh
+STATIC_SITE_DIR := build
+PUBLIC_DIR := public
 
 # ==================================================================================== #
 # HELPERS
@@ -57,6 +59,17 @@ test/cover:
 	go test -v -race -buildvcs -coverprofile=/tmp/coverage.out ./...
 	go tool cover -html=/tmp/coverage.out
 
+## get-tool: add new dependency, pass URL to dependency as "dep=[URL]"
+.PHONY: get-tool
+get-tool:
+	mkdir -pv ${TOOL_BIN}
+	GOBIN="$$(pwd)/${TOOL_BIN}" go install ${dep}
+
+## gen-views: run templ generate with local version
+.PHONY: gen-views
+gen-views:
+	./${TOOL_BIN}/templ generate
+
 ## css/live: live reload building CSS
 .PHONY: css/live
 css/live:
@@ -65,7 +78,7 @@ css/live:
 		--bundle \
 		--custom-media \
 		--targets '> 0.5% or last 2 versions' \
-		styles/main.css -o ${STATIC_DIR}/main.css
+		styles/main.css -o ${STATIC_SITE_DIR}/main.css
 
 ## css: build CSS for production
 .PHONY: css
@@ -75,11 +88,18 @@ css:
 		--bundle \
 		--custom-media \
 		--targets '> 0.5% or last 2 versions' \
-		styles/main.css -o ${STATIC_DIR}/main.css
+		styles/main.css -o ${STATIC_SITE_DIR}/main.css
+
+## build-clean: clean the STATIC_SITE_DIR
+.PHONY: build-clean
+build-clean:
+	rm -rf ./${STATIC_SITE_DIR}
 
 ## build: build the application
 .PHONY: build
-build: css
+build: build-clean css
+	# copy all assets in the PUBLIC_DIR into our build output
+	cp -ivr ${PUBLIC_DIR} ${STATIC_SITE_DIR}
 	# Include additional build steps, like TypeScript, SCSS or Tailwind compilation here...
 	go build -o=./bin/${BINARY_NAME} ${MAIN_PACKAGE_PATH}
 

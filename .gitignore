@@ -1,7 +1,8 @@
-# build output
+# site build output
 build/
+
+# build output for go program and local bin for tool dependencies
 bin/
-static/
 
 # templ output files
 *_templ.go

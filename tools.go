@@ -1,8 +1,8 @@
 //go:build tools
 // +build tools
 
-package main
+package tools
 
 import (
-	"github.com/a-h/templ/cmd/templ"
+	_ "github.com/a-h/templ/cmd/templ"
 )
