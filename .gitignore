@@ -1,6 +1,7 @@
 # build output
-dist/
 build/
+bin/
+static/
 
 # templ output files
 *_templ.go

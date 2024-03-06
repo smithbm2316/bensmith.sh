@@ -1,0 +1,10 @@
+{
+  "name": "bensmith.sh",
+  "version": "0.0.1",
+  "description": "My website",
+  "author": "Ben Smith",
+  "license": "MIT",
+  "devDependencies": {
+    "lightningcss-cli": "^1.24.0"
+  }
+}
