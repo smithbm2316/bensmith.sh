@@ -1,0 +1,12 @@
+/* Screen readers only */
+.sr-only {
+  position: absolute;
+  height: 1px;
+  width: 1px;
+  overflow: hidden;
+  clip: rect(1px, 1px, 1px, 1px);
+}
+
+.flow > * + * {
+  margin-block-start: var(--flow-space, 1em);
+}
