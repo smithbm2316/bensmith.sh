@@ -26,21 +26,25 @@ help:
 #
 # ==================================================================================== #
 
-#- dev: run the application with reloading on file changes
-.PHONY: dev
-dev:
-	$(MAKE) -j 2 dev/air dev/browser-sync
-
-# run the `air` command for dev mode
+#- dev/air: run the application with reloading on file changes
 .PHONY: dev/air
 dev/air: dev/templ dev/css
 	${TOOL_BIN}/air
+
+#- dev/serve: use browser-sync for hot-reloading and a dev server
+.PHONY: serve
+dev/serve:
+	npx browser-sync start \
+		--files ${BINARY_OUTPUT} \
+		--no-open \
+		--port 2323 \
+		--proxy 'http://localhost:2324' \
+		--ui-port 2325
 
 # script for `air`'s .air.toml config to use as the `cmd` to run dev mode with
 .PHONY: dev/go
 dev/go:
 	go build -o=${BINARY_OUTPUT} ${MAIN_PACKAGE_PATH}
-	./bin/bensmith.sh
 
 # bundle the CSS files in dev mode
 .PHONY: dev/css
@@ -56,17 +60,6 @@ dev/css:
 .PHONY: dev/templ
 dev/templ:
 	${TOOL_BIN}/templ generate
-
-# use browser-sync for hot-reloading and a dev server
-.PHONY: dev/browser-sync
-dev/browser-sync:
-	npx browser-sync start \
-		--files ${BINARY_OUTPUT} \
-		--ignore '*_templ.go' \
-		--no-open \
-		--port 2323 \
-		--server ${STATIC_SITE_DIR} \
-		--ui-port 2324
 
 #- build: build the application
 .PHONY: build
