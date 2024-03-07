@@ -3,6 +3,8 @@ package main
 import (
 	"bytes"
 	"context"
+	"flag"
+	"fmt"
 	"io"
 	"log"
 	"net/http"
@@ -11,6 +13,7 @@ import (
 
 	"bensmith.sh/internal/models"
 	"bensmith.sh/internal/views"
+
 	"github.com/a-h/templ"
 	"github.com/yuin/goldmark"
 )
@@ -23,6 +26,10 @@ func Unsafe(html string) templ.Component {
 }
 
 func main() {
+	var port int
+	flag.IntVar(&port, "port", 2323, "The port to run our app's http server on")
+	flag.Parse()
+
 	posts := models.GetPosts()
 
 	// Output path.
@@ -78,8 +85,8 @@ func main() {
 	fs := http.FileServer(http.Dir("./build"))
 	http.Handle("/", fs)
 
-	log.Print("Listening on :2324...")
-	err = http.ListenAndServe(":2324", nil)
+	log.Printf("Listening on :%d...", port)
+	err = http.ListenAndServe(fmt.Sprintf(":%d", port), nil)
 	if err != nil {
 		log.Fatal(err)
 	}

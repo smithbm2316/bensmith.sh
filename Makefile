@@ -6,6 +6,9 @@ BINARY_NAME := bensmith.sh
 BINARY_OUTPUT := ${TOOL_BIN}/${BINARY_NAME}
 STATIC_SITE_DIR := build
 PUBLIC_DIR := public
+APP_PORT := 2324
+PROXY_PORT := 2323
+BROWSER_SYNC_UI_PORT := 2325
 
 # ==================================================================================== #
 #
@@ -37,9 +40,9 @@ dev/serve:
 	npx browser-sync start \
 		--files ${BINARY_OUTPUT} \
 		--no-open \
-		--port 2323 \
-		--proxy 'http://localhost:2324' \
-		--ui-port 2325
+		--port ${PROXY_PORT} \
+		--proxy 'http://localhost:${APP_PORT}' \
+		--ui-port ${BROWSER_SYNC_UI_PORT}
 
 # script for `air`'s .air.toml config to use as the `cmd` to run dev mode with
 .PHONY: dev/go
@@ -60,11 +63,6 @@ dev/css:
 .PHONY: dev/templ
 dev/templ:
 	${TOOL_BIN}/templ generate
-
-#- build: build the application
-.PHONY: build
-build: build/clean build/public build/templ build/css
-	go build -o=${BINARY_OUTPUT} ${MAIN_PACKAGE_PATH}
 
 # build/css: build CSS for production
 .PHONY: build/css
@@ -90,6 +88,11 @@ build/clean:
 .PHONY: build/public
 build/public:
 	cp -ivr ${PUBLIC_DIR} ${STATIC_SITE_DIR}
+
+#- build: build the application
+.PHONY: build
+build: build/clean build/public build/templ build/css
+	go build -o=${BINARY_OUTPUT} ${MAIN_PACKAGE_PATH}
 
 #- preview: build and run the application
 .PHONY: preview
