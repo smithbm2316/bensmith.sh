@@ -5,6 +5,7 @@ import (
 	"context"
 	"io"
 	"log"
+	// "net/http"
 	"os"
 	"path"
 
@@ -72,4 +73,14 @@ func main() {
 			log.Fatalf("failed to write output file: %v", err)
 		}
 	}
+
+	// setup file server
+	/* fs := http.FileServer(http.Dir("./build"))
+	http.Handle("/", fs) */
+
+	/* log.Print("Listening on :2323...")
+	err = http.ListenAndServe(":2323", nil)
+	if err != nil {
+		log.Fatal(err)
+	} */
 }
