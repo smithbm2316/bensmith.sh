@@ -5,7 +5,7 @@ import (
 	"context"
 	"io"
 	"log"
-	// "net/http"
+	"net/http"
 	"os"
 	"path"
 
@@ -75,12 +75,12 @@ func main() {
 	}
 
 	// setup file server
-	/* fs := http.FileServer(http.Dir("./build"))
-	http.Handle("/", fs) */
+	fs := http.FileServer(http.Dir("./build"))
+	http.Handle("/", fs)
 
-	/* log.Print("Listening on :2323...")
-	err = http.ListenAndServe(":2323", nil)
+	log.Print("Listening on :2324...")
+	err = http.ListenAndServe(":2324", nil)
 	if err != nil {
 		log.Fatal(err)
-	} */
+	}
 }
