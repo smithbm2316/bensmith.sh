@@ -3,6 +3,7 @@ MAIN_PACKAGE_PATH := ./cmd/web
 TOOL_BIN_DIRNAME := bin
 TOOL_BIN := ./${TOOL_BIN_DIRNAME}
 BINARY_NAME := bensmith.sh
+BINARY_OUTPUT := ${TOOL_BIN}/${BINARY_NAME}
 STATIC_SITE_DIR := build
 PUBLIC_DIR := public
 
@@ -28,13 +29,20 @@ help:
 #- dev: run the application with reloading on file changes
 .PHONY: dev
 dev:
-	go run github.com/cosmtrek/air@v1.43.0 \
-		--build.cmd "make build" --build.bin "./bin/${BINARY_NAME}" --build.delay "100" \
-		--build.exclude_dir "" \
-		--build.include_ext "go, tpl, tmpl, html, css, scss, js, ts, sql, jpeg, jpg, gif, png, bmp, svg, webp, ico" \
-		--misc.clean_on_exit "true"
+	$(MAKE) -j 2 dev/air dev/browser-sync
 
-#- dev/css: watch and bundle the CSS files in dev mode
+# run the `air` command for dev mode
+.PHONY: dev/air
+dev/air: dev/templ dev/css
+	${TOOL_BIN}/air
+
+# script for `air`'s .air.toml config to use as the `cmd` to run dev mode with
+.PHONY: dev/go
+dev/go:
+	go build -o=${BINARY_OUTPUT} ${MAIN_PACKAGE_PATH}
+	./bin/bensmith.sh
+
+# bundle the CSS files in dev mode
 .PHONY: dev/css
 dev/css:
 	npx lightningcss \
@@ -44,10 +52,26 @@ dev/css:
 		--targets '> 0.5% or last 2 versions' \
 		styles/main.css -o ${STATIC_SITE_DIR}/main.css
 
+# run templ generate with local version
+.PHONY: dev/templ
+dev/templ:
+	${TOOL_BIN}/templ generate
+
+# use browser-sync for hot-reloading and a dev server
+.PHONY: dev/browser-sync
+dev/browser-sync:
+	npx browser-sync start \
+		--files ${BINARY_OUTPUT} \
+		--ignore '*_templ.go' \
+		--no-open \
+		--port 2323 \
+		--server ${STATIC_SITE_DIR} \
+		--ui-port 2324
+
 #- build: build the application
 .PHONY: build
-build: build/clean build/public build/css
-	go build -o=./bin/${BINARY_NAME} ${MAIN_PACKAGE_PATH}
+build: build/clean build/public build/templ build/css
+	go build -o=${BINARY_OUTPUT} ${MAIN_PACKAGE_PATH}
 
 # build/css: build CSS for production
 .PHONY: build/css
@@ -59,9 +83,9 @@ build/css:
 		--targets '> 0.5% or last 2 versions' \
 		styles/main.css -o ${STATIC_SITE_DIR}/main.css
 
-#- build/views: run templ generate with local version
-.PHONY: build/views
-build/views:
+# run templ generate with local version
+.PHONY: build/templ
+build/templ:
 	${TOOL_BIN}/templ generate
 
 # build/clean: clean the STATIC_SITE_DIR
@@ -77,7 +101,7 @@ build/public:
 #- preview: build and run the application
 .PHONY: preview
 preview: build
-	./bin/${BINARY_NAME}
+	${BINARY_OUTPUT}
 
 #- deploy: deploy the application to production
 .PHONY: deploy

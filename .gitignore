@@ -1,5 +1,6 @@
 # site build output
 build/
+tmp/
 
 # build output for go program and local bin for tool dependencies
 bin/

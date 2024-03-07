@@ -5,6 +5,7 @@
   "author": "Ben Smith",
   "license": "MIT",
   "devDependencies": {
+    "browser-sync": "^3.0.2",
     "lightningcss-cli": "^1.24.0"
   }
 }
