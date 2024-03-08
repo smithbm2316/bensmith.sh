@@ -18,11 +18,12 @@ import (
 	"github.com/yuin/goldmark"
 )
 
-func Unsafe(html string) templ.Component {
-	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) (err error) {
-		_, err = io.WriteString(w, html)
-		return
-	})
+type SiteSettings struct {
+	BuildDir string
+}
+
+var Site = SiteSettings{
+	BuildDir: "build",
 }
 
 func main() {
@@ -39,14 +40,14 @@ func main() {
 
 	posts := models.GetPosts()
 
-	// Output path.
-	rootPath := "build"
-	if err := os.MkdirAll(rootPath, os.ModePerm); err != nil {
+	// create output directory and generate posts
+	if err := os.MkdirAll(Site.BuildDir, os.ModePerm); err != nil {
 		log.Fatalf("failed to create output directory: %v", err)
 	}
+	generatePosts(posts)
 
 	// Create an index page.
-	name := path.Join(rootPath, "index.html")
+	name := path.Join(Site.BuildDir, "index.html")
 	f, err := os.Create(name)
 	if err != nil {
 		log.Fatalf("failed to create output file: %v", err)
@@ -57,10 +58,28 @@ func main() {
 		log.Fatalf("failed to write index page: %v", err)
 	}
 
+	// setup file server
+	http.Handle("/", http.FileServer(http.Dir("./build")))
+
+	log.Printf("Listening on :%d...", port)
+	err = http.ListenAndServe(fmt.Sprintf(":%d", port), nil)
+	if err != nil {
+		log.Fatal(err)
+	}
+}
+
+func Unsafe(html string) templ.Component {
+	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) (err error) {
+		_, err = io.WriteString(w, html)
+		return
+	})
+}
+
+func generatePosts(posts []models.Post) {
 	// Create a page for each post.
 	for _, post := range posts {
 		// Create the output directory.
-		dir := path.Join(rootPath, post.Date.Format("2006/01/02"), post.Slug)
+		dir := path.Join(Site.BuildDir, post.Date.Format("2006/01/02"), post.Slug)
 		if err := os.MkdirAll(dir, 0755); err != nil && err != os.ErrExist {
 			log.Fatalf("failed to create dir %q: %v", dir, err)
 		}
@@ -86,14 +105,5 @@ func main() {
 		if err != nil {
 			log.Fatalf("failed to write output file: %v", err)
 		}
-	}
-
-	// setup file server
-	http.Handle("/", http.FileServer(http.Dir("./build")))
-
-	log.Printf("Listening on :%d...", port)
-	err = http.ListenAndServe(fmt.Sprintf(":%d", port), nil)
-	if err != nil {
-		log.Fatal(err)
 	}
 }
