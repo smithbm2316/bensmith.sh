@@ -34,7 +34,7 @@ help:
 dev: build/clean build/public
 	$(MAKE) -j3 dev/app dev/css dev/serve
 
-#- dev/air: runs `air` for our go + templ code only
+#- dev/app: runs `air` for our go + templ code only
 .PHONY: dev/app
 dev/app:
 	${TOOL_BIN}/air -c .air.toml
@@ -43,6 +43,12 @@ dev/app:
 .PHONY: dev/css
 dev/css:
 	${TOOL_BIN}/air -c .air.css.toml
+
+#- dev/templ: uses `templ generate --watch` for live reloading of go + templ code
+.PHONY: dev/templ
+dev/templ:
+	${TOOL_BIN}/templ generate --watch --cmd "go run ./cmd/web --dev --port ${APP_PORT}" \
+		--proxy "http://localhost:${APP_PORT}" --proxyport ${PROXY_PORT}
 
 #- dev/serve: use browser-sync for hot-reloading and a dev server
 .PHONY: serve
