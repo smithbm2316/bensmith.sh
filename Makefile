@@ -4,7 +4,7 @@ TOOL_BIN_DIRNAME := bin
 TOOL_BIN := ./${TOOL_BIN_DIRNAME}
 BINARY_NAME := bensmith.sh
 BINARY_OUTPUT := ${TOOL_BIN}/${BINARY_NAME}
-STATIC_SITE_DIR := build
+SITE_DIR := build
 PUBLIC_DIR := public
 APP_PORT := 2324
 PROXY_PORT := 2323
@@ -29,40 +29,30 @@ help:
 #
 # ==================================================================================== #
 
-#- dev/air: run the application with reloading on file changes
-.PHONY: dev/air
-dev/air: dev/templ dev/css
-	${TOOL_BIN}/air
+#- dev: run our app and css file watchers in dev mode
+.PHONY: dev
+dev: build/clean build/public
+	$(MAKE) -j3 dev/app dev/css dev/serve
+
+#- dev/air: runs `air` for our go + templ code only
+.PHONY: dev/app
+dev/app:
+	${TOOL_BIN}/air -c .air.toml
+
+#- dev/css: runs `air` for our css code only
+.PHONY: dev/css
+dev/css:
+	${TOOL_BIN}/air -c .air.css.toml
 
 #- dev/serve: use browser-sync for hot-reloading and a dev server
 .PHONY: serve
 dev/serve:
 	npx browser-sync start \
-		--files ${BINARY_OUTPUT} \
+		--files "${BINARY_OUTPUT}, ${SITE_DIR}/**/*.css" \
 		--no-open \
 		--port ${PROXY_PORT} \
 		--proxy 'http://localhost:${APP_PORT}' \
 		--ui-port ${BROWSER_SYNC_UI_PORT}
-
-# script for `air`'s .air.toml config to use as the `cmd` to run dev mode with
-.PHONY: dev/go
-dev/go:
-	go build -o=${BINARY_OUTPUT} ${MAIN_PACKAGE_PATH}
-
-# bundle the CSS files in dev mode
-.PHONY: dev/css
-dev/css:
-	npx lightningcss \
-		--sourcemap \
-		--bundle \
-		--custom-media \
-		--targets '> 0.5% or last 2 versions' \
-		styles/main.css -o ${STATIC_SITE_DIR}/main.css
-
-# run templ generate with local version
-.PHONY: dev/templ
-dev/templ:
-	${TOOL_BIN}/templ generate
 
 # build/css: build CSS for production
 .PHONY: build/css
@@ -71,23 +61,23 @@ build/css:
 		--minify \
 		--bundle \
 		--custom-media \
-		--targets '> 0.5% or last 2 versions' \
-		styles/main.css -o ${STATIC_SITE_DIR}/main.css
+		--targets 'defaults' \
+		./styles/main.css -o ./${SITE_DIR}/main.css
 
 # run templ generate with local version
 .PHONY: build/templ
 build/templ:
 	${TOOL_BIN}/templ generate
 
-# build/clean: clean the STATIC_SITE_DIR
+# build/clean: clean the SITE_DIR
 .PHONY: build/clean
 build/clean:
-	rm -rf ./${STATIC_SITE_DIR}
+	rm -rf ./${SITE_DIR}
 
-# build/public: copy files from the PUBLIC_DIR to the STATIC_SITE_DIR
+# build/public: copy files from the PUBLIC_DIR to the SITE_DIR
 .PHONY: build/public
 build/public:
-	cp -ivr ${PUBLIC_DIR} ${STATIC_SITE_DIR}
+	cp -r ${PUBLIC_DIR} ${SITE_DIR}
 
 #- build: build the application
 .PHONY: build

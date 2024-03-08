@@ -5,6 +5,8 @@ import (
 	"bensmith.sh/internal/models"
 )
 
+var DevMode bool
+
 templ headerComponent(title string) {
 	<head>
 		<title>{ title }</title>
