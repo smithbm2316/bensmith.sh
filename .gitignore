@@ -7,6 +7,7 @@ bin/
 
 # templ output files
 *_templ.go
+*_templ.txt
 
 # dependencies
 node_modules/
