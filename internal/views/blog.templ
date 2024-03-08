@@ -1,10 +1,5 @@
 package views
 
-import (
-	"path"
-	"bensmith.sh/internal/models"
-)
-
 var DevMode bool
 
 templ headerComponent(title string) {
@@ -31,17 +26,12 @@ templ ContentPage(title string, body templ.Component) {
 	</html>
 }
 
-templ IndexPage(posts []models.Post) {
+templ IndexPage() {
 	<html>
 		@headerComponent("My Blog")
 		<body>
 			<h1>My Blog</h1>
 			<a href="/words">Blog</a>
-			for _, post := range posts {
-				<div>
-					<a href={ templ.SafeURL(path.Join(post.Date.Format("2006/01/02"), post.Slug)) }>{ post.Title }</a>
-				</div>
-			}
 		</body>
 	</html>
 }
