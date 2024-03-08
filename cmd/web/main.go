@@ -6,24 +6,29 @@ import (
 	"flag"
 	"fmt"
 	"io"
+	"io/fs"
 	"log"
 	"net/http"
 	"os"
-	"path"
+	"path/filepath"
 
 	"bensmith.sh/internal/models"
 	"bensmith.sh/internal/views"
 
 	"github.com/a-h/templ"
 	"github.com/yuin/goldmark"
+	"github.com/yuin/goldmark/extension"
+	"github.com/yuin/goldmark/parser"
 )
 
 type SiteSettings struct {
 	BuildDir string
+	ViewsDir string
 }
 
 var Site = SiteSettings{
 	BuildDir: "build",
+	ViewsDir: "internal/views",
 }
 
 func main() {
@@ -44,10 +49,9 @@ func main() {
 	if err := os.MkdirAll(Site.BuildDir, os.ModePerm); err != nil {
 		log.Fatalf("failed to create output directory: %v", err)
 	}
-	generatePosts(posts)
 
 	// Create an index page.
-	name := path.Join(Site.BuildDir, "index.html")
+	name := filepath.Join(Site.BuildDir, "index.html")
 	f, err := os.Create(name)
 	if err != nil {
 		log.Fatalf("failed to create output file: %v", err)
@@ -75,17 +79,48 @@ func Unsafe(html string) templ.Component {
 	})
 }
 
-func generatePosts(posts []models.Post) {
-	// Create a page for each post.
-	for _, post := range posts {
+func generatePosts() {
+	// setup markdown parser
+	var md = goldmark.New(
+		goldmark.WithExtensions(extension.GFM),
+		goldmark.WithParserOptions(
+			parser.WithAttribute(),
+			parser.WithAutoHeadingID(),
+		),
+	)
+
+	filepath.WalkDir(Site.ViewsDir, func(path string, d fs.DirEntry, err error) error {
+		// handle errors with reading the directory
+		if err != nil {
+			return err
+		}
+		// skip processing directories and files that aren't markdown
+		if d.IsDir() || path[len(path)-3:] != ".md" {
+			return nil
+		}
+
+		fileInfo, err := d.Info()
+		if err != nil {
+			return err
+		}
+
+		var basename = fileInfo.Name()
+		var filename = basename[:len(basename)-3]
+		var slug = filepath.Join("words", filename)
+
+		fileBytes, err := os.ReadFile(path)
+		if err != nil {
+			return err
+		}
+
 		// Create the output directory.
-		dir := path.Join(Site.BuildDir, post.Date.Format("2006/01/02"), post.Slug)
+		dir := filepath.Join(Site.BuildDir, slug)
 		if err := os.MkdirAll(dir, 0755); err != nil && err != os.ErrExist {
 			log.Fatalf("failed to create dir %q: %v", dir, err)
 		}
 
 		// Create the output file.
-		name := path.Join(dir, "index.html")
+		name := filepath.Join(dir, "index.html")
 		f, err := os.Create(name)
 		if err != nil {
 			log.Fatalf("failed to create output file: %v", err)
@@ -93,7 +128,7 @@ func generatePosts(posts []models.Post) {
 
 		// Convert the markdown to HTML, and pass it to the template.
 		var buf bytes.Buffer
-		if err := goldmark.Convert([]byte(post.Content), &buf); err != nil {
+		if err := md.Convert([]byte(fileBytes), &buf); err != nil {
 			log.Fatalf("failed to convert markdown to HTML: %v", err)
 		}
 
@@ -101,9 +136,11 @@ func generatePosts(posts []models.Post) {
 		content := Unsafe(buf.String())
 
 		// Use templ to render the template containing the raw HTML.
-		err = views.ContentPage(post.Slug, content).Render(context.Background(), f)
+		err = views.ContentPage(slug, content).Render(context.Background(), f)
 		if err != nil {
 			log.Fatalf("failed to write output file: %v", err)
 		}
-	}
+
+		return nil
+	})
 }

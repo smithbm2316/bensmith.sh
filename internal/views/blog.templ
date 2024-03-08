@@ -36,6 +36,7 @@ templ IndexPage(posts []models.Post) {
 		@headerComponent("My Blog")
 		<body>
 			<h1>My Blog</h1>
+			<a href="/words">Blog</a>
 			for _, post := range posts {
 				<div>
 					<a href={ templ.SafeURL(path.Join(post.Date.Format("2006/01/02"), post.Slug)) }>{ post.Title }</a>
