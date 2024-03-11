@@ -40,16 +40,11 @@ func GeneratePosts() {
 			return err
 		}
 		// skip processing directories and files that aren't markdown
-		if d.IsDir() || path[len(path)-3:] != ".md" {
+		if d.IsDir() || filepath.Ext(path) != ".md" {
 			return nil
 		}
 
-		fileInfo, err := d.Info()
-		if err != nil {
-			return err
-		}
-
-		var basename = fileInfo.Name()
+		var basename = filepath.Base(path)
 		var filename = basename[:len(basename)-3]
 		var slug = filepath.Join("words", filename)
 
