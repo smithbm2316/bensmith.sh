@@ -1,6 +1,5 @@
 webPkg := ./cmd/web
 ssgPkg := ./cmd/ssg
-publicDir := assets
 appPort := 2323
 
 # ==================================================================================== #
@@ -35,16 +34,14 @@ dev/app:
 # uses vite for our dev server and asset processing
 .PHONY: dev/vite
 dev/vite:
-	@cd site && npx vite
+	@npx vite
 
 #- clean: clean our output paths
-# this will remove the ./.site directory and everything in the ./site directory that isn't in the ./site/public or ./site/styles folders or isn't the ./site/vite.config.js config file
+# this will remove the .site directory and everything in the src directory that isn't in the src/public or src/styles folders or isn't the src/vite.config.js config file
 .PHONY: clean
 clean:
 	@rm -rf .site
-	@find site/ -mindepth 1 \
-		\( -path "site/public" -o -path "site/styles" -o -path "site/vite.config.js" \) -prune \
-		-o -exec rm -rf {} +
+	@find src/ -mindepth 1 -path "src/styles" -prune -o -exec rm -rf {} +
 
 #- build: build the application
 .PHONY: build
@@ -69,7 +66,7 @@ build/templ:
 # run vite on our generated static site to optimize for production 
 .PHONY: build/vite
 build/vite:
-	@cd site && npx vite build
+	@npx vite build
 
 #- preview: run the production-ready application
 .PHONY: preview
@@ -79,7 +76,7 @@ preview:
 # run a production server with vite instead of our webPkg
 .PHONY: preview/vite
 preview/vite:
-	@cd site && npx vite preview
+	@npx vite preview
 
 
 # ==================================================================================== #

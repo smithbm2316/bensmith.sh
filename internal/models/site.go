@@ -6,6 +6,6 @@ type SiteSettings struct {
 }
 
 var Site = SiteSettings{
-	BuildDir: "site",
+	BuildDir: "src",
 	ViewsDir: "internal/views",
 }
