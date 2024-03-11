@@ -1,11 +1,13 @@
 {
   "name": "bensmith.sh",
+  "type": "module",
   "version": "0.0.1",
   "description": "My website",
   "author": "Ben Smith",
   "license": "MIT",
   "devDependencies": {
-    "browser-sync": "^3.0.2",
-    "lightningcss-cli": "^1.24.0"
+    "glob": "^10.3.10",
+    "lightningcss": "^1.24.0",
+    "vite": "^5.1.5"
   }
 }

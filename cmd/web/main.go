@@ -1,15 +1,11 @@
 package main
 
 import (
-	"context"
 	"flag"
 	"fmt"
 	"log"
 	"net/http"
-	"os"
-	"path"
 
-	"bensmith.sh/internal/models"
 	"bensmith.sh/internal/views"
 )
 
@@ -25,29 +21,11 @@ func main() {
 	// inject DevMode into "views" package so that we can include dev-mode only scripts and checks
 	views.DevMode = DevMode
 
-	// create output directory and generate posts
-	if err := os.MkdirAll(models.Site.BuildDir, os.ModePerm); err != nil {
-		log.Fatalf("failed to create output directory: %v", err)
-	}
-	models.GeneratePosts()
-
-	// Create an index page.
-	name := path.Join(models.Site.BuildDir, "index.html")
-	f, err := os.Create(name)
-	if err != nil {
-		log.Fatalf("failed to create output file: %v", err)
-	}
-	// Write it out.
-	err = views.IndexPage().Render(context.Background(), f)
-	if err != nil {
-		log.Fatalf("failed to write index page: %v", err)
-	}
-
 	// setup file server
-	http.Handle("/", http.FileServer(http.Dir("./build")))
+	http.Handle("/", http.FileServer(http.Dir(".site")))
 
 	log.Printf("Listening on :%d...", port)
-	err = http.ListenAndServe(fmt.Sprintf(":%d", port), nil)
+	var err = http.ListenAndServe(fmt.Sprintf(":%d", port), nil)
 	if err != nil {
 		log.Fatal(err)
 	}

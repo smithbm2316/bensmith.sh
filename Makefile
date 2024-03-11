@@ -1,14 +1,7 @@
-# Change these variables as necessary.
-MAIN_PACKAGE_PATH := ./cmd/web
-TOOL_BIN_DIRNAME := bin
-TOOL_BIN := ./${TOOL_BIN_DIRNAME}
-BINARY_NAME := bensmith.sh
-BINARY_OUTPUT := ${TOOL_BIN}/${BINARY_NAME}
-SITE_DIR := build
-PUBLIC_DIR := public
-APP_PORT := 2324
-PROXY_PORT := 2323
-BROWSER_SYNC_UI_PORT := 2325
+webPkg := ./cmd/web
+ssgPkg := ./cmd/ssg
+publicDir := assets
+appPort := 2323
 
 # ==================================================================================== #
 #
@@ -31,76 +24,62 @@ help:
 
 #- dev: run our app and css file watchers in dev mode
 .PHONY: dev
-dev: build/clean build/public
-	$(MAKE) -j3 dev/app dev/css dev/serve
+dev: clean
+	@$(MAKE) --no-print-directory -j2 dev/app dev/vite
 
-#- dev/app: runs `air` for our go + templ code only
+# uses `templ generate --watch` to live reload our go + templ code
 .PHONY: dev/app
 dev/app:
-	${TOOL_BIN}/air -c .air.toml
+	@./bin/templ generate --watch --cmd "go run ${ssgPkg} --dev"
 
-#- dev/css: runs `air` for our css code only
-.PHONY: dev/css
-dev/css:
-	${TOOL_BIN}/air -c .air.css.toml
+# uses vite for our dev server and asset processing
+.PHONY: dev/vite
+dev/vite:
+	@cd site && npx vite
 
-#- dev/templ: uses `templ generate --watch` for live reloading of go + templ code
-.PHONY: dev/templ
-dev/templ:
-	${TOOL_BIN}/templ generate --watch --cmd "go run ./cmd/web --dev --port ${APP_PORT}" \
-		--proxy "http://localhost:${APP_PORT}" --proxyport ${PROXY_PORT}
-
-#- dev/serve: use browser-sync for hot-reloading and a dev server
-.PHONY: serve
-dev/serve:
-	npx browser-sync start \
-		--files "${BINARY_OUTPUT}, ${SITE_DIR}/**/*.css" \
-		--no-open \
-		--port ${PROXY_PORT} \
-		--proxy 'http://localhost:${APP_PORT}' \
-		--ui-port ${BROWSER_SYNC_UI_PORT}
-
-# build/css: build CSS for production
-.PHONY: build/css
-build/css:
-	npx lightningcss \
-		--minify \
-		--bundle \
-		--custom-media \
-		--targets 'defaults' \
-		./styles/main.css -o ./${SITE_DIR}/main.css
-
-# run templ generate with local version
-.PHONY: build/templ
-build/templ:
-	${TOOL_BIN}/templ generate
-
-# build/clean: clean the SITE_DIR
-.PHONY: build/clean
-build/clean:
-	rm -rf ./${SITE_DIR}
-
-# build/public: copy files from the PUBLIC_DIR to the SITE_DIR
-.PHONY: build/public
-build/public:
-	cp -r ${PUBLIC_DIR} ${SITE_DIR}
+#- clean: clean our output paths
+# this will remove the ./.site directory and everything in the ./site directory that isn't in the ./site/public or ./site/styles folders or isn't the ./site/vite.config.js config file
+.PHONY: clean
+clean:
+	@rm -rf .site
+	@find site/ -mindepth 1 \
+		\( -path "site/public" -o -path "site/styles" -o -path "site/vite.config.js" \) -prune \
+		-o -exec rm -rf {} +
 
 #- build: build the application
 .PHONY: build
-build: build/clean build/public build/templ build/css
-	go build -o=${BINARY_OUTPUT} ${MAIN_PACKAGE_PATH}
+build: clean build/templ build/ssg build/run-ssg build/vite
+	@go build -o=./bin/web ${webPkg}
 
-#- preview: build and run the application
+# build the ssg binary for production
+.PHONY: build/ssg
+build/ssg:
+	@go build -o=./bin/ssg ${ssgPkg}
+
+# execute the production ssg binary to generate our files before processing with Vite
+.PHONY: build/run-ssg
+build/run-ssg:
+	@./bin/ssg
+
+# build templ files into go files for production
+.PHONY: build/templ
+build/templ:
+	@./bin/templ generate
+
+# run vite on our generated static site to optimize for production 
+.PHONY: build/vite
+build/vite:
+	@cd site && npx vite build
+
+#- preview: run the production-ready application
 .PHONY: preview
-preview: build
-	${BINARY_OUTPUT}
+preview:
+	@./bin/web
 
-#- deploy: deploy the application to production
-.PHONY: deploy
-deploy: confirm tidy audit no-dirty
-	GOOS=linux GOARCH=amd64 go build -ldflags='-s' -o=./bin/linux_amd64/${BINARY_NAME} ${MAIN_PACKAGE_PATH}
-	upx -5 ./bin/linux_amd64/${BINARY_NAME}
-	# Include additional deployment steps here...
+# run a production server with vite instead of our webPkg
+.PHONY: preview/vite
+preview/vite:
+	@cd site && npx vite preview
 
 
 # ==================================================================================== #
@@ -112,13 +91,13 @@ deploy: confirm tidy audit no-dirty
 #- test: run all tests
 .PHONY: test
 test:
-	go test -v -race -buildvcs ./...
+	@go test -v -race -buildvcs ./...
 
 #- test/cover: run all tests and display coverage
 .PHONY: test/cover
 test/cover:
-	go test -v -race -buildvcs -coverprofile=/tmp/coverage.out ./...
-	go tool cover -html=/tmp/coverage.out
+	@go test -v -race -buildvcs -coverprofile=/tmp/coverage.out ./...
+	@go tool cover -html=/tmp/coverage.out
 
 
 # ==================================================================================== #
@@ -127,38 +106,22 @@ test/cover:
 #
 # ==================================================================================== #
 
-#- tool/install: install tool dependency into TOOL_BIN, pass URL as value to arg "dep=[URL]"
+#- tool/install: install tool dependency into ./bin, pass URL as value to arg "dep=[URL]"
 .PHONY: tool/install
 tool/install:
-	mkdir -pv ${TOOL_BIN}
-	GOBIN="$$(pwd)/${TOOL_BIN_DIRNAME}" go install ${dep}
+	@mkdir -pv bin
+	GOBIN="$$(pwd)/bin" @go install ${dep}
 
 #- audit: run quality control checks
 .PHONY: audit
 audit:
-	go mod verify
-	go vet ./...
-	go run honnef.co/go/tools/cmd/staticcheck@latest -checks=all,-ST1000,-U1000 ./...
-	go run golang.org/x/vuln/cmd/govulncheck@latest ./...
-	go test -race -buildvcs -vet=off ./...
-
-#- push: push changes to the remote Git repository
-.PHONY: push
-push: tidy audit no-dirty
-	git push
-
-#- tidy: format code and tidy modfile
-.PHONY: tidy
-tidy:
-	go fmt ./...
-	go mod tidy -v
+	@go mod verify
+	@go vet ./...
+	@go run honnef.co/go/tools/cmd/staticcheck@latest -checks=all,-ST1000,-U1000 ./...
+	@go run golang.org/x/vuln/cmd/govulncheck@latest ./...
+	@go test -race -buildvcs -vet=off ./...
 
 # internal target for using a confirmation step in another target
 .PHONY: confirm
 confirm:
 	@echo -n 'Are you sure? [y/N] ' && read ans && [ $${ans:-N} = y ]
-
-# internal target for making sure that all our changes are committed to git in another target
-.PHONY: no-dirty
-no-dirty:
-	git diff --exit-code

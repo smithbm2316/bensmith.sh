@@ -1,6 +1,9 @@
 # site build output
-build/
-tmp/
+.site/
+site/*
+!site/public
+!site/styles
+!site/vite.config.js
 
 # build output for go program and local bin for tool dependencies
 bin/
