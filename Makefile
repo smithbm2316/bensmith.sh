@@ -24,28 +24,26 @@ help:
 #- dev: run our app and css file watchers in dev mode
 .PHONY: dev
 dev: clean
-	@$(MAKE) --no-print-directory -j2 dev/app dev/vite
+	@$(MAKE) --no-print-directory -j2 dev/app dev/frontend
 
 # uses `templ generate --watch` to live reload our go + templ code
 .PHONY: dev/app
 dev/app:
 	@./bin/templ generate --watch --cmd "go run ${ssgPkg} --dev"
 
-# uses vite for our dev server and asset processing
-.PHONY: dev/vite
-dev/vite:
-	@npx vite
+# uses parcel for our dev server and asset processing
+.PHONY: dev/frontend
+dev/frontend:
+	@npx parcel 'src/**/*.html' --dist-dir .site --port ${appPort}
 
 #- clean: clean our output paths
-# this will remove the .site directory and everything in the src directory that isn't in the src/public or src/styles folders or isn't the src/vite.config.js config file
 .PHONY: clean
 clean:
-	@rm -rf .site
-	@find src/ -mindepth 1 -path "src/styles" -prune -o -exec rm -rf {} +
+	@rm -rf .site src
 
 #- build: build the application
 .PHONY: build
-build: clean build/templ build/ssg build/run-ssg build/vite
+build: clean build/templ build/ssg build/run-ssg build/frontend
 	@go build -o=./bin/web ${webPkg}
 
 # build the ssg binary for production
@@ -63,20 +61,15 @@ build/run-ssg:
 build/templ:
 	@./bin/templ generate
 
-# run vite on our generated static site to optimize for production 
-.PHONY: build/vite
-build/vite:
-	@npx vite build
+# run parcel on our generated static site to optimize for production 
+.PHONY: build/frontend
+build/frontend:
+	@npx parcel build 'src/**/*.html' --dist-dir .site
 
 #- preview: run the production-ready application
 .PHONY: preview
 preview:
 	@./bin/web
-
-# run a production server with vite instead of our webPkg
-.PHONY: preview/vite
-preview/vite:
-	@npx vite preview
 
 
 # ==================================================================================== #
