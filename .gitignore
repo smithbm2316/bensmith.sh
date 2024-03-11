@@ -3,6 +3,9 @@
 src/*
 !src/styles
 
+# parcel's cache
+.parcel-cache
+
 # build output for go program and local bin for tool dependencies
 bin/
 
