@@ -34,7 +34,7 @@ func GeneratePosts() {
 		),
 	)
 
-	filepath.WalkDir(Site.ViewsDir, func(path string, d fs.DirEntry, err error) error {
+	filepath.WalkDir(Site.ContentDir, func(path string, d fs.DirEntry, err error) error {
 		// handle errors with reading the directory
 		if err != nil {
 			return err
