@@ -1,11 +1,15 @@
 package models
 
 type SiteSettings struct {
-	BuildDir string
-	ViewsDir string
+	BuildDir   string
+	ContentDir string
+	PostsDir   string
+	ViewsDir   string
 }
 
 var Site = SiteSettings{
-	BuildDir: "src",
-	ViewsDir: "internal/views",
+	BuildDir:   "src",
+	ContentDir: "internal/content",
+	PostsDir:   "internal/content/words",
+	ViewsDir:   "internal/views",
 }
