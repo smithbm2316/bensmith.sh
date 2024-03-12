@@ -23,7 +23,7 @@ help:
 
 #- dev: run our app and css file watchers in dev mode
 .PHONY: dev
-dev: clean
+dev: clean build/public
 	@$(MAKE) --no-print-directory -j2 dev/app dev/frontend
 
 # uses `templ generate --watch` to live reload our go + templ code
@@ -34,16 +34,16 @@ dev/app:
 # uses parcel for our dev server and asset processing
 .PHONY: dev/frontend
 dev/frontend:
-	@npx parcel 'src/**/*.html' --dist-dir .site --port ${appPort}
+	@npx parcel 'src/**/*.*' --dist-dir .site --port ${appPort}
 
 #- clean: clean our output paths
 .PHONY: clean
 clean:
-	@rm -rf .site src
+	@rm -rf .site/* src/*
 
 #- build: build the application
 .PHONY: build
-build: clean build/templ build/ssg build/run-ssg build/frontend
+build: clean build/public build/templ build/ssg build/run-ssg build/frontend
 	@go build -o=./bin/web ${webPkg}
 
 # build the ssg binary for production
@@ -56,6 +56,11 @@ build/ssg:
 build/run-ssg:
 	@./bin/ssg
 
+# copy all files recursively from the public directory into our src directory, so that they are available for parcel to process at the root level of our server 
+.PHONY: build/public
+build/public:
+	@cp -r public/* src
+
 # build templ files into go files for production
 .PHONY: build/templ
 build/templ:
@@ -64,7 +69,7 @@ build/templ:
 # run parcel on our generated static site to optimize for production 
 .PHONY: build/frontend
 build/frontend:
-	@npx parcel build 'src/**/*.html' --dist-dir .site
+	@npx parcel build 'src/**/*.*' --dist-dir .site
 
 #- preview: run the production-ready application
 .PHONY: preview
