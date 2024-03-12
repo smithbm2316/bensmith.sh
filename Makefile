@@ -1,6 +1,8 @@
 webPkg := ./cmd/web
 ssgPkg := ./cmd/ssg
 appPort := 2323
+# set GOBIN to be local to the project
+export GOBIN := ${CURDIR}/bin
 
 # ==================================================================================== #
 #
@@ -101,11 +103,12 @@ test/cover:
 #
 # ==================================================================================== #
 
-#- tool/install: install tool dependency into ./bin, pass URL as value to arg "dep=[URL]"
-.PHONY: tool/install
-tool/install:
+#- install-tools: install all tool dependencies in the `tools.go` file
+.PHONY: install-tools
+install-tools:
+	@echo "installing tool dependencies from 'tools.go' into local GOBIN './bin'"
 	@mkdir -pv bin
-	GOBIN="$$(pwd)/bin" @go install ${dep}
+	@sed -n 's/^.*"\(.*\)".*$$/\1/p' tools.go | xargs -t -I _ go install _
 
 #- audit: run quality control checks
 .PHONY: audit
