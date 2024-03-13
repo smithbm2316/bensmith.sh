@@ -1,8 +1,12 @@
 package views
 
+import (
+  "bensmith.sh/internal/models"
+)
+
 var DevMode bool
 
-templ headerComponent(title string) {
+templ headComponent(title string) {
 	<head>
 		<title>{ title }</title>
 		<link rel="preload" as="style" href="/styles/main.css"/>
@@ -19,19 +23,25 @@ templ contentComponent(title string, body templ.Component) {
 	</body>
 }
 
-templ ContentPage(title string, body templ.Component) {
+templ ContentPage(post *models.Post, body templ.Component) {
 	<html>
-		@headerComponent(title)
-		@contentComponent(title, body)
+		@headComponent(post.Title)
+		@contentComponent(post.Title, body)
 	</html>
 }
 
-templ IndexPage() {
+templ IndexPage(posts []*models.Post) {
 	<html>
-		@headerComponent("My Blog")
+		@headComponent("Posts")
 		<body>
-			<h1>My Blog</h1>
-			<a href="/words">Blog</a>
+			<h1>Posts</h1>
+      if len(posts) > 0 {
+        <ul>
+          for _, post := range posts {
+            <li><a href={ templ.SafeURL(post.Slug) }>{post.Title}</a></li>
+          }
+        </ul>
+      }
 		</body>
 	</html>
 }

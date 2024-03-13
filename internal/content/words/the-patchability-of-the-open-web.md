@@ -1,6 +1,6 @@
 ---
 title: The Patchability of the Open Web
-pubDate: November 3, 2022
+published: 2022-11-03
 tags: open-web, web
 draft: true
 ---

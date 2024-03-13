@@ -20,6 +20,7 @@ require (
 	github.com/natefinch/atomic v1.0.1 // indirect
 	github.com/segmentio/asm v1.2.0 // indirect
 	github.com/segmentio/encoding v0.3.6 // indirect
+	github.com/yuin/goldmark-meta v1.1.0 // indirect
 	go.lsp.dev/jsonrpc2 v0.10.0 // indirect
 	go.lsp.dev/pkg v0.0.0-20210717090340-384b27a52fb2 // indirect
 	go.lsp.dev/uri v0.3.0 // indirect
@@ -29,4 +30,5 @@ require (
 	golang.org/x/mod v0.15.0 // indirect
 	golang.org/x/sys v0.17.0 // indirect
 	golang.org/x/tools v0.18.0 // indirect
+	gopkg.in/yaml.v2 v2.3.0 // indirect
 )
