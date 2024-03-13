@@ -26,12 +26,16 @@ help:
 #- dev: run our app and css file watchers in dev mode
 .PHONY: dev
 dev: clean build/public
-	@$(MAKE) --no-print-directory -j2 dev/app dev/frontend
+	@$(MAKE) --no-print-directory -j3 dev/templ dev/app dev/frontend
 
-# uses `templ generate --watch` to live reload our go + templ code
+# uses `wgo` and `templ` to regenerate the app
 .PHONY: dev/app
 dev/app:
-	@./bin/templ generate --watch --cmd "go run ${ssgPkg} --dev"
+	@./bin/wgo run -file=.go ${ssgPkg} --dev
+
+.PHONY: dev/templ
+dev/templ:
+	@./bin/templ generate --watch
 
 # uses parcel for our dev server and asset processing
 .PHONY: dev/frontend

@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	"flag"
 	"fmt"
 	"io/fs"
 	"log"
@@ -12,7 +11,10 @@ import (
 	"bensmith.sh/models"
 	"bensmith.sh/views"
 
+	chroma "github.com/alecthomas/chroma/v2"
+	chromahtml "github.com/alecthomas/chroma/v2/formatters/html"
 	"github.com/yuin/goldmark"
+	highlighting "github.com/yuin/goldmark-highlighting/v2"
 	"github.com/yuin/goldmark-meta"
 	"github.com/yuin/goldmark/extension"
 	"github.com/yuin/goldmark/parser"
@@ -26,13 +28,6 @@ var Dirs = models.Directories{
 }
 
 func main() {
-	// True if we are in development mode
-	// Whether or not the app is in development mode
-	var DevMode bool
-	flag.BoolVar(&DevMode, "dev", false, "True if we are in development mode")
-	flag.Parse()
-	// inject DevMode into "views" package so that we can include dev-mode only scripts and checks
-	views.DevMode = DevMode
 	// inject Dirs into "models" package
 	models.Dirs = Dirs
 
@@ -41,9 +36,34 @@ func main() {
 		log.Fatalf("failed to create output directory: %v", err)
 	}
 
+	// setup file writer for chroma CSS generation, we want to write it to a static CSS file that targets the "chroma" class instead of using inline HTML styles
+	chromaCSSPath := filepath.Join(Dirs.Build, "chroma.css")
+	chromaCSSFile, err := os.Create(chromaCSSPath)
+	if err != nil {
+		log.Fatalf("failed to create output file: %v", err)
+	}
+	defer chromaCSSFile.Close()
+
 	// setup markdown parser and metadata context
 	md := goldmark.New(
-		goldmark.WithExtensions(extension.GFM, meta.Meta),
+		goldmark.WithExtensions(
+			extension.GFM,
+			meta.Meta,
+			highlighting.NewHighlighting(
+				highlighting.WithStyle("catppuccin-mocha"),
+				// consume the io.Write we just created
+				highlighting.WithCSSWriter(chromaCSSFile),
+				highlighting.WithFormatOptions(
+					chromahtml.TabWidth(2),
+					// make sure we use class generation over inline styles
+					chromahtml.WithClasses(true),
+					// make sure that <pre> tags overflow
+					chromahtml.WithCustomCSS(map[chroma.TokenType]string{
+						chroma.PreWrapper: "overflow-x: auto; padding: 1em; border-radius",
+					}),
+				),
+			),
+		),
 		goldmark.WithParserOptions(
 			parser.WithAttribute(),
 			parser.WithAutoHeadingID(),
@@ -64,6 +84,7 @@ func main() {
 	if err != nil {
 		log.Fatalf("failed to write index page: %v", err)
 	}
+	indexFile.Close()
 	fmt.Printf("Created %s at %s\n", "/", indexBuildPath)
 
 	// And a blog index page
@@ -77,6 +98,7 @@ func main() {
 	if err != nil {
 		log.Fatalf("failed to write blog index page: %v", err)
 	}
+	blogIndexFile.Close()
 	fmt.Printf("Created %s at %s\n", "/words", blogIndexBuildPath)
 
 	fmt.Printf("Generated static files to %s\n", Dirs.Build)
@@ -108,19 +130,20 @@ func GeneratePosts(md goldmark.Markdown, metadataContext parser.Context) []*mode
 		}
 
 		// Create the output file.
-		outputPath := filepath.Join(dir, "index.html")
-		f, err := os.Create(outputPath)
+		postOutputPath := filepath.Join(dir, "index.html")
+		postOutputFile, err := os.Create(postOutputPath)
 		if err != nil {
 			log.Fatalf("failed to create output post file: %v", err)
 		}
 
 		// Use templ to render the template containing the raw HTML.
-		err = views.PostRoute(post).Render(context.Background(), f)
+		err = views.PostRoute(post).Render(context.Background(), postOutputFile)
 		if err != nil {
 			log.Fatalf("failed to write output file: %v", err)
 		}
+		postOutputFile.Close()
 
-		fmt.Printf("Created %s at %s\n", post.Slug, outputPath)
+		fmt.Printf("Created %s at %s\n", post.Slug, postOutputPath)
 		return nil
 	})
 	if err != nil {
