@@ -2,85 +2,90 @@ package models
 
 import (
 	"bytes"
-	"context"
-	"io"
-	"io/fs"
 	"log"
 	"os"
-	"path/filepath"
+	"strconv"
+	"strings"
+	"time"
 
-	"bensmith.sh/internal/views"
-
-	"github.com/a-h/templ"
 	"github.com/yuin/goldmark"
-	"github.com/yuin/goldmark/extension"
+	"github.com/yuin/goldmark-meta"
 	"github.com/yuin/goldmark/parser"
 )
 
-func Unsafe(html string) templ.Component {
-	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) (err error) {
-		_, err = io.WriteString(w, html)
-		return
-	})
+type Post struct {
+	Title        string
+	Slug         string
+	Tags         []string
+	Content      string
+	Published    time.Time
+	LastModified time.Time
+	Draft        bool
+	Metadata     map[string]interface{}
 }
 
-func GeneratePosts() {
-	// setup markdown parser
-	var md = goldmark.New(
-		goldmark.WithExtensions(extension.GFM),
-		goldmark.WithParserOptions(
-			parser.WithAttribute(),
-			parser.WithAutoHeadingID(),
-		),
-	)
+func NewPost(md goldmark.Markdown, metadataContext parser.Context, path string) (*Post, error) {
+	fileBytes, err := os.ReadFile(path)
+	if err != nil {
+		return nil, err
+	}
 
-	filepath.WalkDir(Site.ContentDir, func(path string, d fs.DirEntry, err error) error {
-		// handle errors with reading the directory
-		if err != nil {
-			return err
-		}
-		// skip processing directories and files that aren't markdown
-		if d.IsDir() || filepath.Ext(path) != ".md" {
-			return nil
-		}
+	// create the slug from our markdown file's `path`
+	slugWithFileExtension, ok := strings.CutPrefix(path, "internal/content")
+	if !ok {
+		log.Fatalf("failed to build a slug from %s", path)
+	} else if slugWithFileExtension[:1] != "/" {
+		slugWithFileExtension = "/" + slugWithFileExtension
+	}
+	slug, ok := strings.CutSuffix(slugWithFileExtension, ".md")
+	if !ok {
+		log.Fatalf("failed to build a slug from %s", path)
+	}
 
-		var basename = filepath.Base(path)
-		var filename = basename[:len(basename)-3]
-		var slug = filepath.Join("words", filename)
+	// Convert the markdown to HTML, and pass it to the template.
+	var buf bytes.Buffer
+	if err := md.Convert(fileBytes, &buf, parser.WithContext(metadataContext)); err != nil {
+		log.Fatalf("failed to convert markdown to HTML: %v", err)
+	}
+	metadata := meta.Get(metadataContext)
 
-		fileBytes, err := os.ReadFile(path)
-		if err != nil {
-			return err
-		}
+	// Parse the metadata from the YAML frontmatter
+	parseErrorMsg := "Couldn't parse `%s` from " + path
+	title, ok := metadata["title"].(string)
+	if !ok {
+		log.Fatalf(parseErrorMsg, "title")
+	}
+	// these are optional fields
+	tags, _ := metadata["tags"].([]string)
+	draft, _ := metadata["draft"].(bool)
 
-		// Create the output directory.
-		dir := filepath.Join(Site.BuildDir, slug)
-		if err := os.MkdirAll(dir, 0755); err != nil && err != os.ErrExist {
-			log.Fatalf("failed to create dir %q: %v", dir, err)
-		}
+	// parse the `published` string date into a `time.Time` value
+	published, ok := metadata["published"].(string)
+	if !ok {
+		log.Fatalf(parseErrorMsg, "published")
+	}
+	publishedDateParts := strings.Split(published, "-")
+	year, err := strconv.Atoi(publishedDateParts[0])
+	if err != nil {
+		log.Fatalf("Couldn't parse the `published` date's `year` from '%s'", path)
+	}
+	month, err := strconv.Atoi(publishedDateParts[1])
+	if err != nil {
+		log.Fatalf("Couldn't parse the `published` date's `month` from '%s'", path)
+	}
+	day, err := strconv.Atoi(publishedDateParts[1])
+	if err != nil {
+		log.Fatalf("Couldn't parse the `published` date's `day` from '%s'", path)
+	}
 
-		// Create the output file.
-		name := filepath.Join(dir, "index.html")
-		f, err := os.Create(name)
-		if err != nil {
-			log.Fatalf("failed to create output file: %v", err)
-		}
-
-		// Convert the markdown to HTML, and pass it to the template.
-		var buf bytes.Buffer
-		if err := md.Convert([]byte(fileBytes), &buf); err != nil {
-			log.Fatalf("failed to convert markdown to HTML: %v", err)
-		}
-
-		// Create an unsafe component containing raw HTML.
-		content := Unsafe(buf.String())
-
-		// Use templ to render the template containing the raw HTML.
-		err = views.ContentPage(slug, content).Render(context.Background(), f)
-		if err != nil {
-			log.Fatalf("failed to write output file: %v", err)
-		}
-
-		return nil
-	})
+	return &Post{
+		Title:        title,
+		Slug:         slug,
+		Tags:         tags,
+		Content:      buf.String(),
+		Published:    time.Date(year, time.Month(month), day, 0, 0, 0, 0, time.UTC),
+		LastModified: time.Now().UTC(),
+		Draft:        draft,
+		Metadata:     metadata,
+	}, err
 }
