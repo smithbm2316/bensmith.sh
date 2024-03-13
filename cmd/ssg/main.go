@@ -4,7 +4,6 @@ import (
 	"context"
 	"flag"
 	"fmt"
-	"io"
 	"io/fs"
 	"log"
 	"os"
@@ -13,7 +12,6 @@ import (
 	"bensmith.sh/internal/models"
 	"bensmith.sh/internal/views"
 
-	"github.com/a-h/templ"
 	"github.com/yuin/goldmark"
 	"github.com/yuin/goldmark-meta"
 	"github.com/yuin/goldmark/extension"
@@ -61,31 +59,32 @@ func main() {
 	// generate posts
 	posts := GeneratePosts(md, metadataContext)
 
-	// Create an index page and blog index page
-	routes := []string{"/", "/words"}
-	for _, route := range routes {
-		name := filepath.Join(Dirs.Build, route[1:], "index.html")
-		f, err := os.Create(name)
-		if err != nil {
-			log.Fatalf("failed to create output file: %v", err)
-		}
-		// Write it out.
-		err = views.IndexPage(posts).Render(context.Background(), f)
-		if err != nil {
-			log.Fatalf("failed to write index page: %v", err)
-		}
-
-		fmt.Printf("Created %s at %s\n", route, name)
+	// Create an index page
+	indexBuildPath := filepath.Join(Dirs.Build, "index.html")
+	indexFile, err := os.Create(indexBuildPath)
+	if err != nil {
+		log.Fatalf("failed to create output file: %v", err)
 	}
+	err = views.IndexPage().Render(context.Background(), indexFile)
+	if err != nil {
+		log.Fatalf("failed to write index page: %v", err)
+	}
+	fmt.Printf("Created %s at %s\n", "/", indexBuildPath)
+
+	// And a blog index page
+	blogIndexBuildPath := filepath.Join(Dirs.Build, "/words", "index.html")
+	blogIndexFile, err := os.Create(blogIndexBuildPath)
+	if err != nil {
+		log.Fatalf("failed to create output file: %v", err)
+	}
+	// Write it out.
+	err = views.BlogPage(posts).Render(context.Background(), blogIndexFile)
+	if err != nil {
+		log.Fatalf("failed to write blog index page: %v", err)
+	}
+	fmt.Printf("Created %s at %s\n", "/words", blogIndexBuildPath)
 
 	fmt.Printf("Generated static files to %s\n", Dirs.Build)
-}
-
-func Unsafe(html string) templ.Component {
-	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) (err error) {
-		_, err = io.WriteString(w, html)
-		return
-	})
 }
 
 func GeneratePosts(md goldmark.Markdown, metadataContext parser.Context) []*models.Post {
@@ -120,10 +119,8 @@ func GeneratePosts(md goldmark.Markdown, metadataContext parser.Context) []*mode
 			log.Fatalf("failed to create output file: %v", err)
 		}
 
-		// Create an unsafe component containing raw HTML.
-		content := Unsafe(post.Content)
 		// Use templ to render the template containing the raw HTML.
-		err = views.ContentPage(post, content).Render(context.Background(), f)
+		err = views.PostRoute(post).Render(context.Background(), f)
 		if err != nil {
 			log.Fatalf("failed to write output file: %v", err)
 		}

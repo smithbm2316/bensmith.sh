@@ -1,0 +1,24 @@
+package views
+
+import (
+	"bensmith.sh/internal/models"
+)
+
+var links = []models.Link{
+	{Url: "/", Text: "Ben Smith"},
+	{Url: "/projects", Text: "Projects"},
+	{Url: "/words", Text: "Writing"},
+	{Url: "/uses", Text: "Uses"},
+}
+
+templ MainNav(attrs templ.Attributes) {
+	<nav { attrs... }>
+		<ul>
+			for _, link := range links {
+				<li webc:for="link of links">
+					<a href={ templ.SafeURL(link.Url) }>{ link.Text }</a>
+				</li>
+			}
+		</ul>
+	</nav>
+}

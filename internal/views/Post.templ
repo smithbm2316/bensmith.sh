@@ -1,0 +1,64 @@
+package views
+
+import (
+	"time"
+
+	"bensmith.sh/internal/models"
+)
+
+templ PostRoute(post *models.Post) {
+	@BaseHTML() {
+		<main id="#top">
+			@MainNav(templ.Attributes{
+				"aria-labelledby": "article-toc-heading",
+				"class":           "nav",
+				"style":           "grid-area: nav",
+			})
+			@PostTOC(post.Headings, templ.Attributes{"class": "article-nav", "style": "grid-area: article-toc"})
+			<article style="grid-area: article">
+				<h1>{ post.Title }</h1>
+				<time datetime={ post.Published.Format(time.RFC3339) }>
+					{ post.Published.Format("Monday, January 1, 2006") }
+				</time>
+				<post-tags :@tags="data.tags"></post-tags>
+				<section>
+					@Unsafe(post.Content)
+				</section>
+			</article>
+			@scopedStyles()
+		</main>
+	}
+}
+
+templ scopedStyles() {
+	<style>
+    @scope {
+      :scope {
+        margin-inline: auto;
+        margin-block: 0;
+      }
+
+      @media (min-width: 540px) {
+        :scope {
+          display: grid;
+          grid-template-columns: 1fr 32ch 1fr;
+          grid-template-areas: 'nav article article-toc';
+          column-gap: 2rem;
+        }
+
+        .nav,
+        .article-nav {
+          height: max-content;
+          position: sticky;
+          top: 0;
+          padding-block-start: 15%;
+          margin-block-start: 10%;
+        }
+
+        .article-nav {
+          justify-self: end;
+        }
+      }
+    }
+  </style>
+}
