@@ -39,7 +39,7 @@ func NewPost(md goldmark.Markdown, metadataContext parser.Context, path string) 
 	}
 
 	// create the slug from our markdown file's `path`
-	slugWithFileExtension, ok := strings.CutPrefix(path, "internal/content")
+	slugWithFileExtension, ok := strings.CutPrefix(path, Dirs.Content)
 	if !ok {
 		log.Fatalf("failed to build a slug from %s", path)
 	} else if slugWithFileExtension[:1] != "/" {
