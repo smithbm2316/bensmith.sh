@@ -1,0 +1,20 @@
+package views
+
+import (
+	"bensmith.sh/internal/models"
+)
+
+var DevMode bool
+
+templ BlogPage(posts []*models.Post) {
+	@BaseLayout() {
+		<h1>Posts</h1>
+		if len(posts) > 0 {
+			<ul>
+				for _, post := range posts {
+					<li><a href={ templ.SafeURL(post.Slug) }>{ post.Title }</a></li>
+				}
+			</ul>
+		}
+	}
+}

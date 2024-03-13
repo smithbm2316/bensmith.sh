@@ -2,8 +2,10 @@ package models
 
 import (
 	"bytes"
+	"fmt"
 	"log"
 	"os"
+	"regexp"
 	"strconv"
 	"strings"
 	"time"
@@ -12,6 +14,11 @@ import (
 	"github.com/yuin/goldmark-meta"
 	"github.com/yuin/goldmark/parser"
 )
+
+type Heading struct {
+	Level int
+	Text  string
+}
 
 type Post struct {
 	Title        string
@@ -22,10 +29,11 @@ type Post struct {
 	LastModified time.Time
 	Draft        bool
 	Metadata     map[string]interface{}
+	Headings     []Heading
 }
 
 func NewPost(md goldmark.Markdown, metadataContext parser.Context, path string) (*Post, error) {
-	fileBytes, err := os.ReadFile(path)
+	rawMarkdownBytes, err := os.ReadFile(path)
 	if err != nil {
 		return nil, err
 	}
@@ -43,8 +51,9 @@ func NewPost(md goldmark.Markdown, metadataContext parser.Context, path string) 
 	}
 
 	// Convert the markdown to HTML, and pass it to the template.
-	var buf bytes.Buffer
-	if err := md.Convert(fileBytes, &buf, parser.WithContext(metadataContext)); err != nil {
+	var markdownBuffer bytes.Buffer
+	err = md.Convert(rawMarkdownBytes, &markdownBuffer, parser.WithContext(metadataContext))
+	if err != nil {
 		log.Fatalf("failed to convert markdown to HTML: %v", err)
 	}
 	metadata := meta.Get(metadataContext)
@@ -58,6 +67,25 @@ func NewPost(md goldmark.Markdown, metadataContext parser.Context, path string) 
 	// these are optional fields
 	tags, _ := metadata["tags"].([]string)
 	draft, _ := metadata["draft"].(bool)
+
+	// parse the headings so we can build a TOC later
+	re := regexp.MustCompile(`(?m)^(?P<level>#{1,6})\s(?P<heading>.*)$`)
+	matchNames := re.SubexpNames()
+	headings := []Heading{}
+	for _, match := range re.FindAllStringSubmatch(string(rawMarkdownBytes), -1) {
+		nextHeading := Heading{}
+		for i, matchedValue := range match {
+			// if our capture group name is "level", we want to record the number of "#"s that we matched
+			// if our capture group name is "heading", we want to save the raw text of the heading
+			switch matchNames[i] {
+			case "level":
+				nextHeading.Level = len(matchedValue)
+			case "heading":
+				nextHeading.Text = matchedValue
+			}
+		}
+		headings = append(headings, nextHeading)
+	}
 
 	// parse the `published` string date into a `time.Time` value
 	published, ok := metadata["published"].(string)
@@ -82,10 +110,16 @@ func NewPost(md goldmark.Markdown, metadataContext parser.Context, path string) 
 		Title:        title,
 		Slug:         slug,
 		Tags:         tags,
-		Content:      buf.String(),
+		Content:      markdownBuffer.String(),
 		Published:    time.Date(year, time.Month(month), day, 0, 0, 0, 0, time.UTC),
 		LastModified: time.Now().UTC(),
 		Draft:        draft,
 		Metadata:     metadata,
+		Headings:     headings,
 	}, err
+}
+
+// Convert the Post struct to a string representation
+func (p Post) String() string {
+	return fmt.Sprintf("%#v", p)
 }
