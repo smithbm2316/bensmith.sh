@@ -6,7 +6,7 @@ import (
 	"log"
 	"net/http"
 
-	"bensmith.sh/internal/views"
+	"bensmith.sh/views"
 )
 
 func main() {

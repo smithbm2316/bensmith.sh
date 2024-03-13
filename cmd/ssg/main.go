@@ -9,8 +9,8 @@ import (
 	"os"
 	"path/filepath"
 
-	"bensmith.sh/internal/models"
-	"bensmith.sh/internal/views"
+	"bensmith.sh/models"
+	"bensmith.sh/views"
 
 	"github.com/yuin/goldmark"
 	"github.com/yuin/goldmark-meta"
@@ -18,18 +18,11 @@ import (
 	"github.com/yuin/goldmark/parser"
 )
 
-type Directories struct {
-	Build   string
-	Content string
-	Posts   string
-	Views   string
-}
-
-var Dirs = Directories{
+var Dirs = models.Directories{
 	Build:   "src",
-	Content: "internal/content",
-	Posts:   "internal/content/words",
-	Views:   "internal/views",
+	Content: "content",
+	Posts:   "content/words",
+	Views:   "views",
 }
 
 func main() {
@@ -40,8 +33,10 @@ func main() {
 	flag.Parse()
 	// inject DevMode into "views" package so that we can include dev-mode only scripts and checks
 	views.DevMode = DevMode
+	// inject Dirs into "models" package
+	models.Dirs = Dirs
 
-	// create output directory and generate posts
+	// create build directory for output
 	if err := os.MkdirAll(Dirs.Build, os.ModePerm); err != nil {
 		log.Fatalf("failed to create output directory: %v", err)
 	}
@@ -90,7 +85,7 @@ func main() {
 func GeneratePosts(md goldmark.Markdown, metadataContext parser.Context) []*models.Post {
 	var posts = make([]*models.Post, 0)
 
-	filepath.WalkDir(Dirs.Posts, func(path string, d fs.DirEntry, err error) error {
+	err := filepath.WalkDir(Dirs.Posts, func(path string, d fs.DirEntry, err error) error {
 		// handle errors with reading the directory
 		if err != nil {
 			return err
@@ -116,7 +111,7 @@ func GeneratePosts(md goldmark.Markdown, metadataContext parser.Context) []*mode
 		outputPath := filepath.Join(dir, "index.html")
 		f, err := os.Create(outputPath)
 		if err != nil {
-			log.Fatalf("failed to create output file: %v", err)
+			log.Fatalf("failed to create output post file: %v", err)
 		}
 
 		// Use templ to render the template containing the raw HTML.
@@ -128,6 +123,9 @@ func GeneratePosts(md goldmark.Markdown, metadataContext parser.Context) []*mode
 		fmt.Printf("Created %s at %s\n", post.Slug, outputPath)
 		return nil
 	})
+	if err != nil {
+		log.Fatal("There was an issue generating posts in the `filepath.WalkDir` function")
+	}
 
 	return posts
 }
