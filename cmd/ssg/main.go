@@ -80,7 +80,7 @@ func main() {
 	if err != nil {
 		log.Fatalf("failed to create output file: %v", err)
 	}
-	err = views.IndexPage().Render(context.Background(), indexFile)
+	err = views.IndexRoute().Render(context.Background(), indexFile)
 	if err != nil {
 		log.Fatalf("failed to write index page: %v", err)
 	}
@@ -94,7 +94,7 @@ func main() {
 		log.Fatalf("failed to create output file: %v", err)
 	}
 	// Write it out.
-	err = views.BlogPage(posts).Render(context.Background(), blogIndexFile)
+	err = views.BlogRoute(posts).Render(context.Background(), blogIndexFile)
 	if err != nil {
 		log.Fatalf("failed to write blog index page: %v", err)
 	}

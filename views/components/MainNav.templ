@@ -1,4 +1,4 @@
-package views
+package components
 
 import (
 	"bensmith.sh/models"
@@ -9,6 +9,13 @@ var links = []models.Link{
 	{Url: "/projects", Text: "Projects"},
 	{Url: "/words", Text: "Writing"},
 	{Url: "/uses", Text: "Uses"},
+}
+
+templ WithMainNav() {
+	<main>
+		@MainNav(templ.Attributes{"aria-label": "Main navigation"})
+		{ children... }
+	</main>
 }
 
 templ MainNav(attrs templ.Attributes) {

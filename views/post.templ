@@ -1,0 +1,132 @@
+package views
+
+import (
+	"strings"
+	"time"
+
+	"bensmith.sh/models"
+	"bensmith.sh/views/components"
+)
+
+func Slugify(text string) string {
+	return strings.ReplaceAll(strings.ToLower(text), " ", "")
+}
+
+templ PostRoute(post *models.Post) {
+	<html lang="en">
+		@components.Head(components.HeadProps{Title: post.Title}) {
+			<link rel="preload" as="style" href="/src/chroma.css"/>
+			<link rel="stylesheet" href="/src/chroma.css"/>
+		}
+		<body>
+			<main id="#top">
+				<!-- main menu -->
+				@components.MainNav(templ.Attributes{
+					"aria-labelledby": "article-toc-heading",
+					"class":           "nav",
+					"style":           "grid-area: nav",
+				})
+				<!-- table of contents for the article, loads a progressively enhanced web component script -->
+				<post-toc class="article-nav" style="grid-area: article-toc">
+					<details>
+						<summary id="article-toc-heading">
+							Table of Contents
+						</summary>
+						if len(post.Headings) > 0 {
+							<ul webc:if="headings.length > 0">
+								<li>
+									<a href="#top">Return to top</a>
+								</li>
+								for _, heading := range post.Headings {
+									<li>
+										<a href={ templ.SafeURL("#" + Slugify(heading.Text)) }>{ heading.Text }</a>
+									</li>
+								}
+							</ul>
+						}
+					</details>
+					<style>
+            @scope {
+              details {
+                cursor: pointer;
+              }
+            }
+          </style>
+					@postTOCWebComponent()
+				</post-toc>
+				<!-- the actual article content from the Markdown post -->
+				<article style="grid-area: article">
+					<h1>{ post.Title }</h1>
+					<time datetime={ post.Published.Format(time.RFC3339) }>
+						{ post.Published.Format("Monday, January 1, 2006") }
+					</time>
+					<post-tags :@tags="data.tags"></post-tags>
+					<section>
+						@components.Unsafe(post.Content)
+					</section>
+				</article>
+				@scopedStyles()
+			</main>
+		</body>
+	</html>
+}
+
+templ scopedStyles() {
+	<style>
+    @scope {
+      :scope {
+        margin-inline: auto;
+        margin-block: 0;
+      }
+
+      @media (min-width: 540px) {
+        :scope {
+          display: grid;
+          grid-template-columns: 1fr 32ch 1fr;
+          grid-template-areas: 'nav article article-toc';
+          column-gap: 2rem;
+        }
+
+        .nav,
+        .article-nav {
+          height: max-content;
+          position: sticky;
+          top: 0;
+          padding-block-start: 15%;
+          margin-block-start: 10%;
+        }
+
+        .article-nav {
+          justify-self: end;
+        }
+      }
+    }
+  </style>
+}
+
+templ postTOCWebComponent() {
+	<script defer>
+    window.customElements.define(
+      'post-toc',
+      class PostTOCElement extends HTMLElement {
+        /**
+         * If we are on our full-size layout, then we want to auto-expand the <details> element on page load so that the table of contents is easy to see. If we are on mobile and in a single-column view, we will keep the default <details> behavior of having the table of contents collapsed.
+         */
+        autoExpandOnDesktop() {
+          if (window.innerWidth < 540) {
+            return;
+          }
+          let detailsElement = this.querySelector(':scope details');
+          if (!detailsElement) {
+            return;
+          }
+          detailsElement.open = true;
+        }
+
+        connectedCallback() {
+          this.autoExpandOnDesktop();
+        }
+      }
+    );
+  </script>
+}

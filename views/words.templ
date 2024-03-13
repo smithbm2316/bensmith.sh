@@ -1,0 +1,24 @@
+package views
+
+import (
+	"bensmith.sh/models"
+	"bensmith.sh/views/components"
+)
+
+templ BlogRoute(posts []*models.Post) {
+	<html lang="en">
+		@components.Head(components.HeadProps{Title: "Blog - Ben Smith"})
+		<body>
+			@components.WithMainNav() {
+				<h1>Posts</h1>
+				if len(posts) > 0 {
+					<ul>
+						for _, post := range posts {
+							<li><a href={ templ.SafeURL(post.Slug) }>{ post.Title }</a></li>
+						}
+					</ul>
+				}
+			}
+		</body>
+	</html>
+}

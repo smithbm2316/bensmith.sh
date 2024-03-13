@@ -1,6 +1,9 @@
 package views
 
-import "bensmith.sh/models"
+import (
+	"bensmith.sh/models"
+	"bensmith.sh/views/components"
+)
 
 var socials = []models.Link{
 	{Text: "GitHub", Url: "https://github.com/smithbm2316"},
@@ -8,26 +11,31 @@ var socials = []models.Link{
 	{Text: "Email", Url: "mailto:bsmithdev@mailbox.org"},
 }
 
-templ IndexPage() {
-	@BaseLayout() {
-		<section>
-			<img src="/assets/profile_pic.jpeg" alt="Me!" width="1000" height="1000" loading="eager"/>
-			<div>
-				<a href="/">
-					<h1>{ "Ben Smith" }</h1>
-				</a>
-				<p>
-					{ `I'm a web developer with a passion for the command line, coffee, and
+templ IndexRoute() {
+	<html lang="en">
+		@components.BaseHead()
+		<body>
+			@components.WithMainNav() {
+				<section>
+					<img src="/assets/profile_pic.jpeg" alt="Me!" width="1000" height="1000" loading="eager"/>
+					<div>
+						<a href="/">
+							<h1>{ "Ben Smith" }</h1>
+						</a>
+						<p>
+							{ `I'm a web developer with a passion for the command line, coffee, and
           crafting delightful user experiences for the web!` }
-				</p>
-				<ul>
-					for _, link := range socials {
-						<li>
-							<a rel="noreferrer" href={ templ.SafeURL(link.Url) }>{ link.Text }</a>
-						</li>
-					}
-				</ul>
-			</div>
-		</section>
-	}
+						</p>
+						<ul>
+							for _, link := range socials {
+								<li>
+									<a rel="noreferrer" href={ templ.SafeURL(link.Url) }>{ link.Text }</a>
+								</li>
+							}
+						</ul>
+					</div>
+				</section>
+			}
+		</body>
+	</html>
 }
