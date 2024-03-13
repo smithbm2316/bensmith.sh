@@ -4,7 +4,11 @@ go 1.22.1
 
 require (
 	github.com/a-h/templ v0.2.598
+	github.com/alecthomas/chroma/v2 v2.13.0
+	github.com/bokwoon95/wgo v0.5.6
 	github.com/yuin/goldmark v1.7.0
+	github.com/yuin/goldmark-highlighting/v2 v2.0.0-20230729083705-37449abec8cc
+	github.com/yuin/goldmark-meta v1.1.0
 )
 
 require (
@@ -13,6 +17,7 @@ require (
 	github.com/a-h/protocol v0.0.0-20230224160810-b4eec67c1c22 // indirect
 	github.com/cenkalti/backoff/v4 v4.2.1 // indirect
 	github.com/cli/browser v1.2.0 // indirect
+	github.com/dlclark/regexp2 v1.11.0 // indirect
 	github.com/fatih/color v1.16.0 // indirect
 	github.com/fsnotify/fsnotify v1.7.0 // indirect
 	github.com/mattn/go-colorable v0.1.13 // indirect
@@ -20,7 +25,6 @@ require (
 	github.com/natefinch/atomic v1.0.1 // indirect
 	github.com/segmentio/asm v1.2.0 // indirect
 	github.com/segmentio/encoding v0.3.6 // indirect
-	github.com/yuin/goldmark-meta v1.1.0 // indirect
 	go.lsp.dev/jsonrpc2 v0.10.0 // indirect
 	go.lsp.dev/pkg v0.0.0-20210717090340-384b27a52fb2 // indirect
 	go.lsp.dev/uri v0.3.0 // indirect
