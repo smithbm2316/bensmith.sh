@@ -14,7 +14,7 @@ func Slugify(text string) string {
 
 templ PostRoute(post *models.Post) {
 	<html lang="en">
-		@components.Head(components.HeadProps{Title: post.Title}) {
+		@components.Head(post.Title) {
 			<link rel="preload" as="style" href="/src/chroma.css"/>
 			<link rel="stylesheet" href="/src/chroma.css"/>
 		}

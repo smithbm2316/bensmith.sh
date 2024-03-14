@@ -1,21 +1,25 @@
 package components
 
-type HeadProps struct {
-	Title string
+import (
+	"fmt"
+	"log"
+)
+
+func formatTitle(title string) string {
+	if title == "" {
+		log.Fatalf("ERROR - You forgot to add a title")
+	}
+	return fmt.Sprintf("%s - Ben Smith", title)
 }
 
-func BaseHead() templ.Component {
-	return Head(HeadProps{Title: "Ben Smith - Web Developer"})
-}
-
-templ Head(props HeadProps) {
+templ Head(title string) {
 	<head>
 		<meta charset="utf-8"/>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 		<meta name="author" content="Ben Smith"/>
 		<meta name="description" content="Description ..."/>
 		<!-- <link href="site.favicon" rel="icon" type="image/svg+xml"/> -->
-		<title>{ props.Title }</title>
+		<title>{ formatTitle(title) }</title>
 		<!-- css -->
 		<link rel="preload" as="style" href="/styles/main.css"/>
 		<link rel="stylesheet" href="/styles/main.css"/>

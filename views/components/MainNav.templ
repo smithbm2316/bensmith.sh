@@ -12,10 +12,12 @@ var links = []models.Link{
 }
 
 templ WithMainNav() {
-	<main>
-		@MainNav(templ.Attributes{"aria-label": "Main navigation"})
-		{ children... }
-	</main>
+	<body>
+		<main>
+			@MainNav(templ.Attributes{"aria-label": "Main navigation"})
+			{ children... }
+		</main>
+	</body>
 }
 
 templ MainNav(attrs templ.Attributes) {

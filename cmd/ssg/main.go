@@ -101,6 +101,20 @@ func main() {
 	blogIndexFile.Close()
 	fmt.Printf("Created %s at %s\n", "/words", blogIndexBuildPath)
 
+	// And a 404 error page
+	notFoundBuildPath := filepath.Join(Dirs.Build, "404.html")
+	notFoundFile, err := os.Create(notFoundBuildPath)
+	if err != nil {
+		log.Fatalf("failed to create output file: %v", err)
+	}
+	// Write it out.
+	err = views.ErrorNotFound().Render(context.Background(), notFoundFile)
+	if err != nil {
+		log.Fatalf("failed to write blog index page: %v", err)
+	}
+	notFoundFile.Close()
+	fmt.Printf("Created %s at %s\n", "/404", notFoundBuildPath)
+
 	fmt.Printf("Generated static files to %s\n", Dirs.Build)
 }
 
