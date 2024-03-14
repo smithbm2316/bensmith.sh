@@ -7,6 +7,7 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+	"sort"
 
 	"bensmith.sh/models"
 	"bensmith.sh/views"
@@ -164,5 +165,9 @@ func GeneratePosts(md goldmark.Markdown, metadataContext parser.Context) []*mode
 		log.Fatal("There was an issue generating posts in the `filepath.WalkDir` function")
 	}
 
+	// sort the list of posts so that the newest posts are first
+	sort.Slice(posts, func(i, j int) bool {
+		return posts[i].Published.After(posts[j].Published)
+	})
 	return posts
 }
