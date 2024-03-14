@@ -8,6 +8,7 @@ import (
 	"os"
 	"path/filepath"
 	"sort"
+	"strings"
 
 	"bensmith.sh/models"
 	"bensmith.sh/views"
@@ -75,6 +76,8 @@ func main() {
 
 	// generate posts and all their tags
 	posts, tags := generatePostsAndTags(md, metadataContext)
+	// generate all markdown pages
+	pages := generatePages(md, metadataContext)
 
 	// create all my routes
 	generateOutputFile("/", views.IndexRoute())
@@ -88,6 +91,9 @@ func main() {
 	}
 	generateOutputFile("/feeds", views.FeedsRoute(posts))
 	generateOutputFile("404.html", views.ErrorNotFound())
+	for _, page := range pages {
+		generateOutputFile(page.Slug, views.MarkdownPageRoute(page))
+	}
 
 	// Log successful completion of all the generation and exit
 	fmt.Printf("Generated static files to %s\n", Dirs.Build)
@@ -178,4 +184,31 @@ func generatePostsAndTags(md goldmark.Markdown, metadataContext parser.Context) 
 	sort.Strings(tags)
 
 	return posts, tags
+}
+
+func generatePages(md goldmark.Markdown, metadataContext parser.Context) []*models.Page {
+	var pages = make([]*models.Page, 0)
+
+	if err := filepath.WalkDir(Dirs.Content, func(path string, d fs.DirEntry, err error) error {
+		// handle errors with reading the directory
+		if err != nil {
+			return err
+		}
+		// skip processing directories and files that aren't markdown, and don't process any directories that are in the Dirs.Posts directory
+		if d.IsDir() || filepath.Ext(path) != ".md" || strings.Contains(path, Dirs.Posts) {
+			return nil
+		}
+
+		page, err := models.NewPage(md, metadataContext, path)
+		if err != nil {
+			log.Fatalf("Failed to create new post from '%s'", path)
+		}
+		pages = append(pages, page)
+
+		return nil
+	}); err != nil {
+		log.Fatal("There was an issue generating pages in the `filepath.WalkDir` function")
+	}
+
+	return pages
 }
