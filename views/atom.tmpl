@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:base="{{ .AbsoluteUrl }}">
+  <title>{{ .Title }}</title>
+  <subtitle>{{ .Subtitle }}</subtitle>
+  <link href="{{ .AbsoluteUrl }}" rel="self" />
+  <link href="{{ .AbsoluteUrl }}" />
+  <updated>{{ .GetNewestPostDate }}</updated>
+  <id>{{ .AbsoluteUrl }}</id>
+  <author>
+    <name>{{ .Name }}</name>
+    <email>{{ .Email }}</email>
+  </author>
+  {{ range .Posts }}
+    <entry>
+      <title>{{ .Title }}</title>
+      <link href="{{ .FormatAbsoluteUrl }}" />
+      <updated>{{ .FormatRFC3339 }}</updated>
+      <id>{{ .FormatAbsoluteUrl }}</id>
+      <content xml:lang="{{ $.Language }}" type="html">""</content>
+    </entry>
+  {{ end }}
+</feed>

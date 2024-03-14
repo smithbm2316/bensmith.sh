@@ -2,7 +2,6 @@ package views
 
 import (
 	"bytes"
-	"fmt"
 	"log"
 	"os"
 	"path/filepath"
@@ -59,5 +58,5 @@ func GenerateSitemap(path string, sitemapRoutes []SitemapRoute) {
 		log.Fatalf("Error executing the XML minfier's `io.Close` method, %v", err)
 	}
 
-	fmt.Printf("Created sitemap at %s\n", path)
+	log.Printf("Created sitemap at %s\n", path)
 }

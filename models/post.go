@@ -142,3 +142,15 @@ func NewPost(md goldmark.Markdown, metadataContext parser.Context, path string) 
 func (p Post) String() string {
 	return fmt.Sprintf("%#v", p)
 }
+
+func (p Post) FormatRFC3339() string {
+	return p.Published.Format(time.RFC3339)
+}
+
+func (p Post) FormatRFC822() string {
+	return p.Published.Format(time.RFC822)
+}
+
+func (p Post) FormatAbsoluteUrl() string {
+	return fmt.Sprintf("https://bensmith.sh%s", p.Slug)
+}

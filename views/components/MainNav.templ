@@ -25,7 +25,7 @@ templ MainNav(attrs templ.Attributes) {
 	<nav { attrs... }>
 		<ul>
 			for _, link := range links {
-				<li webc:for="link of links">
+				<li>
 					<a href={ templ.SafeURL(link.Url) }>{ link.Text }</a>
 				</li>
 			}

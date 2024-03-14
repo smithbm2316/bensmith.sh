@@ -33,10 +33,10 @@ dev/ssg: clean/ssg
 dev/hmr: clean/hmr build/public
 	@npx parcel 'src/**/*.*' --dist-dir .site --port ${appPort}
 
-# run `wgo` to rebuild our go app when .go files change
+# run `wgo` to rebuild our go app when .go & {html,text}/template .tmpl files change
 .PHONY: dev/go
 dev/go:
-	@./bin/wgo run -file=.go ${ssgPkg} --dev
+	@./bin/wgo run -file=.go -file=.tmpl ${ssgPkg} --dev
 
 # run `templ` generate in watch/dev mode
 .PHONY: dev/templ

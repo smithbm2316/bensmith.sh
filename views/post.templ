@@ -15,6 +15,11 @@ func Slugify(text string) string {
 templ PostRoute(post *models.Post) {
 	<html lang="en">
 		@components.Head(post.Title) {
+			<!--
+        These need a `/src` prefix since we generate this file into the `src`
+        directory for parcel to process, it'll strip the `/src` prefix in what
+        it serves in development mode itself and what it bundles for production
+      -->
 			<link rel="preload" as="style" href="/src/chroma.css"/>
 			<link rel="stylesheet" href="/src/chroma.css"/>
 		}
@@ -33,7 +38,7 @@ templ PostRoute(post *models.Post) {
 							Table of Contents
 						</summary>
 						if len(post.Headings) > 0 {
-							<ul webc:if="headings.length > 0">
+							<ul>
 								<li>
 									<a href="#top">Return to top</a>
 								</li>
