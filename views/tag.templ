@@ -1,0 +1,40 @@
+package views
+
+import (
+	"fmt"
+
+	"bensmith.sh/models"
+	"bensmith.sh/views/components"
+)
+
+templ TagRoute(tag string, posts []*models.Post) {
+	<html lang="en">
+		@components.Head(fmt.Sprintf(`Tagged "%s"`, tag))
+		@components.WithMainNav() {
+			<h1>{ "Tagged " }<em>{ fmt.Sprintf(`"%s"`, tag) }</em></h1>
+			if len(posts) > 0 {
+				<ul>
+					for _, post := range getPostsWithTag(tag, posts) {
+						<li>
+							<a href={ templ.SafeURL(post.Slug) }>{ post.Title }</a>
+						</li>
+					}
+				</ul>
+			}
+		}
+	</html>
+}
+
+func getPostsWithTag(tag string, posts []*models.Post) []*models.Post {
+	var filteredPosts = make([]*models.Post, 0)
+	for _, post := range posts {
+		for _, postTag := range post.Tags {
+			if postTag == tag {
+				filteredPosts = append(filteredPosts, post)
+				break
+			}
+		}
+	}
+
+	return filteredPosts
+}

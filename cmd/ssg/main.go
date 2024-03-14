@@ -12,6 +12,7 @@ import (
 	"bensmith.sh/models"
 	"bensmith.sh/views"
 
+	"github.com/a-h/templ"
 	chroma "github.com/alecthomas/chroma/v2"
 	chromahtml "github.com/alecthomas/chroma/v2/formatters/html"
 	"github.com/yuin/goldmark"
@@ -72,57 +73,66 @@ func main() {
 	)
 	metadataContext := parser.NewContext()
 
-	// generate posts
-	posts := GeneratePosts(md, metadataContext)
+	// generate posts and all their tags
+	posts, tags := generatePostsAndTags(md, metadataContext)
 
-	// Create an index page
-	indexBuildPath := filepath.Join(Dirs.Build, "index.html")
-	indexFile, err := os.Create(indexBuildPath)
-	if err != nil {
-		log.Fatalf("failed to create output file: %v", err)
+	// create all my routes
+	generateOutputFile("/", views.IndexRoute())
+	generateOutputFile("/words", views.BlogRoute(posts, tags))
+	for _, post := range posts {
+		generateOutputFile(post.Slug, views.PostRoute(post))
 	}
-	err = views.IndexRoute().Render(context.Background(), indexFile)
-	if err != nil {
-		log.Fatalf("failed to write index page: %v", err)
+	generateOutputFile("/tags", views.TagsRoute(tags))
+	for _, tag := range tags {
+		generateOutputFile(fmt.Sprintf("/tags/%s", tag), views.TagRoute(tag, posts))
 	}
-	indexFile.Close()
-	fmt.Printf("Created %s at %s\n", "/", indexBuildPath)
+	generateOutputFile("/feeds", views.FeedsRoute(posts))
+	generateOutputFile("404.html", views.ErrorNotFound())
 
-	// And a blog index page
-	blogIndexBuildPath := filepath.Join(Dirs.Build, "/words", "index.html")
-	blogIndexFile, err := os.Create(blogIndexBuildPath)
-	if err != nil {
-		log.Fatalf("failed to create output file: %v", err)
-	}
-	// Write it out.
-	err = views.BlogRoute(posts).Render(context.Background(), blogIndexFile)
-	if err != nil {
-		log.Fatalf("failed to write blog index page: %v", err)
-	}
-	blogIndexFile.Close()
-	fmt.Printf("Created %s at %s\n", "/words", blogIndexBuildPath)
-
-	// And a 404 error page
-	notFoundBuildPath := filepath.Join(Dirs.Build, "404.html")
-	notFoundFile, err := os.Create(notFoundBuildPath)
-	if err != nil {
-		log.Fatalf("failed to create output file: %v", err)
-	}
-	// Write it out.
-	err = views.ErrorNotFound().Render(context.Background(), notFoundFile)
-	if err != nil {
-		log.Fatalf("failed to write blog index page: %v", err)
-	}
-	notFoundFile.Close()
-	fmt.Printf("Created %s at %s\n", "/404", notFoundBuildPath)
-
+	// Log successful completion of all the generation and exit
 	fmt.Printf("Generated static files to %s\n", Dirs.Build)
 }
 
-func GeneratePosts(md goldmark.Markdown, metadataContext parser.Context) []*models.Post {
+func generateOutputFile(slug string, component templ.Component) {
+	var dir, htmlFilePath string
+
+	// if our `slug` is a `.html` file, we want to generate a root-level file with the exact
+	// name of our slug. Otherwise the default behavior is to treat the slug as a URL and to
+	// generate a `index.html` file inside of the directory path that the `slug` gives us
+	if filepath.Ext(slug) == ".html" {
+		dir = filepath.Join(Dirs.Build)
+		htmlFilePath = filepath.Join(dir, slug)
+	} else {
+		dir = filepath.Join(Dirs.Build, slug)
+		htmlFilePath = filepath.Join(dir, "index.html")
+	}
+
+	// create the necessary directory structure with `mkdir -p`
+	if err := os.MkdirAll(dir, 0755); err != nil && err != os.ErrExist {
+		log.Fatalf("failed to create dir %q: %v", dir, err)
+	}
+
+	// open and create the file writer
+	file, err := os.Create(htmlFilePath)
+	if err != nil {
+		log.Fatalf("failed to create output file: %v", err)
+	}
+
+	// render the specified template to the file writer
+	err = component.Render(context.Background(), file)
+	if err != nil {
+		log.Fatalf("failed to write blog index page: %v", err)
+	}
+	file.Close()
+
+	// log succesful creation
+	fmt.Printf("Created %s at %s\n", slug, htmlFilePath)
+}
+
+func generatePostsAndTags(md goldmark.Markdown, metadataContext parser.Context) ([]*models.Post, []string) {
 	var posts = make([]*models.Post, 0)
 
-	err := filepath.WalkDir(Dirs.Posts, func(path string, d fs.DirEntry, err error) error {
+	if err := filepath.WalkDir(Dirs.Posts, func(path string, d fs.DirEntry, err error) error {
 		// handle errors with reading the directory
 		if err != nil {
 			return err
@@ -138,30 +148,8 @@ func GeneratePosts(md goldmark.Markdown, metadataContext parser.Context) []*mode
 		}
 		posts = append(posts, post)
 
-		// Create the output directory.
-		dir := filepath.Join(Dirs.Build, post.Slug)
-		if err := os.MkdirAll(dir, 0755); err != nil && err != os.ErrExist {
-			log.Fatalf("failed to create dir %q: %v", dir, err)
-		}
-
-		// Create the output file.
-		postOutputPath := filepath.Join(dir, "index.html")
-		postOutputFile, err := os.Create(postOutputPath)
-		if err != nil {
-			log.Fatalf("failed to create output post file: %v", err)
-		}
-
-		// Use templ to render the template containing the raw HTML.
-		err = views.PostRoute(post).Render(context.Background(), postOutputFile)
-		if err != nil {
-			log.Fatalf("failed to write output file: %v", err)
-		}
-		postOutputFile.Close()
-
-		fmt.Printf("Created %s at %s\n", post.Slug, postOutputPath)
 		return nil
-	})
-	if err != nil {
+	}); err != nil {
 		log.Fatal("There was an issue generating posts in the `filepath.WalkDir` function")
 	}
 
@@ -169,5 +157,25 @@ func GeneratePosts(md goldmark.Markdown, metadataContext parser.Context) []*mode
 	sort.Slice(posts, func(i, j int) bool {
 		return posts[i].Published.After(posts[j].Published)
 	})
-	return posts
+
+	// create a map with empty structs as value since they don't allocate
+	// any memory, so we can create a set of unique tags
+	var tagsSet = make(map[string]struct{})
+	for _, post := range posts {
+		for _, tag := range post.Tags {
+			if _, isPresent := tagsSet[tag]; !isPresent {
+				tagsSet[tag] = struct{}{}
+			}
+		}
+	}
+	// then allocate a slice of strings which has a capacity of the length of our set
+	tags := make([]string, 0, len(tagsSet))
+	// append all our tags in our set to the string slice
+	for tag := range tagsSet {
+		tags = append(tags, tag)
+	}
+	// and sort it before returning it
+	sort.Strings(tags)
+
+	return posts, tags
 }

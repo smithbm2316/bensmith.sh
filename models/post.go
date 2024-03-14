@@ -64,8 +64,27 @@ func NewPost(md goldmark.Markdown, metadataContext parser.Context, path string) 
 	if !ok {
 		log.Fatalf(parseErrorMsg, "title")
 	}
-	// these are optional fields
-	tags, _ := metadata["tags"].([]string)
+
+	// tags and draft are optional fields
+	var tags []string
+	tagsInterface := metadata["tags"]
+	switch tagsStr := tagsInterface.(type) {
+	case string:
+		for _, tag := range strings.Split(tagsStr, ",") {
+			tags = append(tags, strings.TrimSpace(tag))
+		}
+	case []string:
+		for _, tag := range tagsStr {
+			tags = append(tags, strings.TrimSpace(tag))
+		}
+	case []interface{}:
+		for _, tag := range tagsStr {
+			tags = append(tags, strings.TrimSpace(tag.(string)))
+		}
+	default:
+		break
+	}
+
 	draft, _ := metadata["draft"].(bool)
 
 	// parse the headings so we can build a TOC later

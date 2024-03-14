@@ -60,7 +60,13 @@ templ PostRoute(post *models.Post) {
 					<time datetime={ post.Published.Format(time.RFC3339) }>
 						{ post.Published.Format("Monday, January 1, 2006") }
 					</time>
-					<post-tags :@tags="data.tags"></post-tags>
+					if len(post.Tags) > 0 {
+						<ul>
+							for _, tag := range post.Tags {
+								<li>{ tag }</li>
+							}
+						</ul>
+					}
 					<section>
 						@components.Unsafe(post.Content)
 					</section>
