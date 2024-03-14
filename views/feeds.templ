@@ -1,0 +1,41 @@
+package views
+
+import (
+	"bensmith.sh/models"
+	"bensmith.sh/views/components"
+)
+
+templ FeedsRoute(posts []*models.Post) {
+	<html lang="en">
+		@components.Head("Feeds")
+		@components.WithMainNav() {
+			<h1>RSS</h1>
+			<nav aria-labelledby="rss-feeds">
+				<h2 id="rss-feeds">RSS Feeds</h2>
+				<!-- <ul> -->
+				<!-- 	<li><a href="/feeds/rss.xml">RSS</a></li> -->
+				<!-- 	<li><a href="/feeds/atom.xml">Atom</a></li> -->
+				<!-- 	<li><a href="/feeds/rss.json">JSON</a></li> -->
+				<!-- </ul> -->
+			</nav>
+			<section aria-labelledby="#latest-posts">
+				<h2 id="latest-posts">
+					if len(posts) == 0 {
+						{ "No posts found" }
+					} else {
+						{ "Latest Posts" }
+					}
+				</h2>
+				<ul>
+					<!--
+            our posts are already sorted newest first when
+            we generate our list of Post structs initially
+          -->
+					for _, post := range posts {
+						<li><a href={ templ.URL(post.Slug) }>{ post.Title }</a></li>
+					}
+				</ul>
+			</section>
+		}
+	</html>
+}

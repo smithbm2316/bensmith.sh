@@ -1,0 +1,75 @@
+package views
+
+import (
+	"bensmith.sh/models"
+	"bensmith.sh/views/components"
+)
+
+var links = []models.Link{
+	{
+		Text: "Home",
+		Url:  "/",
+	},
+	{
+		Text: "About",
+		Url:  "/about",
+	},
+	{
+		Text: "Blog",
+		Url:  "/blog",
+	},
+	{
+		Text: "RSS",
+		Url:  "/blog/feed.xml",
+	},
+	{
+		Text: "Uses",
+		Url:  "/uses",
+	},
+	{
+		Text: "Linktree",
+		Url:  "/me",
+	},
+	{
+		Text: "GitHub",
+		Url:  "https://github.com/smithbm2316",
+	},
+	{
+		Text: "YouTube",
+		Url:  "https://youtube.com/@smithbm2316",
+	},
+	{
+		Text: "Twitter",
+		Url:  "https://twitter.com/smithbm2316",
+	},
+	{
+		Text: "Email",
+		Url:  "mailto:bsmithdev@mailbox.org",
+	},
+	{
+		Text: "LinkedIn",
+		Url:  "https://linkedin.com/in/smithbm2316",
+	},
+}
+
+templ MeRoute() {
+	<html lang="en">
+		@components.Head("Linktree")
+		<body>
+			<main>
+				<a href="/">
+					<h1>Ben Smith</h1>
+				</a>
+				<ul>
+					for _, link := range links {
+						<li>
+							<a href={ templ.SafeURL(link.Url) } rel="noreferrer">
+								<span>{ link.Text }</span>
+							</a>
+						</li>
+					}
+				</ul>
+			</main>
+		</body>
+	</html>
+}
