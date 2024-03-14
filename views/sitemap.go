@@ -1,14 +1,21 @@
 package views
 
 import (
+	"bytes"
 	"fmt"
 	"log"
 	"os"
+	"path/filepath"
 	"text/template"
 	"time"
+
+	"bensmith.sh/models"
+
+	"github.com/tdewolff/minify/v2"
+	"github.com/tdewolff/minify/v2/xml"
 )
 
-var sitemapTemplate = `<?xml version="1.0" encoding="utf-8"?><urlset xmlns="https://www.sitemaps.org/schemas/sitemap/0.9">{{ range . }}<url><loc>https://bensmith.sh{{ .Url }}</loc><lastmod>{{ .FormatDate }}</lastmod></url>{{ end }}</urlset>`
+var Dirs models.Directories
 
 type SitemapRoute struct {
 	Url          string
@@ -20,17 +27,36 @@ func (s SitemapRoute) FormatDate() string {
 }
 
 func GenerateSitemap(path string, sitemapRoutes []SitemapRoute) {
-	tmpl := template.Must(template.New("sitemap").Parse(sitemapTemplate))
+	// load the sitemap.xml text template
+	tmpl := template.Must(
+		template.ParseFiles(
+			filepath.Join(Dirs.Views, "sitemap.tmpl"),
+		),
+	)
 
+	// create a new buffer and write the template to it
+	var buf bytes.Buffer
+	err := tmpl.Execute(&buf, sitemapRoutes)
+	if err != nil {
+		log.Fatalf("failed to execute sitemap.xml template: %v", err)
+	}
+
+	// create the file to write to
 	file, err := os.Create(path)
 	if err != nil {
 		log.Fatalf("failed to create output file: %v", err)
 	}
 	defer file.Close()
 
-	err = tmpl.Execute(file, sitemapRoutes)
-	if err != nil {
-		log.Fatalf("failed to execute sitemap.xml template: %v", err)
+	// minify the XML and write the buffer to the file
+	m := minify.New()
+	m.AddFunc("text/xml", xml.Minify)
+	mw := m.Writer("text/xml", file)
+	if mw.Write(buf.Bytes()); err != nil {
+		log.Fatalf("Couldn't minify the XML sitemap, %v", err)
+	}
+	if err := mw.Close(); err != nil {
+		log.Fatalf("Error executing the XML minfier's `io.Close` method, %v", err)
 	}
 
 	fmt.Printf("Created sitemap at %s\n", path)
