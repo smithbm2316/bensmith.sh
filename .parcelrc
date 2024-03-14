@@ -1,6 +1,14 @@
 {
   "extends": "@parcel/config-default",
   "transformers": {
-    "robots.txt": ["@parcel/transformer-raw"]
+    "robots.txt": ["@parcel/transformer-raw"],
+    // disable RSS/Atom feed processing by Parcel,
+    // we generate and minify our feeds in our Go
+    // `ssg` app already
+    "rss.xml": ["@parcel/transformer-raw"],
+    "atom.xml": ["@parcel/transformer-raw"],
+    // disable parcel's automatic JSON -> JS
+    // transforms for our JSON feed
+    "rss.json": ["@parcel/transformer-raw"]
   }
 }

@@ -117,6 +117,12 @@ func main() {
 	// and write our sitemap to disk
 	views.GenerateSitemap(filepath.Join(Dirs.Build, "sitemap.xml"), sitemapRoutes)
 
+	// generate a rss, atom, and json feed
+	feed := views.NewFeed(posts)
+	feed.GenerateFeed("rss", "/feeds", "rss.xml")
+	feed.GenerateFeed("atom", "/feeds", "atom.xml")
+	feed.GenerateFeed("json", "/feeds", "rss.json")
+
 	// Log successful completion of all the generation and exit
 	log.Printf("Generated static files to %s\n", Dirs.Build)
 }
