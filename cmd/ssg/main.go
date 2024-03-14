@@ -9,6 +9,7 @@ import (
 	"path/filepath"
 	"sort"
 	"strings"
+	"time"
 
 	"bensmith.sh/models"
 	"bensmith.sh/views"
@@ -79,35 +80,49 @@ func main() {
 	// generate all markdown pages
 	pages := generatePages(md, metadataContext)
 
-	// create all my routes
-	generateOutputFile("/", views.IndexRoute())
-	generateOutputFile("/words", views.BlogRoute(posts, tags))
+	// initialize routes
+	routes := map[string]templ.Component{
+		"/":      views.IndexRoute(),
+		"/404":   views.ErrorNotFound(),
+		"/feeds": views.FeedsRoute(posts),
+		"/tags":  views.TagsRoute(tags),
+		"/words": views.BlogRoute(posts, tags),
+	}
 	for _, post := range posts {
-		generateOutputFile(post.Slug, views.PostRoute(post))
+		routes[post.Slug] = views.PostRoute(post)
 	}
-	generateOutputFile("/tags", views.TagsRoute(tags))
 	for _, tag := range tags {
-		generateOutputFile(fmt.Sprintf("/tags/%s", tag), views.TagRoute(tag, posts))
+		routes[fmt.Sprintf("/tags/%s", tag)] = views.TagRoute(tag, posts)
 	}
-	generateOutputFile("/feeds", views.FeedsRoute(posts))
-	generateOutputFile("404.html", views.ErrorNotFound())
 	for _, page := range pages {
-		generateOutputFile(page.Slug, views.MarkdownPageRoute(page))
+		routes[page.Slug] = views.MarkdownPageRoute(page)
 	}
+
+	// initialize our sitemap data
+	sitemapRoutes := make([]views.SitemapRoute, 0)
+	// loop through all our routes and write the file to disk, updating
+	for route, component := range routes {
+		sitemapRoutes = append(sitemapRoutes, views.SitemapRoute{
+			Url:          route,
+			LastModified: generateOutputFile(route, component),
+		})
+	}
+	// and write our sitemap to disk
+	views.GenerateSitemap(filepath.Join(Dirs.Build, "sitemap.xml"), sitemapRoutes)
 
 	// Log successful completion of all the generation and exit
 	fmt.Printf("Generated static files to %s\n", Dirs.Build)
 }
 
-func generateOutputFile(slug string, component templ.Component) {
+func generateOutputFile(slug string, component templ.Component) time.Time {
 	var dir, htmlFilePath string
 
-	// if our `slug` is a `.html` file, we want to generate a root-level file with the exact
-	// name of our slug. Otherwise the default behavior is to treat the slug as a URL and to
-	// generate a `index.html` file inside of the directory path that the `slug` gives us
-	if filepath.Ext(slug) == ".html" {
+	// if our `slug` contains "404", we should render a "/404.html" file instead of a directory
+	// called "404/" with an "index.html" file in it. Otherwise, create a directory based upon
+	// the provided `slug` and generate an `index.html` file for the route in it
+	if strings.Contains(slug, "404") {
 		dir = filepath.Join(Dirs.Build)
-		htmlFilePath = filepath.Join(dir, slug)
+		htmlFilePath = filepath.Join(dir, "404.html")
 	} else {
 		dir = filepath.Join(Dirs.Build, slug)
 		htmlFilePath = filepath.Join(dir, "index.html")
@@ -123,16 +138,17 @@ func generateOutputFile(slug string, component templ.Component) {
 	if err != nil {
 		log.Fatalf("failed to create output file: %v", err)
 	}
+	defer file.Close()
 
 	// render the specified template to the file writer
 	err = component.Render(context.Background(), file)
 	if err != nil {
 		log.Fatalf("failed to write blog index page: %v", err)
 	}
-	file.Close()
-
 	// log succesful creation
 	fmt.Printf("Created %s at %s\n", slug, htmlFilePath)
+	info, _ := file.Stat()
+	return info.ModTime()
 }
 
 func generatePostsAndTags(md goldmark.Markdown, metadataContext parser.Context) ([]*models.Post, []string) {
