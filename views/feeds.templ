@@ -18,6 +18,7 @@ templ FeedsRoute(posts []*models.Post) {
 				<!-- 	<li><a href="/feeds/rss.json">JSON</a></li> -->
 				<!-- </ul> -->
 			</nav>
+			<!-- Posts will already be sorted by newest first -->
 			<section aria-labelledby="#latest-posts">
 				<h2 id="latest-posts">
 					if len(posts) == 0 {
@@ -26,15 +27,13 @@ templ FeedsRoute(posts []*models.Post) {
 						{ "Latest Posts" }
 					}
 				</h2>
-				<ul>
-					<!--
-            our posts are already sorted newest first when
-            we generate our list of Post structs initially
-          -->
-					for _, post := range posts {
-						<li><a href={ templ.URL(post.Slug) }>{ post.Title }</a></li>
-					}
-				</ul>
+				if len(posts) > 0 {
+					<ul>
+						for _, post := range posts {
+							<li><a href={ templ.URL(post.Slug) }>{ post.Title }</a></li>
+						}
+					</ul>
+				}
 			</section>
 		}
 	</html>

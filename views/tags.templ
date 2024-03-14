@@ -1,0 +1,31 @@
+package views
+
+import (
+	"fmt"
+
+	"bensmith.sh/views/components"
+)
+
+templ TagsRoute(tags []string) {
+	<html lang="en">
+		@components.Head("Tags")
+		@components.WithMainNav() {
+			<h1>Tags</h1>
+			<!-- Tags will already be sorted alphabetically -->
+			<section aria-labelledby="tags">
+				<h2 id="tags">Tags</h2>
+				if len(tags) > 0 {
+					<ul>
+						for _, tag := range tags {
+							<li>
+								<a href={ templ.SafeURL(fmt.Sprintf("/tags/%s", tag)) }>
+									{ tag }
+								</a>
+							</li>
+						}
+					</ul>
+				}
+			</section>
+		}
+	</html>
+}

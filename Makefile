@@ -46,6 +46,7 @@ dev/frontend:
 .PHONY: clean
 clean:
 	@rm -rf .site/* src/*
+	@rm -rf .parcel-cache/
 
 #- build: build the application
 .PHONY: build

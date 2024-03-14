@@ -1,7 +1,10 @@
 ---
 title: Add the content of your blog posts to your Astro RSS feed
-tags: astro, rss, open-web
 published: 2022-12-09
+tags:
+  - astro
+  - rss
+  - open-web
 showMeTheCode: true
 ---
 If you haven't seen it yet, [Astro](https://astro.build) is a *delightful* tool for building faster websites. It supports static-site generation (SSG), server-side rendering (SSR), as well as islands architecture for adding small pockets of interactivity to your websites with your frontend Javascript framework of choice.

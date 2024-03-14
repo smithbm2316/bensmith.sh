@@ -1,16 +1,20 @@
 package views
 
 import (
+	"fmt"
+
 	"bensmith.sh/models"
 	"bensmith.sh/views/components"
 )
 
-templ BlogRoute(posts []*models.Post) {
+templ BlogRoute(posts []*models.Post, tags []string) {
 	<html lang="en">
 		@components.Head("Blog")
-		<body>
-			@components.WithMainNav() {
-				<h1>Posts</h1>
+		@components.WithMainNav() {
+			<h1>{ "Blog" }</h1>
+			<!-- Posts will already be sorted by newest first -->
+			<section aria-labelledby="latest-posts">
+				<h2 id="latest-posts">Latest Posts</h2>
 				if len(posts) > 0 {
 					<ul>
 						for _, post := range posts {
@@ -18,7 +22,24 @@ templ BlogRoute(posts []*models.Post) {
 						}
 					</ul>
 				}
-			}
-		</body>
+			</section>
+			<!-- Tags will already be sorted alphabetically -->
+			<section aria-labelledby="tags">
+				<h2 id="tags">
+					<a href="/tags">{ "Tags" }</a>
+				</h2>
+				if len(tags) > 0 {
+					<ul>
+						for _, tag := range tags {
+							<li>
+								<a href={ templ.SafeURL(fmt.Sprintf("/tags/%s", tag)) }>
+									{ tag }
+								</a>
+							</li>
+						}
+					</ul>
+				}
+			</section>
+		}
 	</html>
 }
