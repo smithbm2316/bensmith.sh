@@ -7,7 +7,7 @@ import (
 
 templ BlogRoute(posts []*models.Post) {
 	<html lang="en">
-		@components.Head(components.HeadProps{Title: "Blog - Ben Smith"})
+		@components.Head("Blog")
 		<body>
 			@components.WithMainNav() {
 				<h1>Posts</h1>
