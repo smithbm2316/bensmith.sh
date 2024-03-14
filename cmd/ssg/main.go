@@ -38,8 +38,9 @@ func main() {
 	flag.BoolVar(&devMode, "dev", false, "True if we are in development mode")
 	flag.Parse()
 
-	// inject Dirs into "models" package
+	// inject Dirs into "models" and "views" package
 	models.Dirs = Dirs
+	views.Dirs = Dirs
 
 	// create build directory for output
 	if err := os.MkdirAll(Dirs.Build, os.ModePerm); err != nil {
