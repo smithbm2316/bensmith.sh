@@ -1,0 +1,20 @@
+package views
+
+import (
+	"bensmith.sh/models"
+	"bensmith.sh/views/components"
+)
+
+templ MarkdownPageRoute(page *models.Page) {
+	<html lang="en">
+		@components.Head(page.Title)
+		@components.WithMainNav() {
+			<article>
+				<h1>{ page.Title }</h1>
+				<section>
+					@components.Unsafe(page.Content)
+				</section>
+			</article>
+		}
+	</html>
+}
