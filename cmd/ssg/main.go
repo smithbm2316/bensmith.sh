@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"flag"
 	"fmt"
 	"io/fs"
 	"log"
@@ -32,6 +33,11 @@ var Dirs = models.Directories{
 }
 
 func main() {
+	// True if we are in development mode
+	var devMode bool
+	flag.BoolVar(&devMode, "dev", false, "True if we are in development mode")
+	flag.Parse()
+
 	// inject Dirs into "models" package
 	models.Dirs = Dirs
 
@@ -76,7 +82,7 @@ func main() {
 	metadataContext := parser.NewContext()
 
 	// generate posts and all their tags
-	posts, tags := generatePostsAndTags(md, metadataContext)
+	posts, tags := generatePostsAndTags(md, metadataContext, devMode)
 	// generate all markdown pages
 	pages := generatePages(md, metadataContext)
 
@@ -111,7 +117,7 @@ func main() {
 	views.GenerateSitemap(filepath.Join(Dirs.Build, "sitemap.xml"), sitemapRoutes)
 
 	// Log successful completion of all the generation and exit
-	fmt.Printf("Generated static files to %s\n", Dirs.Build)
+	log.Printf("Generated static files to %s\n", Dirs.Build)
 }
 
 func generateOutputFile(slug string, component templ.Component) time.Time {
@@ -146,12 +152,16 @@ func generateOutputFile(slug string, component templ.Component) time.Time {
 		log.Fatalf("failed to write blog index page: %v", err)
 	}
 	// log succesful creation
-	fmt.Printf("Created %s at %s\n", slug, htmlFilePath)
+	log.Printf("Created %s at %s\n", slug, htmlFilePath)
 	info, _ := file.Stat()
 	return info.ModTime()
 }
 
-func generatePostsAndTags(md goldmark.Markdown, metadataContext parser.Context) ([]*models.Post, []string) {
+func generatePostsAndTags(
+	md goldmark.Markdown,
+	metadataContext parser.Context,
+	devMode bool,
+) ([]*models.Post, []string) {
 	var posts = make([]*models.Post, 0)
 
 	if err := filepath.WalkDir(Dirs.Posts, func(path string, d fs.DirEntry, err error) error {
@@ -168,7 +178,13 @@ func generatePostsAndTags(md goldmark.Markdown, metadataContext parser.Context) 
 		if err != nil {
 			log.Fatalf("Failed to create new post from '%s'", path)
 		}
-		posts = append(posts, post)
+
+		// if we're in dev mode show all posts. hide draft post in production
+		if devMode || (!devMode && !post.Draft) {
+			posts = append(posts, post)
+		} else {
+			log.Printf("Skipping draft Post %s", post.Slug)
+		}
 
 		return nil
 	}); err != nil {
