@@ -38,9 +38,8 @@ func main() {
 	flag.BoolVar(&devMode, "dev", false, "True if we are in development mode")
 	flag.Parse()
 
-	// inject Dirs into "models" and "views" package
+	// inject Dirs into nested packages
 	models.Dirs = Dirs
-	views.Dirs = Dirs
 
 	// create build directory for output
 	if err := os.MkdirAll(Dirs.Build, os.ModePerm); err != nil {
@@ -106,22 +105,22 @@ func main() {
 	}
 
 	// initialize our sitemap data
-	sitemapRoutes := make([]views.SitemapRoute, 0)
+	sitemap := models.NewSitemap()
 	// loop through all our routes and write the file to disk, updating
 	for route, component := range routes {
-		sitemapRoutes = append(sitemapRoutes, views.SitemapRoute{
+		sitemap.Routes = append(sitemap.Routes, models.SitemapRoute{
 			Url:          route,
 			LastModified: generateOutputFile(route, component),
 		})
 	}
 	// and write our sitemap to disk
-	views.GenerateSitemap(filepath.Join(Dirs.Build, "sitemap.xml"), sitemapRoutes)
+	sitemap.Generate("/sitemap.xml")
 
 	// generate a rss, atom, and json feed
-	feed := views.NewFeed(posts)
-	feed.GenerateFeed("rss.xml", "/feeds")
-	feed.GenerateFeed("atom.xml", "/feeds")
-	feed.GenerateFeed("rss.json", "/feeds")
+	feed := models.NewFeed(posts)
+	feed.Generate("/feeds/rss.xml")
+	feed.Generate("/feeds/atom.xml")
+	feed.Generate("/feeds/rss.json")
 
 	// Log successful completion of all the generation and exit
 	log.Printf("Generated static files to %s\n", Dirs.Build)
