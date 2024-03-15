@@ -12,7 +12,7 @@
         <link>{{ .FormatAbsoluteUrl }}</link>
         <pubDate>{{ .FormatRFC822 }}</pubDate>
         <dc:creator>{{ $.Name }}</dc:creator>
-        <description>""</description>
+        <!-- <description></description> -->
         <guid>{{ .FormatAbsoluteUrl }}</guid>
       </item>
     {{ end }}

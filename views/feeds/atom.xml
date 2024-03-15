@@ -16,7 +16,7 @@
       <link href="{{ .FormatAbsoluteUrl }}" />
       <updated>{{ .FormatRFC3339 }}</updated>
       <id>{{ .FormatAbsoluteUrl }}</id>
-      <content xml:lang="{{ $.Language }}" type="html">""</content>
+      <!-- <content xml:lang="{{ $.Language }}" type="html"></content> -->
     </entry>
   {{ end }}
 </feed>
