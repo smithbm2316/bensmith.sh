@@ -8,7 +8,7 @@ import (
 templ FeedsRoute(posts []*models.Post) {
 	<html lang="en">
 		@components.Head("Feeds")
-		@components.WithMainNav() {
+		@components.WithMainNavList() {
 			<h1>RSS</h1>
 			<nav aria-labelledby="rss-feeds">
 				<h2 id="rss-feeds">RSS Feeds</h2>

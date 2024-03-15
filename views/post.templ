@@ -22,17 +22,17 @@ templ PostRoute(post *models.Post) {
       -->
 			<link rel="preload" as="style" href="/src/chroma.css"/>
 			<link rel="stylesheet" href="/src/chroma.css"/>
+			@postStyles()
+			@postTOCWebComponent()
 		}
 		<body>
 			<main id="#top">
 				<!-- main menu -->
-				@components.MainNav(templ.Attributes{
-					"aria-labelledby": "article-toc-heading",
-					"class":           "nav",
-					"style":           "grid-area: nav",
-				})
+				<nav aria-label="Primary navigation">
+					@components.MainNavList()
+				</nav>
 				<!-- table of contents for the article, loads a progressively enhanced web component script -->
-				<post-toc class="article-nav" style="grid-area: article-toc">
+				<post-toc>
 					<details>
 						<summary id="article-toc-heading">
 							Table of Contents
@@ -50,17 +50,9 @@ templ PostRoute(post *models.Post) {
 							</ul>
 						}
 					</details>
-					<style>
-            @scope {
-              details {
-                cursor: pointer;
-              }
-            }
-          </style>
-					@postTOCWebComponent()
 				</post-toc>
 				<!-- the actual article content from the Markdown post -->
-				<article style="grid-area: article">
+				<article>
 					<h1>{ post.Title }</h1>
 					<time datetime={ post.Published.Format(time.RFC3339) }>
 						{ post.Published.Format("Monday, January 1, 2006") }
@@ -76,30 +68,35 @@ templ PostRoute(post *models.Post) {
 						@components.Unsafe(post.Content)
 					</section>
 				</article>
-				@scopedStyles()
 			</main>
 		</body>
 	</html>
 }
 
-templ scopedStyles() {
+templ postStyles() {
 	<style>
-    @scope {
-      :scope {
-        margin-inline: auto;
-        margin-block: 0;
-      }
+    main {
+      margin-inline: auto;
+      margin-block: 0;
 
-      @media (min-width: 540px) {
-        :scope {
-          display: grid;
-          grid-template-columns: 1fr 32ch 1fr;
-          grid-template-areas: 'nav article article-toc';
-          column-gap: 2rem;
+      @media (width >= 540px) {
+        display: grid;
+        grid-template-columns: 1fr 32ch 1fr;
+        grid-template-areas: 'nav article toc';
+        column-gap: 2rem;
+
+        nav {
+          grid-area: nav;
+        }
+        post-toc {
+          grid-area: toc;
+        }
+        article {
+          grid-area: article;
         }
 
-        .nav,
-        .article-nav {
+        nav,
+        post-toc {
           height: max-content;
           position: sticky;
           top: 0;
@@ -107,10 +104,14 @@ templ scopedStyles() {
           margin-block-start: 10%;
         }
 
-        .article-nav {
+        post-toc {
           justify-self: end;
         }
       }
+    }
+
+    post-toc > details {
+      cursor: pointer;
     }
   </style>
 }

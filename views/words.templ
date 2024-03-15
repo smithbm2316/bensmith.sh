@@ -10,7 +10,7 @@ import (
 templ BlogRoute(posts []*models.Post, tags []string) {
 	<html lang="en">
 		@components.Head("Blog")
-		@components.WithMainNav() {
+		@components.WithMainNavList() {
 			<h1>{ "Blog" }</h1>
 			<!-- Posts will already be sorted by newest first -->
 			<section aria-labelledby="latest-posts">
