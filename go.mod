@@ -6,6 +6,7 @@ require (
 	github.com/a-h/templ v0.2.598
 	github.com/alecthomas/chroma/v2 v2.13.0
 	github.com/bokwoon95/wgo v0.5.6
+	github.com/tdewolff/minify/v2 v2.20.19
 	github.com/yuin/goldmark v1.7.0
 	github.com/yuin/goldmark-highlighting/v2 v2.0.0-20230729083705-37449abec8cc
 	github.com/yuin/goldmark-meta v1.1.0
@@ -25,7 +26,6 @@ require (
 	github.com/natefinch/atomic v1.0.1 // indirect
 	github.com/segmentio/asm v1.2.0 // indirect
 	github.com/segmentio/encoding v0.3.6 // indirect
-	github.com/tdewolff/minify/v2 v2.20.19 // indirect
 	github.com/tdewolff/parse/v2 v2.7.12 // indirect
 	go.lsp.dev/jsonrpc2 v0.10.0 // indirect
 	go.lsp.dev/pkg v0.0.0-20210717090340-384b27a52fb2 // indirect
