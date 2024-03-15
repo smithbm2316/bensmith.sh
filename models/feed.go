@@ -1,14 +1,11 @@
-package views
+package models
 
 import (
 	"bytes"
-	"fmt"
 	"log"
 	"os"
 	"path/filepath"
 	"text/template"
-
-	"bensmith.sh/models"
 
 	"github.com/tdewolff/minify/v2"
 	"github.com/tdewolff/minify/v2/json"
@@ -24,12 +21,12 @@ type Feed struct {
 	AbsoluteUrl string
 	Name        string
 	Email       string
-	Posts       []*models.Post
+	Posts       []*Post
 }
 
 // Create a new `Feed` struct which will have data necessary to
 // generate an Atom, RSS, and JSON feed
-func NewFeed(posts []*models.Post) Feed {
+func NewFeed(posts []*Post) Feed {
 	return Feed{
 		Title:       "Ben Smith’s Blog",
 		Subtitle:    "Ben’s writings and thoughts about tech",
@@ -48,12 +45,12 @@ func (feed Feed) GetNewestPostDate() string {
 }
 
 // Generate and write a new Feed to our build directory
-func (feed Feed) GenerateFeed(feedName string, dir string) {
+func (feed Feed) Generate(slug string) {
+	dir, templateName := filepath.Split(slug)
 	// load the text template
-	templateName := fmt.Sprintf("%s.tmpl", feedName)
 	tmpl := template.Must(
 		template.ParseFiles(
-			filepath.Join(Dirs.Views, "feeds", feedName),
+			filepath.Join(Dirs.Views, "feeds", templateName),
 		),
 	)
 
@@ -69,7 +66,7 @@ func (feed Feed) GenerateFeed(feedName string, dir string) {
 	if err := os.MkdirAll(outputDir, os.ModePerm); err != nil {
 		log.Fatalf("failed to create output directory: %v", err)
 	}
-	outputPath := filepath.Join(outputDir, feedName)
+	outputPath := filepath.Join(outputDir, templateName)
 	file, err := os.Create(outputPath)
 	if err != nil {
 		log.Fatalf("failed to create output file for `%s`: %v", outputPath, err)
@@ -79,7 +76,7 @@ func (feed Feed) GenerateFeed(feedName string, dir string) {
 	// minify the XML or JSON and write the buffer to the file
 	var mimetype string
 	m := minify.New()
-	if feedName == "rss.json" {
+	if templateName == "rss.json" {
 		mimetype = "application/json"
 		m.AddFunc(mimetype, json.Minify)
 	} else {
@@ -88,11 +85,11 @@ func (feed Feed) GenerateFeed(feedName string, dir string) {
 	}
 	mw := m.Writer(mimetype, file)
 	if mw.Write(buf.Bytes()); err != nil {
-		log.Fatalf("Couldn't minify the `%s` feed, %v", feedName, err)
+		log.Fatalf("Couldn't minify the `%s` feed, %v", templateName, err)
 	}
 	if err := mw.Close(); err != nil {
 		log.Fatalf("Error executing the feed minfier's `io.Close` method, %v", err)
 	}
 
-	log.Printf("Created feed from `%s` at %s\n", feedName, outputPath)
+	log.Printf("Created feed from `%s` at %s\n", templateName, outputPath)
 }

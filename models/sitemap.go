@@ -1,4 +1,4 @@
-package views
+package models
 
 import (
 	"bytes"
@@ -8,13 +8,9 @@ import (
 	"text/template"
 	"time"
 
-	"bensmith.sh/models"
-
 	"github.com/tdewolff/minify/v2"
 	"github.com/tdewolff/minify/v2/xml"
 )
-
-var Dirs models.Directories
 
 type SitemapRoute struct {
 	Url          string
@@ -25,7 +21,18 @@ func (s SitemapRoute) FormatDate() string {
 	return s.LastModified.Format(time.RFC3339)
 }
 
-func GenerateSitemap(path string, sitemapRoutes []SitemapRoute) {
+type Sitemap struct {
+	Routes []SitemapRoute
+}
+
+func NewSitemap() Sitemap {
+	return Sitemap{
+		Routes: make([]SitemapRoute, 0),
+	}
+}
+
+// Generate and write a new Feed to our build directory
+func (s Sitemap) Generate(slug string) {
 	// load the sitemap.xml text template
 	tmpl := template.Must(
 		template.ParseFiles(
@@ -35,13 +42,13 @@ func GenerateSitemap(path string, sitemapRoutes []SitemapRoute) {
 
 	// create a new buffer and write the template to it
 	var buf bytes.Buffer
-	err := tmpl.Execute(&buf, sitemapRoutes)
+	err := tmpl.Execute(&buf, s.Routes)
 	if err != nil {
 		log.Fatalf("failed to execute sitemap.xml template: %v", err)
 	}
 
 	// create the file to write to
-	file, err := os.Create(path)
+	file, err := os.Create(filepath.Join(Dirs.Build, slug))
 	if err != nil {
 		log.Fatalf("failed to create output file: %v", err)
 	}
@@ -58,5 +65,5 @@ func GenerateSitemap(path string, sitemapRoutes []SitemapRoute) {
 		log.Fatalf("Error executing the XML minfier's `io.Close` method, %v", err)
 	}
 
-	log.Printf("Created sitemap at %s\n", path)
+	log.Printf("Created sitemap at %s\n", slug)
 }
