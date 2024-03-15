@@ -119,9 +119,9 @@ func main() {
 
 	// generate a rss, atom, and json feed
 	feed := views.NewFeed(posts)
-	feed.GenerateFeed("rss", "/feeds", "rss.xml")
-	feed.GenerateFeed("atom", "/feeds", "atom.xml")
-	feed.GenerateFeed("json", "/feeds", "rss.json")
+	feed.GenerateFeed("rss.xml", "/feeds")
+	feed.GenerateFeed("atom.xml", "/feeds")
+	feed.GenerateFeed("rss.json", "/feeds")
 
 	// Log successful completion of all the generation and exit
 	log.Printf("Generated static files to %s\n", Dirs.Build)

@@ -48,19 +48,12 @@ func (feed Feed) GetNewestPostDate() string {
 }
 
 // Generate and write a new Feed to our build directory
-func (feed Feed) GenerateFeed(feedType string, dir string, fileName string) {
-	// verify correct feedType supplied
-	switch feedType {
-	case "rss", "atom", "json":
-		break
-	default:
-		log.Fatalf("`feedType` should be one of 'rss', 'atom', or 'json'.")
-	}
+func (feed Feed) GenerateFeed(feedName string, dir string) {
 	// load the text template
-	templateName := fmt.Sprintf("%s.tmpl", feedType)
+	templateName := fmt.Sprintf("%s.tmpl", feedName)
 	tmpl := template.Must(
 		template.ParseFiles(
-			filepath.Join(Dirs.Views, templateName),
+			filepath.Join(Dirs.Views, "feeds", feedName),
 		),
 	)
 
@@ -76,7 +69,7 @@ func (feed Feed) GenerateFeed(feedType string, dir string, fileName string) {
 	if err := os.MkdirAll(outputDir, os.ModePerm); err != nil {
 		log.Fatalf("failed to create output directory: %v", err)
 	}
-	outputPath := filepath.Join(outputDir, fileName)
+	outputPath := filepath.Join(outputDir, feedName)
 	file, err := os.Create(outputPath)
 	if err != nil {
 		log.Fatalf("failed to create output file for `%s`: %v", outputPath, err)
@@ -86,7 +79,7 @@ func (feed Feed) GenerateFeed(feedType string, dir string, fileName string) {
 	// minify the XML or JSON and write the buffer to the file
 	var mimetype string
 	m := minify.New()
-	if feedType == "json" {
+	if feedName == "rss.json" {
 		mimetype = "application/json"
 		m.AddFunc(mimetype, json.Minify)
 	} else {
@@ -95,11 +88,11 @@ func (feed Feed) GenerateFeed(feedType string, dir string, fileName string) {
 	}
 	mw := m.Writer(mimetype, file)
 	if mw.Write(buf.Bytes()); err != nil {
-		log.Fatalf("Couldn't minify the `%s` feed, %v", fileName, err)
+		log.Fatalf("Couldn't minify the `%s` feed, %v", feedName, err)
 	}
 	if err := mw.Close(); err != nil {
 		log.Fatalf("Error executing the feed minfier's `io.Close` method, %v", err)
 	}
 
-	log.Printf("Created feed from `%s` at %s\n", fileName, outputPath)
+	log.Printf("Created feed from `%s` at %s\n", feedName, outputPath)
 }
