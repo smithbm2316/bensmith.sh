@@ -12,23 +12,23 @@ var links = []models.Link{
 	{Url: "/uses", Text: "Uses"},
 }
 
-templ WithMainNav() {
+templ WithMainNavList() {
 	<body>
 		<main>
-			@MainNav(templ.Attributes{"aria-label": "Main navigation"})
+			<nav aria-label="Primary navigation">
+				@MainNavList()
+			</nav>
 			{ children... }
 		</main>
 	</body>
 }
 
-templ MainNav(attrs templ.Attributes) {
-	<nav { attrs... }>
-		<ul>
-			for _, link := range links {
-				<li>
-					<a href={ templ.SafeURL(link.Url) }>{ link.Text }</a>
-				</li>
-			}
-		</ul>
-	</nav>
+templ MainNavList() {
+	<ul>
+		for _, link := range links {
+			<li>
+				<a href={ templ.SafeURL(link.Url) }>{ link.Text }</a>
+			</li>
+		}
+	</ul>
 }
