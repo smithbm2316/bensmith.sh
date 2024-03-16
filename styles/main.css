@@ -2,4 +2,5 @@
 
 @import 'reset.css' layer(reset);
 @import 'vars.css' layer(base);
+@import 'defaults.css' layer(base);
 @import 'utils.css' layer(utils);

@@ -40,6 +40,7 @@ func main() {
 
 	// inject Dirs into nested packages
 	models.Dirs = Dirs
+	views.DevMode = devMode
 
 	// create build directory for output
 	if err := os.MkdirAll(Dirs.Build, os.ModePerm); err != nil {

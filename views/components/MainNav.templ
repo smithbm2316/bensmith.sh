@@ -15,9 +15,11 @@ var links = []models.Link{
 templ WithMainNavList() {
 	<body>
 		<main>
-			<nav aria-label="Primary navigation">
-				@MainNavList()
-			</nav>
+			<header>
+				<nav aria-label="Primary navigation">
+					@MainNavList()
+				</nav>
+			</header>
 			{ children... }
 		</main>
 	</body>
