@@ -22,6 +22,11 @@ help:
 #- DEVELOPMENT:
 #
 # ==================================================================================== #
+#- dev: runs `wgo` and `templ` w/2 jobs to watch/reload .templ & .go files
+.PHONY: dev
+dev: clean/ssg
+	@./bin/wgo -file=.go -file=.tmpl -file=.templ -xfile=_templ.go \
+		./bin/templ generate :: go run ${ssgPkg} --dev
 
 #- dev/ssg: runs `wgo` and `templ` w/2 jobs to watch/reload .templ & .go files
 .PHONY: dev/ssg
