@@ -16,7 +16,14 @@ templ IndexRoute() {
 		@components.Head("Home")
 		@components.WithMainNavList() {
 			<section>
-				<img src="/assets/profile_pic.jpeg" alt="Me!" width="1000" height="1000" loading="eager"/>
+				<img
+					src="/assets/profile_pic.jpeg?q=100&w=500"
+					alt="Me!"
+					loading="eager"
+					width="500"
+					height="500"
+					style="object-fit: cover; object-position: center; aspect-ratio: 1/1;"
+				/>
 				<div>
 					<a href="/">
 						<h1>{ "Ben Smith" }</h1>

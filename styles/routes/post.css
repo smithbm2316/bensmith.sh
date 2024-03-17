@@ -1,46 +1,72 @@
-article {
-  --content: 40rem;
-  --sidebar: 16rem;
-  --padding: 1rem;
-  --col-gap: 3rem;
-  /* 
-   * 80rem == 1280px
-   * calc(var(--content) + (var(--sidebar) * 2) + (var(--col-gap) * 2) + (var(--padding) * 2))
-   */
-  --breakpoint: 1280;
+body {
+  --gutter: 2.5rem;
+  --content: 35rem;
+  --sidebar: 15rem;
+}
 
-  margin-inline: auto;
-  margin-block: 0;
-  max-width: calc(var(--content) + (var(--padding) * 2));
-  padding-block: var(--padding);
+article h1 {
+  margin-block-start: 0;
+}
 
-  @media screen and (width < 80rem) {
-    padding-inline: var(--padding);
+.with-sidebar {
+  padding: calc(var(--gutter) / 2);
+}
+
+/* calc(var(--content) + (var(--gutter) * 2)) */
+@media screen and (width >= 40rem) {
+  .with-sidebar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--gutter);
+    padding: var(--gutter);
   }
 
-  @media screen and (width >= 80rem) {
-    grid-template-columns: var(--sidebar) var(--content) var(--sidebar);
-    grid-auto-rows: auto;
-    grid-template-areas:
-      "nav title      toc"
-      "nav tags-date  toc"
-      "nav content    toc";
+  .with-sidebar > :first-child {
+    flex-basis: var(--sidebar);
+    flex-grow: 1;
+  }
+
+  .with-sidebar > :last-child {
+    flex-basis: 0;
+    flex-grow: 999;
+    min-inline-size: var(--content);
+  }
+
+  article {
+    max-width: var(--content);
+  }
+
+  .article-container {
+    container-name: article;
+    container-type: inline-size;
+    display: flex;
+    justify-content: center;
+  }
+}
+
+/* calc(var(--content) + var(--sidebar) + var(--gutter)) */
+@container article (width >= 52.5rem) {
+  article {
     display: grid;
-    column-gap: var(--col-gap);
+    gap: var(--gutter);
+    /*
+     * keep the first column as an auto-sizing (will contract as page shrinks since it
+     * has no inherit content as an empty element) acting as an auto-sizing margin-left
+     * to the rest of the grid
+     */
+    grid-template-columns:
+      minmax(auto, calc(var(--sidebar) / 2)) minmax(auto, var(--content)) var(--sidebar);
     max-width: max-content;
+  }
 
-    header > nav,
-    post-toc {
-      height: max-content;
-      position: sticky;
-      top: 0;
-      padding-block-start: 3rem;
-      margin-block-start: 2rem;
-    }
+  header,
+  main {
+    grid-column: 2;
+  }
 
-    post-toc {
-      justify-self: end;
-    }
+  post-toc {
+    grid-column: 3;
+    grid-row: 2;
   }
 }
 
