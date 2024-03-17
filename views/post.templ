@@ -28,57 +28,61 @@ templ PostRoute(post *models.Post) {
 			<link rel="stylesheet" href="/styles/routes/post.css"/>
 		}
 		<body>
-			<main>
-				<article id="#top">
-					<header style="grid-area: nav">
-						<nav aria-label="Primary site navigation">
-							@components.MainNavList()
-						</nav>
-					</header>
-					<h1 style="grid-area: title">{ post.Title }</h1>
-					<div style="grid-area: tags-date">
-						<time datetime={ post.Published.Format(time.RFC3339) }>
-							{ post.Published.Format("Monday, January 1, 2006") }
-						</time>
-						if len(post.Tags) > 0 {
-							<ul>
-								for _, tag := range post.Tags {
-									<li>{ tag }</li>
-								}
-							</ul>
-						}
-					</div>
-					<post-toc
-						if len(post.Headings) == 0 {
-							aria-hidden="true"
-						}
-						style="grid-area: toc"
-					>
-						if len(post.Headings) > 0 {
-							<nav aria-labelledby="article-toc">
-								<details>
-									<summary id="article-toc">
-										Table of Contents
-									</summary>
+			<div class="with-sidebar">
+				<header style="grid-area: nav">
+					<nav aria-label="Primary site navigation">
+						@components.MainNavList()
+					</nav>
+				</header>
+				<div class="article-container">
+					<article id="#top" class="with-toc">
+						<div aria-hidden="true"></div>
+						<header>
+							<h1>{ post.Title }</h1>
+							<div>
+								<time datetime={ post.Published.Format(time.RFC3339) }>
+									{ post.Published.Format("Monday, January 1, 2006") }
+								</time>
+								if len(post.Tags) > 0 {
 									<ul>
-										<li>
-											<a href="#top">Return to top</a>
-										</li>
-										for _, heading := range post.Headings {
-											<li>
-												<a href={ templ.SafeURL("#" + Slugify(heading.Text)) }>{ heading.Text }</a>
-											</li>
+										for _, tag := range post.Tags {
+											<li>{ tag }</li>
 										}
 									</ul>
-								</details>
-							</nav>
-						}
-					</post-toc>
-					<div style="grid-area: content">
-						@components.Unsafe(post.Content)
-					</div>
-				</article>
-			</main>
+								}
+							</div>
+						</header>
+						<post-toc
+							if len(post.Headings) == 0 {
+								aria-hidden="true"
+							}
+						>
+							if len(post.Headings) > 0 {
+								<nav aria-labelledby="article-toc">
+									<details>
+										<summary id="article-toc">
+											Table of Contents
+										</summary>
+										<ul>
+											<li>
+												<a href="#top">Return to top</a>
+											</li>
+											for _, heading := range post.Headings {
+												<li>
+													<a href={ templ.SafeURL("#" + Slugify(heading.Text)) }>{ heading.Text }</a>
+												</li>
+											}
+										</ul>
+									</details>
+								</nav>
+							}
+						</post-toc>
+						<main>
+							@components.Unsafe(post.Content)
+						</main>
+					</article>
+				</div>
+			</div>
 			@postTOCWebComponent()
 		</body>
 	</html>
