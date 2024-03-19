@@ -28,18 +28,17 @@ templ PostRoute(post *models.Post) {
 			<link rel="stylesheet" href="/styles/routes/post.css"/>
 		}
 		<body>
-			<div class="with-sidebar">
-				<header style="grid-area: nav">
+			<div class="with-main-nav">
+				<header class="main-nav">
 					<nav aria-label="Primary site navigation">
 						@components.MainNavList()
 					</nav>
 				</header>
 				<div class="article-container">
-					<article id="#top" class="with-toc">
-						<div aria-hidden="true"></div>
+					<article id="#top" class="flow">
 						<header>
 							<h1>{ post.Title }</h1>
-							<div>
+							<div class="post-metadata">
 								<time datetime={ post.Published.Format(time.RFC3339) }>
 									{ post.Published.Format("Monday, January 1, 2006") }
 								</time>
@@ -77,43 +76,13 @@ templ PostRoute(post *models.Post) {
 								</nav>
 							}
 						</post-toc>
-						<main>
+						<main class="flow">
 							@components.Unsafe(post.Content)
 						</main>
 					</article>
 				</div>
 			</div>
-			@postTOCWebComponent()
+			<script src="/scripts/post-toc.js" defer type="text/javascript"></script>
 		</body>
 	</html>
-}
-
-templ postTOCWebComponent() {
-	<script defer>
-    window.customElements.define(
-      'post-toc',
-      class PostTOCElement extends HTMLElement {
-        /**
-         * If we are on our full-size layout, then we want to auto-expand the <details> element on page load so that the table of contents is easy to see. If we are on mobile and in a single-column view, we will keep the default <details> behavior of having the table of contents collapsed.
-         */
-        autoExpandOnDesktop() {
-          try {
-            let detailsElement = this.querySelector(':scope details');
-            let breakpoint = parseInt(getComputedStyle(detailsElement).getPropertyValue('--breakpoint'), 10);
-            if (window.innerWidth >= breakpoint) {
-              detailsElement.open = true;
-            }
-          } catch (err) {
-            if (this.dataset.debug === "true") {
-              console.log(err);
-            }
-          }
-        }
-
-        connectedCallback() {
-          this.autoExpandOnDesktop();
-        }
-      }
-    );
-  </script>
 }
