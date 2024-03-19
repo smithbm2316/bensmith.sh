@@ -10,3 +10,7 @@
 .flow > * + * {
   margin-block-start: var(--flow-space, 1em);
 }
+
+.hidden {
+  display: none;
+}
