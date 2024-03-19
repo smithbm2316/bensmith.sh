@@ -19,30 +19,32 @@ func GetRoute(ctx context.Context) string {
 	return ""
 }
 
-templ WithMainNavList() {
+templ WithMainNav() {
 	<body>
-		<main>
-			<header>
-				<nav aria-label="Primary navigation">
-					@MainNavList()
-				</nav>
-			</header>
-			{ children... }
-		</main>
+		<div class="with-main-nav">
+			@MainNav()
+			<main>
+				{ children... }
+			</main>
+		</div>
 	</body>
 }
 
-templ MainNavList() {
-	<ul role="list">
-		for _, link := range links {
-			<li>
-				<a
-					href={ templ.SafeURL(link.Url) }
-					if link.Url == GetRoute(ctx) {
-						aria-current="page"
-					}
-				>{ link.Text }</a>
-			</li>
-		}
-	</ul>
+templ MainNav() {
+	<header class="main-nav">
+		<nav aria-label="Primary navigation">
+			<ul role="list">
+				for _, link := range links {
+					<li>
+						<a
+							href={ templ.SafeURL(link.Url) }
+							if link.Url == GetRoute(ctx) {
+								aria-current="page"
+							}
+						>{ link.Text }</a>
+					</li>
+				}
+			</ul>
+		</nav>
+	</header>
 }

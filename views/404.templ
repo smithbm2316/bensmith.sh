@@ -5,7 +5,7 @@ import "bensmith.sh/views/components"
 templ ErrorNotFound() {
 	<html lang="en">
 		@components.Head("404 Not Found")
-		@components.WithMainNavList() {
+		@components.WithMainNav() {
 			<h1>{ "404 Not Found" }</h1>
 			<a href="/">{ "Back to homepage" }</a>
 		}
