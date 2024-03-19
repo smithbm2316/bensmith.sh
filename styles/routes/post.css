@@ -1,139 +1,68 @@
-.main-nav {
-  & li {
-    margin-block-end: 0.5em;
-  }
-
-  /* main link list item */
-  & li:first-of-type {
-    line-height: 1;
-    font-size: var(--fs-lg);
-    font-weight: 700;
-  }
-
-  & a {
-    text-decoration: none;
-  }
-
-  & a:is(:hover, :active, :focus) {
-    text-decoration: underline;
-  }
-
-  & a[aria-page="current"] {
-    font-weight: 600;
-  }
-}
-
-/* calc(var(--content) + var(--sidebar) + var(--column-gap)) */
-@container layout (width >= 82ch) {
-  .main-nav {
-    position: sticky;
-    top: var(--viewport-padding);
-  }
-}
-
-.with-main-nav {
-  container: layout / inline-size;
-
-  --column-gap: 6ch;
-  --row-gap: 3ch;
-  --content: 60ch;
-  --sidebar: 16ch;
-  --toc-column: 24ch;
-  --viewport-padding: calc(var(--column-gap) / 2 + 1vw);
-  --size: calc(96vw - (var(--viewport-padding) * 2));
-
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-start;
-  column-gap: var(--column-gap);
-  row-gap: var(--row-gap);
-  padding: var(--viewport-padding);
-
-  & > :first-child {
-    flex-grow: 1;
-    min-width: var(--sidebar);
-  }
-
-  & > :last-child {
-    flex-basis: 0;
-    flex-grow: 999;
-  }
-}
-
-:where(.with-main-nav > :last-child) {
-  min-width: var(--size);
-}
-
-.article-container {
-  container: article-container / inline-size;
-}
-
-/* var(--content) */
-@container layout (width >= 60ch) {
+@layer routes {
   .article-container {
-    min-width: var(--content);
+    container: article-container / inline-size;
   }
-}
 
-article {
-  max-width: var(--content);
-}
-
-/* calc(var(--content) + var(--toc-column) + var(--column-gap) * 2) */
-@container article-container (width >= 96ch) {
   article {
-    display: grid;
-    grid-template-columns: 1fr var(--content) minmax(var(--toc-column), 1fr);
-    grid-template-areas:
-      "auto-col header   blank"
-      "auto-col content  toc";
-    column-gap: var(--column-gap);
-
-    max-width: unset;
+    max-width: var(--main-content);
   }
 
-  header {
-    grid-area: header;
+  /* calc(var(--main-content) + var(--toc-column) + var(--column-gap) * 2) */
+  @container article-container (width >= 96ch) {
+    article {
+      display: grid;
+      grid-template-columns: 1fr var(--main-content) minmax(24ch, 1fr);
+      grid-template-areas:
+        "auto-col header   blank"
+        "auto-col content  toc";
+      column-gap: var(--column-gap);
+
+      max-width: unset;
+    }
+
+    header {
+      grid-area: header;
+    }
+
+    main {
+      grid-area: content;
+    }
+
+    post-toc {
+      grid-area: toc;
+    }
+
+    post-toc nav {
+      position: sticky;
+      top: var(--viewport-padding);
+    }
+
+    /*
+     * consumed in our web component script for our <post-toc> component.
+     * only set this variable when our container query is active
+     */
+    post-toc details {
+      --auto-open-toc: true;
+    }
   }
 
-  main {
-    grid-area: content;
+  h1 {
+    font-size: var(--fs-lg);
+    line-height: 1.25;
+    margin-block-end: 1em;
   }
 
-  post-toc {
-    grid-area: toc;
+  .post-metadata,
+  post-toc ul,
+  .post-metadata {
+    font-size: var(--fs-sm);
   }
 
-  post-toc nav {
-    position: sticky;
-    top: var(--viewport-padding);
-  }
-
-  /*
-   * consumed in our web component script for our <post-toc> component.
-   * only set this variable when our container query is active
-   */
   post-toc details {
-    --auto-open-toc: true;
+    cursor: pointer;
   }
-}
 
-h1 {
-  font-size: var(--fs-lg);
-  line-height: 1.25;
-  margin-block-end: 1em;
-}
-
-.post-metadata,
-post-toc ul,
-.post-metadata {
-  font-size: var(--fs-sm);
-}
-
-post-toc details {
-  cursor: pointer;
-}
-
-pre {
-  font-size: var(--fs-sm);
+  pre {
+    font-size: var(--fs-sm);
+  }
 }

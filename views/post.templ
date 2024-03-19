@@ -29,11 +29,7 @@ templ PostRoute(post *models.Post) {
 		}
 		<body>
 			<div class="with-main-nav">
-				<header class="main-nav">
-					<nav aria-label="Primary site navigation">
-						@components.MainNavList()
-					</nav>
-				</header>
+				@components.MainNav()
 				<div class="article-container">
 					<article id="#top" class="flow">
 						<header>

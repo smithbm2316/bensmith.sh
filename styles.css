@@ -1,0 +1,7 @@
+@layer reset, base, components, utils, routes;
+
+@import "styles/reset.css" layer(reset);
+@import "styles/vars.css" layer(base);
+@import "styles/defaults.css" layer(base);
+@import "styles/components/main-nav.css" layer(components);
+@import "styles/utils.css" layer(utils);

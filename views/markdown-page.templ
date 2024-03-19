@@ -8,7 +8,7 @@ import (
 templ MarkdownPageRoute(page *models.Page) {
 	<html lang="en">
 		@components.Head(page.Title)
-		@components.WithMainNavList() {
+		@components.WithMainNav() {
 			<article>
 				<h1>{ page.Title }</h1>
 				<section>

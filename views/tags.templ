@@ -9,7 +9,7 @@ import (
 templ TagsRoute(tags []string) {
 	<html lang="en">
 		@components.Head("Tags")
-		@components.WithMainNavList() {
+		@components.WithMainNav() {
 			<h1>Tags</h1>
 			<!-- Tags will already be sorted alphabetically -->
 			<section aria-labelledby="tags">
