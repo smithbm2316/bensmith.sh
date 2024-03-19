@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"encoding/json"
 	"flag"
 	"fmt"
 	"io/fs"
@@ -87,48 +88,102 @@ func main() {
 	posts, tags := generatePostsAndTags(md, metadataContext, devMode)
 	// generate all markdown pages
 	pages := generatePages(md, metadataContext)
+	// instantiate the Feed model with our generated posts
+	feed := models.NewFeed(posts)
 
-	// initialize routes
-	routes := map[string]templ.Component{
-		"/":           views.IndexRoute(),
-		"/404":        views.ErrorNotFound(),
-		"/tags":       views.TagsRoute(tags),
-		"/words":      views.BlogRoute(posts, tags),
-		"/words/feed": views.BlogFeedsRoute(posts),
+	// create a single source of truth for all of our routes
+	routesMap := models.RoutesMap{
+		"/": {
+			Text:          "Ben Smith",
+			Handler:       func() templ.Component { return views.IndexRoute() },
+			IsMainNavLink: true,
+		},
+		"/404/": {
+			Text:    "Error Not Found",
+			Handler: func() templ.Component { return views.ErrorNotFound() },
+		},
+		"/tags/": {
+			Text:    "Tags",
+			Handler: func() templ.Component { return views.TagsRoute(tags) },
+		},
+		"/projects/": {
+			Text:          "Projects",
+			Handler:       func() templ.Component { return views.ProjectsRoute() },
+			IsMainNavLink: true,
+		},
+		"/words/": {
+			Text:          "Writing",
+			Handler:       func() templ.Component { return views.BlogRoute(posts, tags) },
+			IsMainNavLink: true,
+		},
+		"/words/feed/": {
+			Text:          "RSS",
+			Handler:       func() templ.Component { return views.BlogFeedsRoute(posts) },
+			IsMainNavLink: true,
+		},
+		"/words/feed.rss.xml": {
+			FeedType:  "rss",
+			Generator: func() time.Time { return feed.Generate("/words/feed.rss.xml", "rss") },
+		},
+		"/words/feed.atom.xml": {
+			FeedType:  "atom",
+			Generator: func() time.Time { return feed.Generate("/words/feed.atom.xml", "atom") },
+		},
+		"/words/feed.json": {
+			FeedType:  "json",
+			Generator: func() time.Time { return feed.Generate("/words/feed.json", "json") },
+		},
 	}
 	for _, post := range posts {
-		routes[post.Slug] = views.PostRoute(post)
+		routesMap[post.Slug] = models.RouteEntry{
+			Text:    post.Title,
+			Handler: func() templ.Component { return views.PostRoute(post) },
+		}
 	}
 	for _, tag := range tags {
-		routes[fmt.Sprintf("/tags/%s", tag)] = views.TagRoute(tag, posts)
+		routesMap[fmt.Sprintf("/tags/%s/", tag)] = models.RouteEntry{
+			Text:    fmt.Sprintf(`Tagged "%s"`, tag),
+			Handler: func() templ.Component { return views.TagsRoute(tags) },
+		}
 	}
 	for _, page := range pages {
-		routes[page.Slug] = views.MarkdownPageRoute(page)
+		isUsesPage := page.Title == "Uses"
+		routesMap[page.Slug] = models.RouteEntry{
+			Text:          page.Title,
+			Handler:       func() templ.Component { return views.MarkdownPageRoute(page) },
+			IsMainNavLink: isUsesPage,
+		}
 	}
 
 	// initialize our sitemap data
 	sitemap := models.NewSitemap()
-	// loop through all our routes and write the file to disk, updating
-	for route, component := range routes {
+	// loop through all our routes and write the file to disk
+	for route, routeEntry := range routesMap {
+		var modified time.Time
+		if routeEntry.Handler != nil {
+			modified = generateOutputFile(route, routesMap, routeEntry.Handler())
+		} else if routeEntry.Generator != nil {
+			modified = routeEntry.Generator()
+		} else {
+			continue
+		}
 		sitemap.Routes = append(sitemap.Routes, models.SitemapRoute{
 			Url:          route,
-			LastModified: generateOutputFile(route, component),
+			LastModified: modified,
 		})
 	}
 	// and write our sitemap to disk
 	sitemap.Generate("/sitemap.xml")
 
-	// generate a rss, atom, and json feed
-	feed := models.NewFeed(posts)
-	feed.Generate("/words/feed.rss.xml", "rss")
-	feed.Generate("/words/feed.atom.xml", "atom")
-	feed.Generate("/words/feed.json", "json")
-
 	// Log successful completion of all the generation and exit
-	log.Printf("Generated static files to %s\n", Dirs.Build)
+	log.Printf("Generated static files to `%s`\n", Dirs.Build)
 }
 
-func generateOutputFile(slug string, component templ.Component) time.Time {
+func generateOutputFile(
+	slug string,
+	routesMap models.RoutesMap,
+	component templ.Component,
+) time.Time {
 	var dir, htmlFilePath string
 
 	// if our `slug` contains "404", we should render a "/404.html" file instead of a directory
@@ -155,13 +210,15 @@ func generateOutputFile(slug string, component templ.Component) time.Time {
 	defer file.Close()
 
 	// render the specified template to the file writer
-	ctx := context.Background()
-	err = component.Render(context.WithValue(ctx, "route", slug), file)
+	ctx := context.WithValue(context.Background(), "currentRoute", slug)
+	ctx = context.WithValue(ctx, "routesMap", routesMap)
+	err = component.Render(ctx, file)
 	if err != nil {
 		log.Fatalf("failed to write blog index page: %v", err)
 	}
-	// log succesful creation
-	log.Printf("Created %s at %s\n", slug, htmlFilePath)
+
+	// log successful creation and return modified at time of output file
+	log.Printf("Created %s\n", slug)
 	info, _ := file.Stat()
 	return info.ModTime()
 }
@@ -207,7 +264,7 @@ func generatePostsAndTags(
 
 	// create a map with empty structs as value since they don't allocate
 	// any memory, so we can create a set of unique tags
-	var tagsSet = make(map[string]struct{})
+	var tagsSet = make(map[string]struct{}, 0)
 	for _, post := range posts {
 		for _, tag := range post.Tags {
 			if _, isPresent := tagsSet[tag]; !isPresent {
@@ -252,4 +309,12 @@ func generatePages(md goldmark.Markdown, metadataContext parser.Context) []*mode
 	}
 
 	return pages
+}
+
+func PrettyPrint(v interface{}) (err error) {
+	b, err := json.MarshalIndent(v, "", "  ")
+	if err == nil {
+		fmt.Println(string(b))
+	}
+	return
 }

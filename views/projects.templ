@@ -1,0 +1,14 @@
+package views
+
+import (
+	"bensmith.sh/views/components"
+)
+
+templ ProjectsRoute() {
+	<html lang="en">
+		@components.Head("Projects")
+		@components.WithMainNav() {
+			<h1>Projects</h1>
+		}
+	</html>
+}

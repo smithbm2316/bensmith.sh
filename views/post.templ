@@ -8,7 +8,7 @@ import (
 	"bensmith.sh/views/components"
 )
 
-func Slugify(text string) string {
+func slugifyHeading(text string) string {
 	return strings.ReplaceAll(strings.ToLower(text), " ", "")
 }
 
@@ -64,7 +64,7 @@ templ PostRoute(post *models.Post) {
 											</li>
 											for _, heading := range post.Headings {
 												<li>
-													<a href={ templ.SafeURL("#" + Slugify(heading.Text)) }>{ heading.Text }</a>
+													<a href={ templ.SafeURL("#" + slugifyHeading(heading.Text)) }>{ heading.Text }</a>
 												</li>
 											}
 										</ul>

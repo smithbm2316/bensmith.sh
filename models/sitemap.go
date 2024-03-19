@@ -48,7 +48,8 @@ func (s Sitemap) Generate(slug string) {
 	}
 
 	// create the file to write to
-	file, err := os.Create(filepath.Join(Dirs.Build, slug))
+	outputPath := filepath.Join(Dirs.Build, slug)
+	file, err := os.Create(outputPath)
 	if err != nil {
 		log.Fatalf("failed to create output file: %v", err)
 	}
@@ -65,5 +66,5 @@ func (s Sitemap) Generate(slug string) {
 		log.Fatalf("Error executing the XML minfier's `io.Close` method, %v", err)
 	}
 
-	log.Printf("Created sitemap at %s\n", slug)
+	log.Printf("Created %s\n", slug)
 }

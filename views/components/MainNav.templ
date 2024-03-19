@@ -2,18 +2,44 @@ package components
 
 import (
 	"bensmith.sh/models"
+	"slices"
 )
 
-var links = []models.Link{
-	{Url: "/", Text: "ben smith"},
-	{Url: "/projects", Text: "projects"},
-	{Url: "/words", Text: "writing"},
-	{Url: "/uses", Text: "uses"},
-	{Url: "/words/feed", Text: "rss"},
+func GetRoutesMap(ctx context.Context) models.RoutesMap {
+	if routesMap, ok := ctx.Value("routesMap").(models.RoutesMap); ok {
+		return routesMap
+	}
+	return nil
 }
 
-func GetRoute(ctx context.Context) string {
-	if route, ok := ctx.Value("route").(string); ok {
+func GetLinks(routesMap models.RoutesMap) []models.Link {
+	links := make([]models.Link, 0, 5)
+	for route, routeEntry := range routesMap {
+		if routeEntry.IsMainNavLink {
+			links = append(links, models.Link{
+				Url:  route,
+				Text: routeEntry.Text,
+			})
+		}
+	}
+
+	// sort the links from longest strings to shortest, with our "/" homepage
+	// sorted to the beginning of the list as well
+	slices.SortFunc(links, func(a, b models.Link) int {
+		if b.Url == "/" || len(a.Text) < len(b.Text) {
+			return 1
+		} else if a.Url == "/" || len(a.Text) > len(b.Text) {
+			return -1
+		} else {
+			return 0
+		}
+	})
+
+	return links
+}
+
+func GetCurrentRoute(ctx context.Context) string {
+	if route, ok := ctx.Value("currentRoute").(string); ok {
 		return route
 	}
 	return ""
@@ -33,18 +59,20 @@ templ WithMainNav() {
 templ MainNav() {
 	<header class="main-nav">
 		<nav aria-label="Primary navigation">
-			<ul role="list">
-				for _, link := range links {
-					<li>
-						<a
-							href={ templ.SafeURL(link.Url) }
-							if link.Url == GetRoute(ctx) {
-								aria-current="page"
-							}
-						>{ link.Text }</a>
-					</li>
-				}
-			</ul>
+			if routesMap := GetRoutesMap(ctx); routesMap != nil {
+				<ul role="list">
+					for _, link := range GetLinks(routesMap) {
+						<li>
+							<a
+								href={ templ.SafeURL(link.Url) }
+								if link.Url == GetCurrentRoute(ctx) {
+									aria-current="page"
+								}
+							>{ link.Text }</a>
+						</li>
+					}
+				</ul>
+			}
 		</nav>
 	</header>
 }

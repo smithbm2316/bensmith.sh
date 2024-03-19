@@ -29,9 +29,33 @@ templ Head(title string) {
       }
     </script>
 		<!-- feeds -->
-		<link rel="alternate" type="application/rss+xml" href="/src/words/feed.rss.xml" title="RSS feed"/>
-		<link rel="alternate" type="application/atom+xml" href="/src/words/feed.atom.xml" title="Atom feed"/>
-		<link rel="alternate" type="application/feed+json" href="/src/words/feed.json" title="JSON feed"/>
+		if routesMap := GetRoutesMap(ctx); routesMap != nil {
+			for route, routeEntry := range routesMap {
+				switch routeEntry.FeedType {
+					case "rss":
+						<link
+							rel="alternate"
+							type="application/rss+xml"
+							href={ "/src" + route }
+							title="RSS feed"
+						/>
+					case "atom":
+						<link
+							rel="alternate"
+							type="application/atom+xml"
+							href={ "/src" + route }
+							title="Atom feed"
+						/>
+					case "json":
+						<link
+							rel="alternate"
+							type="application/feed+json"
+							href={ "/src" + route }
+							title="JSON feed"
+						/>
+				}
+			}
+		}
 		{ children... }
 	</head>
 }
