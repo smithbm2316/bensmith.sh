@@ -26,10 +26,11 @@ import (
 )
 
 var Dirs = models.Directories{
-	Build:   "src",
-	Content: "content",
-	Posts:   "content/words",
-	Views:   "views",
+	Build:         "src",
+	Content:       "content",
+	Posts:         "content/words",
+	Views:         "views",
+	FeedTemplates: "views/feeds",
 }
 
 func main() {
@@ -89,11 +90,11 @@ func main() {
 
 	// initialize routes
 	routes := map[string]templ.Component{
-		"/":      views.IndexRoute(),
-		"/404":   views.ErrorNotFound(),
-		"/feeds": views.FeedsRoute(posts),
-		"/tags":  views.TagsRoute(tags),
-		"/words": views.BlogRoute(posts, tags),
+		"/":           views.IndexRoute(),
+		"/404":        views.ErrorNotFound(),
+		"/tags":       views.TagsRoute(tags),
+		"/words":      views.BlogRoute(posts, tags),
+		"/words/feed": views.BlogFeedsRoute(posts),
 	}
 	for _, post := range posts {
 		routes[post.Slug] = views.PostRoute(post)
@@ -119,9 +120,9 @@ func main() {
 
 	// generate a rss, atom, and json feed
 	feed := models.NewFeed(posts)
-	feed.Generate("/feeds/rss.xml")
-	feed.Generate("/feeds/atom.xml")
-	feed.Generate("/feeds/rss.json")
+	feed.Generate("/words/feed.rss.xml", "rss")
+	feed.Generate("/words/feed.atom.xml", "atom")
+	feed.Generate("/words/feed.json", "json")
 
 	// Log successful completion of all the generation and exit
 	log.Printf("Generated static files to %s\n", Dirs.Build)

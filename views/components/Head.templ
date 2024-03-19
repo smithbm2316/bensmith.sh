@@ -28,6 +28,10 @@ templ Head(title string) {
         document.documentElement.classList.add('atproperty-fallback');
       }
     </script>
+		<!-- feeds -->
+		<link rel="alternate" type="application/rss+xml" href="/src/words/feed.rss.xml" title="RSS feed"/>
+		<link rel="alternate" type="application/atom+xml" href="/src/words/feed.atom.xml" title="Atom feed"/>
+		<link rel="alternate" type="application/feed+json" href="/src/words/feed.json" title="JSON feed"/>
 		{ children... }
 	</head>
 }
