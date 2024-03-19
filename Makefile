@@ -22,31 +22,18 @@ help:
 #- DEVELOPMENT:
 #
 # ==================================================================================== #
-#- dev: runs `wgo` and `templ` w/2 jobs to watch/reload .templ & .go files
-.PHONY: dev
-dev: clean/ssg
-	@./bin/wgo -file=.go -file=.tmpl -file=.templ -xfile=_templ.go \
-		./bin/templ generate :: go run ${ssgPkg} --dev
-
 #- dev/ssg: runs `wgo` and `templ` w/2 jobs to watch/reload .templ & .go files
 .PHONY: dev/ssg
 dev/ssg: clean/ssg
-	@$(MAKE) --no-print-directory -j2 dev/templ dev/go
+	@./bin/wgo \
+		-xfile=_templ.go \
+		-xdir=assets -xdir=bin -xdir=node_modules -xdir=public -xdir=src -xdir=scripts -xdir=styles \
+		./bin/templ generate :: go run ${ssgPkg} --dev
 
 #- dev/hmr: uses `parcel` for our HMR dev server and bundling assets
 .PHONY: dev/hmr
 dev/hmr: clean/hmr build/public
 	@npx parcel 'src/**/*.*' --dist-dir .site --port ${appPort}
-
-# run `wgo` to rebuild our go app when .go & {html,text}/template .tmpl files change
-.PHONY: dev/go
-dev/go:
-	@./bin/wgo run -file=.go -file=.tmpl ${ssgPkg} --dev
-
-# run `templ` generate in watch/dev mode
-.PHONY: dev/templ
-dev/templ:
-	@./bin/templ generate --watch
 
 #- clean: runs `clean/ssg` and `clean/hmr` sequentially
 .PHONY: clean
