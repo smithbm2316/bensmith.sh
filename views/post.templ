@@ -1,16 +1,11 @@
 package views
 
 import (
-	"strings"
 	"time"
 
 	"bensmith.sh/models"
 	"bensmith.sh/views/components"
 )
-
-func slugifyHeading(text string) string {
-	return strings.ReplaceAll(strings.ToLower(text), " ", "")
-}
 
 var DevMode bool
 
@@ -59,12 +54,9 @@ templ PostRoute(post *models.Post) {
 											Table of Contents
 										</summary>
 										<ul>
-											<li>
-												<a href="#top">Return to top</a>
-											</li>
 											for _, heading := range post.Headings {
 												<li>
-													<a href={ templ.SafeURL("#" + slugifyHeading(heading.Text)) }>{ heading.Text }</a>
+													<a href={ templ.SafeURL(heading.Id) }>{ heading.Text }</a>
 												</li>
 											}
 										</ul>

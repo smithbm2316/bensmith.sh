@@ -18,6 +18,7 @@ import (
 type Heading struct {
 	Level int
 	Text  string
+	Id    string
 }
 
 type Post struct {
@@ -89,7 +90,7 @@ func NewPost(md goldmark.Markdown, metadataContext parser.Context, path string) 
 	draft, _ := metadata["draft"].(bool)
 
 	// parse the headings so we can build a TOC later
-	re := regexp.MustCompile(`(?m)^(?P<level>#{1,6})\s(?P<heading>.*)$`)
+	re := regexp.MustCompile(`(?m)^(?P<level>#{1,6})\s(?P<heading>.*)\s*?{(?P<id>#.*)}\s*?$`)
 	matchNames := re.SubexpNames()
 	headings := []Heading{}
 	for _, match := range re.FindAllStringSubmatch(string(rawMarkdownBytes), -1) {
@@ -97,11 +98,14 @@ func NewPost(md goldmark.Markdown, metadataContext parser.Context, path string) 
 		for i, matchedValue := range match {
 			// if our capture group name is "level", we want to record the number of "#"s that we matched
 			// if our capture group name is "heading", we want to save the raw text of the heading
+			// if our capture group name is "id", we want to save the text of the heading's html ID
 			switch matchNames[i] {
 			case "level":
 				nextHeading.Level = len(matchedValue)
 			case "heading":
 				nextHeading.Text = matchedValue
+			case "id":
+				nextHeading.Id = matchedValue
 			}
 		}
 		headings = append(headings, nextHeading)
