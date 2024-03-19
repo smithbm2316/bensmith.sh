@@ -5,11 +5,18 @@ import (
 )
 
 var links = []models.Link{
-	{Url: "/", Text: "Ben Smith"},
-	{Url: "/projects", Text: "Projects"},
-	{Url: "/words", Text: "Writing"},
-	{Url: "/feeds", Text: "Feeds"},
-	{Url: "/uses", Text: "Uses"},
+	{Url: "/", Text: "ben smith"},
+	{Url: "/projects", Text: "projects"},
+	{Url: "/words", Text: "writing"},
+	{Url: "/feeds", Text: "feeds"},
+	{Url: "/uses", Text: "uses"},
+}
+
+func GetRoute(ctx context.Context) string {
+	if route, ok := ctx.Value("route").(string); ok {
+		return route
+	}
+	return ""
 }
 
 templ WithMainNavList() {
@@ -26,10 +33,15 @@ templ WithMainNavList() {
 }
 
 templ MainNavList() {
-	<ul>
+	<ul role="list">
 		for _, link := range links {
 			<li>
-				<a href={ templ.SafeURL(link.Url) }>{ link.Text }</a>
+				<a
+					href={ templ.SafeURL(link.Url) }
+					if link.Url == GetRoute(ctx) {
+						aria-current="page"
+					}
+				>{ link.Text }</a>
 			</li>
 		}
 	</ul>

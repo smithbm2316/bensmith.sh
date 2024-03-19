@@ -154,7 +154,8 @@ func generateOutputFile(slug string, component templ.Component) time.Time {
 	defer file.Close()
 
 	// render the specified template to the file writer
-	err = component.Render(context.Background(), file)
+	ctx := context.Background()
+	err = component.Render(context.WithValue(ctx, "route", slug), file)
 	if err != nil {
 		log.Fatalf("failed to write blog index page: %v", err)
 	}
