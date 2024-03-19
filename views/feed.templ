@@ -5,7 +5,7 @@ import (
 	"bensmith.sh/views/components"
 )
 
-templ FeedsRoute(posts []*models.Post) {
+templ BlogFeedsRoute(posts []*models.Post) {
 	<html lang="en">
 		@components.Head("Feeds")
 		@components.WithMainNav() {
@@ -18,9 +18,9 @@ templ FeedsRoute(posts []*models.Post) {
           it serves in development mode itself and what it bundles for production
         -->
 				<ul>
-					<li><a href="/src/feeds/rss.xml">RSS</a></li>
-					<li><a href="/src/feeds/atom.xml">Atom</a></li>
-					<li><a href="/src/feeds/rss.json">JSON</a></li>
+					<li><a href="/src/words/feed.rss.xml">RSS</a></li>
+					<li><a href="/src/words/feed.atom.xml">Atom</a></li>
+					<li><a href="/src/words/feed.json">JSON</a></li>
 				</ul>
 			</nav>
 			<!-- Posts will already be sorted by newest first -->
