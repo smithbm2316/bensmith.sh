@@ -14,6 +14,6 @@ The same cannot be said for platforms like iOS/MacOS or Android. In order to *ju
 
 It's only become easier to get started with companies like Netlify who have implemented a feature on their platform where you can simply drag-and-drop a folder of HTML/CSS/JS into your browser and BAM your site is live. That takes almost all barriers of entry for hosting a site online out of the way for people brand new to the web. It's incredible that features like that even exist to me. Even I, who would 99% of the time rather use a CLI to handle deployments like that, *still* use that feature because it's just so darn easy to get a site live! I did that for a single-file HTML website that I put online so that I could easily access my favorite coffee recipes on any device. All I needed was a single HTML file to make that happen with some inline `<style>` tags, no fancy bundler, front-end framework, build pipeline, nope! I just wanted to get a webpage live online and it was done in a matter of 5 minutes.
 
-## References/Inspiration
+## References/Inspiration {#references}
 - [Dave Rupert's blog post](https://daverupert.com/2022/09/patchability-of-the-open-web/)
 - [Jim Nielsen's blog post](https://blog.jim-nielsen.com/2022/patching-open-web/)

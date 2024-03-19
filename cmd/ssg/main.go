@@ -24,6 +24,7 @@ import (
 	"github.com/yuin/goldmark-meta"
 	"github.com/yuin/goldmark/extension"
 	"github.com/yuin/goldmark/parser"
+	"go.abhg.dev/goldmark/anchor"
 )
 
 var Dirs = models.Directories{
@@ -59,9 +60,19 @@ func main() {
 
 	// setup markdown parser and metadata context
 	md := goldmark.New(
+		goldmark.WithParserOptions(
+			parser.WithAttribute(),
+			parser.WithAutoHeadingID(),
+		),
 		goldmark.WithExtensions(
 			extension.GFM,
 			meta.Meta,
+			&anchor.Extender{
+				// disable auto-adding of "anchor" class
+				Attributer: anchor.Attributes{},
+				// insert anchor before heading text, inside of the `<h.>` tag
+				Position: anchor.Before,
+			},
 			highlighting.NewHighlighting(
 				highlighting.WithStyle("catppuccin-mocha"),
 				// consume the io.Write we just created
@@ -76,10 +87,6 @@ func main() {
 					}),
 				),
 			),
-		),
-		goldmark.WithParserOptions(
-			parser.WithAttribute(),
-			parser.WithAutoHeadingID(),
 		),
 	)
 	metadataContext := parser.NewContext()
