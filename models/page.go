@@ -35,6 +35,7 @@ func NewPage(md goldmark.Markdown, metadataContext parser.Context, path string) 
 	if !ok {
 		log.Fatalf("failed to build a slug from %s", path)
 	}
+	slug = slug + "/"
 
 	// Convert the markdown to HTML, and pass it to the template.
 	var markdownBuffer bytes.Buffer

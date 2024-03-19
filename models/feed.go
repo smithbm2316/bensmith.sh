@@ -6,6 +6,7 @@ import (
 	"os"
 	"path/filepath"
 	"text/template"
+	"time"
 
 	"github.com/tdewolff/minify/v2"
 	"github.com/tdewolff/minify/v2/json"
@@ -45,7 +46,7 @@ func (feed Feed) GetNewestPostDate() string {
 }
 
 // Generate and write a new Feed to our build directory
-func (feed Feed) Generate(slug string, feedType string) {
+func (feed Feed) Generate(slug string, feedType string) time.Time {
 	// split the slug into its surrounding directory and filename
 	slugDir, slugFilename := filepath.Split(slug)
 	// ensure that a valid `feedType` was supplied
@@ -104,5 +105,8 @@ func (feed Feed) Generate(slug string, feedType string) {
 		log.Fatalf("Error executing the feed minfier's `io.Close` method, %v", err)
 	}
 
-	log.Printf("Created feed from `%s` at %s\n", slugFilename, outputPath)
+	// log successful creation and return modified at time of output file
+	log.Printf("Created %s\n", slug)
+	info, _ := file.Stat()
+	return info.ModTime()
 }

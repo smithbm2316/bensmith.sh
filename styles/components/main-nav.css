@@ -11,6 +11,7 @@
   }
 
   & a {
+    text-transform: lowercase;
     text-decoration: none;
   }
 
