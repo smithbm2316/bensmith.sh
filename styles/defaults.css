@@ -14,7 +14,14 @@
 body {
   font-family: Inter, system-ui, sans-serif;
   font-size: var(--fs-base);
+  min-height: 100vh;
+  scroll-behavior: smooth;
+
+  @media (prefers-reduced-motion: reduce) {
+    scroll-behavior: auto;
+  }
 }
+
 
 .with-main-nav {
   container: layout / inline-size;

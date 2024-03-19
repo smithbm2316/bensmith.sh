@@ -1,0 +1,19 @@
+return-to-top button {
+  position: fixed;
+  bottom: 0.5rem;
+  right: 0.5rem;
+  z-index: 10;
+
+  background-color: black;
+  color: white;
+  display: flex;
+  justify-items: center;
+  align-items: center;
+  border-radius: 50%;
+  padding: 0.5rem;
+
+  & svg {
+    height: 1.5rem;
+    width: 1.5rem;
+  }
+}
