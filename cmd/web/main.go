@@ -6,7 +6,13 @@ import (
 	"log"
 	"net/http"
 	"os"
+
+	"bensmith.sh/models"
 )
+
+var Dirs = models.Directories{
+	Build: "www",
+}
 
 type fileSystemHandlingNotFound struct {
 	root http.Dir
@@ -28,7 +34,7 @@ func main() {
 	flag.Parse()
 
 	// Create a custom file server with our custom Open method and use it
-	fileServer := fileSystemHandlingNotFound{root: http.Dir(".site")}
+	fileServer := fileSystemHandlingNotFound{root: http.Dir(Dirs.Build)}
 	http.Handle("/", http.FileServer(fileServer))
 
 	log.Printf("Listening on :%d...", port)

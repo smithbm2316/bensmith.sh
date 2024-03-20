@@ -10,8 +10,9 @@ type Directories struct {
 	Posts string
 	// the input directory of all the Templ components
 	Views string
-	// the input directory of all the Text templates used to generate feeds
-	FeedTemplates string
+	// the input directory of all the stdlib text/templates for generating feeds
+	// or a sitemap
+	TextTemplates string
 }
 
 // Our globally instantiated object of input/output directories for the site

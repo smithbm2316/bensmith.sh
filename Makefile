@@ -1,14 +1,24 @@
-webPkg := ./cmd/web
-ssgPkg := ./cmd/ssg
-appPort := 2323
 # set GOBIN to be local to the project
 export GOBIN := ${CURDIR}/bin
 
-# ==================================================================================== #
+# our main package commands
+webPkg := ./cmd/web
+ssgPkg := ./cmd/ssg
+# the output binaries for our main package commands
+webBinary := ./bin/web
+ssgBinary := ./bin/ssg
+# the port to run our dev or prod server on
+serverPort := 2323
+# the directory of static assets for our site
+staticDir := static
+# the output directory for our static site
+outputDir := www
+
+# ============================================================================ #
 #
 # HELP MENU
 #
-# ==================================================================================== #
+# ============================================================================ #
 
 #- help: print this help message
 .PHONY: help
@@ -17,80 +27,96 @@ help:
 	@sed -n 's/^#-//p' ${MAKEFILE_LIST} | column -t -s ':' |  sed -e 's/^/ /'
 
 
-# ==================================================================================== #
+# ============================================================================ #
 #-:
 #- DEVELOPMENT:
 #
-# ==================================================================================== #
-#- dev/ssg: runs `wgo` and `templ` w/2 jobs to watch/reload .templ & .go files
+# ============================================================================ #
+#- dev/ssg: runs `wgo` & `templ generate --watch` together for watching .go files
 .PHONY: dev/ssg
-dev/ssg: clean/ssg
+dev/ssg:
 	@./bin/wgo \
-		-xfile=_templ.go \
-		-xdir=assets -xdir=bin -xdir=node_modules -xdir=public -xdir=src -xdir=scripts -xdir=styles \
-		./bin/templ generate :: go run ${ssgPkg} --dev
+		-file=.go -file=.tmpl.xml -file=.tmpl.json \
+		-xfile=_templ.go -xfile=_templ.txt -xfile=.templ \
+		-xdir=bin -xdir=styles -xdir=${staticDir} \
+		./bin/templ generate --watch --cmd "go run ${ssgPkg} --dev"
 
-#- dev/hmr: uses `parcel` for our HMR dev server and bundling assets
+#- dev/css: transpiles + bundles our css in dev mode with lightningcss
+.PHONY: dev/css
+dev/css:
+	@cd styles && ../bin/wgo -file .css \
+		npx lightningcss \
+		--sourcemap \
+		--bundle \
+		--custom-media \
+		--targets 'defaults' \
+		index.css -o ../${outputDir}/styles.css \
+		:: echo "bundled and transpiled CSS"
+
+#- dev/hmr: uses `browser-sync` for a auto-reloading dev server
 .PHONY: dev/hmr
-dev/hmr: clean/hmr build/public
-	@npx parcel 'src/**/*.*' --dist-dir .site --port ${appPort}
+dev/hmr:
+	@npx browser-sync start \
+		--server ${outputDir} \
+		--port ${serverPort} \
+		--ui-port 2324 \
+		--no-open \
+		--serveStatic ${staticDir}
 
-#- clean: runs `clean/ssg` and `clean/hmr` sequentially
+#- clean: remove all build artifacts from the output directory
 .PHONY: clean
 clean:
-	@$(MAKE) --no-print-directory clean/ssg clean/hmr
+	@rm -rf ${outputDir}/*
 
-# clean our SSG output directory
-.PHONY: clean/ssg
-clean/ssg:
-	@rm -rf src/*
-
-# clean our bundler output directories
-.PHONY: clean/hmr
-clean/hmr:
-	@rm -rf .parcel-cache/ .site/
-
-#- build: build the application
+#- build: run all `build/*` tasks to create the production-ready application
 .PHONY: build
-build: clean build/public build/templ build/ssg build/run-ssg build/frontend
-	@go build -o=./bin/web ${webPkg}
+build: clean build/assets build/css build/templ build/ssg build/run-ssg
+	@go build -o=${webBinary} ${webPkg}
+
+# transpiles + bundles our css for prod with lightningcss
+.PHONY: build/css
+build/css:
+	@npx lightningcss \
+		--minify \
+		--bundle \
+		--custom-media \
+		--targets 'defaults' \
+		styles/index.css -o ${outputDir}/styles.css
 
 # build the ssg binary for production
 .PHONY: build/ssg
 build/ssg:
-	@go build -o=./bin/ssg ${ssgPkg}
+	@go build -o=${ssgBinary} ${ssgPkg}
 
-# execute the production ssg binary to generate our files before processing with Vite
+# execute the production ssg binary to generate our static HTML
 .PHONY: build/run-ssg
 build/run-ssg:
-	@./bin/ssg
+	@${ssgBinary}
 
-# copy all files recursively from the public directory into our src directory, so that they are available for parcel to process at the root level of our server 
-.PHONY: build/public
-build/public:
-	@cp -r public/* src
+# copy all files recursively from the ${staticDir} directory into our build
+# output directory, so that all of our assets that we aren't processing are
+# ready for our ${webPkg} server to use in the same ${outputDir} in production
+.PHONY: build/assets
+build/assets:
+	@mkdir -pv ${outputDir}
+	@cp -r ${staticDir}/* ${outputDir}
 
 # build templ files into go files for production
 .PHONY: build/templ
 build/templ:
 	@./bin/templ generate
 
-# run parcel on our generated static site to optimize for production 
-.PHONY: build/frontend
-build/frontend:
-	@npx parcel build 'src/**/*.*' --dist-dir .site
-
 #- preview: run the production-ready application
 .PHONY: preview
 preview:
-	@./bin/web
+	@${webBinary}
 
 
-# ==================================================================================== #
+# ============================================================================ #
 #-:
 #- TESTING:
 #
-# ==================================================================================== #
+# ============================================================================ #
 
 #- test: run all tests
 .PHONY: test
@@ -104,11 +130,11 @@ test/cover:
 	@go tool cover -html=/tmp/coverage.out
 
 
-# ==================================================================================== #
+# ============================================================================ #
 #-:
 #- HELPERS:
 #
-# ==================================================================================== #
+# ============================================================================ #
 
 #- install-tools: install all tool dependencies in the `tools.go` file
 .PHONY: install-tools
@@ -122,7 +148,8 @@ install-tools:
 audit:
 	@go mod verify
 	@go vet ./...
-	@go run honnef.co/go/tools/cmd/staticcheck@latest -checks=all,-ST1000,-U1000 ./...
+	@go run honnef.co/go/tools/cmd/staticcheck@latest \
+		-checks=all,-ST1000,-U1000 ./...
 	@go run golang.org/x/vuln/cmd/govulncheck@latest ./...
 	@go test -race -buildvcs -vet=off ./...
 

@@ -14,15 +14,10 @@ templ BlogFeedsRoute(posts []*models.Post) {
 			<h1>RSS</h1>
 			<nav aria-labelledby="rss-feeds">
 				<h2 id="rss-feeds">RSS Feeds</h2>
-				<!--
-          These need a `/src` prefix since we generate this file into the `src`
-          directory for parcel to process, it'll strip the `/src` prefix in what
-          it serves in development mode itself and what it bundles for production
-        -->
 				<ul>
-					<li><a href="/src/words/feed.rss.xml">RSS</a></li>
-					<li><a href="/src/words/feed.atom.xml">Atom</a></li>
-					<li><a href="/src/words/feed.json">JSON</a></li>
+					<li><a href="/words/feed.rss.xml">RSS</a></li>
+					<li><a href="/words/feed.atom.xml">Atom</a></li>
+					<li><a href="/words/feed.json">JSON</a></li>
 				</ul>
 			</nav>
 			<!-- Posts will already be sorted by newest first -->
