@@ -1,0 +1,48 @@
+package components
+
+import (
+	"fmt"
+	"path/filepath"
+	"strings"
+	"log"
+)
+
+// transform an input image `src` path from something like a `jpg` or `png` into
+// the supplied `ft`, like a `webp` or `avif`
+func transformSrc(src, ft string) string {
+	srcWithoutSuffix, ok := strings.CutSuffix(src, filepath.Ext(src))
+	if !ok {
+		log.Fatalf("Couldn't transform %s img with filetype of %s", src, ft)
+	}
+	return fmt.Sprintf("%s.%s", srcWithoutSuffix, ft)
+}
+
+// A wrapper component for a `<picture>` tag that allows for using the source
+// filetype as well as `.webp` and `.avif` variants to let the browser select
+// the best version that it can utilize. Sets sensible default attributes for
+// `alt`, `loading`, and `decoding` if not specified inside of the `attrs` map
+templ Picture(src, width, height string, attrs templ.Attributes) {
+	<picture>
+		<img
+			src={ src }
+			width={ width }
+			height={ height }
+			alt={ defaultStrAttr(attrs["alt"], "") }
+			loading={ defaultStrAttr(attrs["loading"], "lazy") }
+			decoding={ defaultStrAttr(attrs["decoding"], "async") }
+			{ attrs... }
+		/>
+	</picture>
+}
+
+// when I implement my own image asset pipeline for generating `.avif` and
+// `.webp` variants of my source images, I can add this back above the `<img>`
+// tag in the `Picture` component above
+// for _, ft := range []string{ "avif", "webp" } {
+//   <source
+//     srcset={ transformSrc(src, ft) }
+//     type={ fmt.Sprintf("image/%s", ft) }
+//     width={ width }
+//     height={ height }
+//   />
+// }

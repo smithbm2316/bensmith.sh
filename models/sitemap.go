@@ -41,7 +41,7 @@ func (s Sitemap) Generate(slug string) {
 	// load the sitemap.xml text template
 	tmpl := template.Must(
 		template.ParseFiles(
-			filepath.Join(Dirs.Views, "sitemap.tmpl"),
+			filepath.Join(Dirs.TextTemplates, "sitemap.tmpl.xml"),
 		),
 	)
 

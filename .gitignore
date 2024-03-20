@@ -1,10 +1,5 @@
 # site build output
-.site/
-src/*
-!src/styles
-
-# parcel's cache
-.parcel-cache
+www/
 
 # build output for go program and local bin for tool dependencies
 bin/

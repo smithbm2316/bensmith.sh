@@ -17,10 +17,10 @@ templ IndexRoute() {
 		@components.Head("Home")
 		@components.WithMainNav() {
 			<section id="intro-section" aria-describedby="intro" class="flow">
-				@components.Img(
-					"/assets/profile_pic.jpeg",
-					"500",
-					"500",
+				@components.Picture(
+					"/images/profile_pic.jpeg",
+					"400",
+					"400",
 					templ.Attributes{
 						"class":   "square-img",
 						"loading": "eager",

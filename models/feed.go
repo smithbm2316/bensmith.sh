@@ -54,18 +54,18 @@ func (feed Feed) Generate(slug string, feedType string) time.Time {
 	var templateName string
 	switch feedType {
 	case "rss":
-		templateName = "rssFeed.xml"
+		templateName = "rss.tmpl.xml"
 	case "atom":
-		templateName = "atomFeed.xml"
+		templateName = "atom.tmpl.xml"
 	case "json":
-		templateName = "jsonFeed.json"
+		templateName = "json.tmpl.json"
 	default:
 		log.Fatalf("`feedType` '%s' should be one of 'rss', 'atom', or 'json'.", feedType)
 	}
 	// load the text template
 	tmpl := template.Must(
 		template.ParseFiles(
-			filepath.Join(Dirs.FeedTemplates, templateName),
+			filepath.Join(Dirs.TextTemplates, templateName),
 		),
 	)
 

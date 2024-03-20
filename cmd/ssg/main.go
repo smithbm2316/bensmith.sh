@@ -27,11 +27,11 @@ import (
 )
 
 var Dirs = models.Directories{
-	Build:         "src",
+	Build:         "www",
 	Content:       "content",
 	Posts:         "content/words",
+	TextTemplates: "views/templates",
 	Views:         "views",
-	FeedTemplates: "views/feeds",
 }
 
 func main() {
