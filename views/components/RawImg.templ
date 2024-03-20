@@ -7,8 +7,8 @@ import (
 	"log"
 )
 
-// transform an input image `src` path from something like a `jpg` or `png`
-// into the supplied `ft`, like a `webp` or `avif`
+// transform an input image `src` path from something like a `jpg` or `png` into
+// the supplied `ft`, like a `webp` or `avif`
 func transformSrc(src, ft string) string {
 	srcWithoutSuffix, ok := strings.CutSuffix(src, filepath.Ext(src))
 	if !ok {
@@ -17,8 +17,8 @@ func transformSrc(src, ft string) string {
 	return fmt.Sprintf("%s.%s", srcWithoutSuffix, ft)
 }
 
-// if you aren't utilizing parcel's image processing, you can use this
-// image component to render an image
+// if you aren't utilizing parcel's image processing, you can use this image
+// component to render an image
 templ RawImg(src, width, height string, attrs templ.Attributes) {
 	<picture>
 		for _, ft := range []string{ "avif", "webp" } {
@@ -33,21 +33,9 @@ templ RawImg(src, width, height string, attrs templ.Attributes) {
 			src={ src }
 			width={ width }
 			height={ height }
-			if alt, ok := attrs["alt"].(string); ok && alt != "" {
-				alt={ alt }
-			} else {
-				alt=""
-			}
-			if loading, ok := attrs["loading"].(string); ok && loading != "" {
-				loading={ loading }
-			} else {
-				loading="lazy"
-			}
-			if decoding, ok := attrs["decoding"].(string); ok && decoding != "" {
-				decoding={ decoding }
-			} else {
-				decoding="async"
-			}
+			alt={ defaultStrAttr(attrs["alt"], "") }
+			loading={ defaultStrAttr(attrs["loading"], "lazy") }
+			decoding={ defaultStrAttr(attrs["decoding"], "async") }
 			{ attrs... }
 		/>
 	</picture>

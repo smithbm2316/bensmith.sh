@@ -28,3 +28,4 @@
 - [Avoiding <img> layout shifts: aspect-ratio vs width & height attributes - JakeArchibald.com](https://jakearchibald.com/2022/img-aspect-ratio/)
 - [Improved dark mode default styling with the color-scheme CSS property and the corresponding meta tag  |  Articles  |  web.dev](https://web.dev/articles/color-scheme)
 - [CSS System Colors - Jim Nielsen’s Blog](https://blog.jim-nielsen.com/2021/css-system-colors/)
+- [Testing templ HTML rendering with goquery](https://adrianhesketh.com/2021/10/17/testing-templ-html-rendering-with-goquery/)
