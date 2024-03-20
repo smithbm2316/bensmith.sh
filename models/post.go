@@ -15,25 +15,37 @@ import (
 	"github.com/yuin/goldmark/parser"
 )
 
+// Represents a heading in our `Post`
 type Heading struct {
+	Text string
+	// represents the corresponding `<h2/3/4/5/6>` element
 	Level int
-	Text  string
-	Id    string
+	// the HTML id that we will link to in our table of contents on a `Post` page
+	Id string
 }
 
+// The data processed from a markdown file in our `Dirs.Posts` directory.
+// Used to generate a specific `Post` on our site instead of having to author
+// the blog post fully in HTML
 type Post struct {
 	Title        string
 	Slug         string
-	Tags         []string
-	Content      string
 	Published    time.Time
 	LastModified time.Time
-	Draft        bool
-	Metadata     map[string]interface{}
 	Headings     []Heading
+	Tags         []string
+	// a generic reference to all the YAML metadata parsed from the markdown file
+	Metadata map[string]interface{}
+	// The generated HTML from a markdown source file
+	Content string
+	// set to true to hide this post in production
+	Draft bool
 }
 
+// Instantiates a new `Post` for the supplied `path`. Returns a pointer
+// to that `Post` or an error
 func NewPost(md goldmark.Markdown, metadataContext parser.Context, path string) (*Post, error) {
+	// read the whole file into a byte slice in memory
 	rawMarkdownBytes, err := os.ReadFile(path)
 	if err != nil {
 		return nil, err
@@ -86,7 +98,6 @@ func NewPost(md goldmark.Markdown, metadataContext parser.Context, path string) 
 	default:
 		break
 	}
-
 	draft, _ := metadata["draft"].(bool)
 
 	// parse the headings so we can build a TOC later
@@ -148,14 +159,21 @@ func (p Post) String() string {
 	return fmt.Sprintf("%#v", p)
 }
 
+// Format the `Post`'s `Published` date to ISO-8601/RFC3339.
+// Used in the text/template we generate a `Feed` from
 func (p Post) FormatRFC3339() string {
 	return p.Published.Format(time.RFC3339)
 }
 
+// Format the `Post`'s `Published` date to RFC822.
+// Used in the text/template we generate a rss `Feed` from
 func (p Post) FormatRFC822() string {
 	return p.Published.Format(time.RFC822)
 }
 
+// Format the `Post`'s `Slug` to a URL that is prefixed
+// with our domain name. Used in the text/template we generate
+// a `Feed` from
 func (p Post) FormatAbsoluteUrl() string {
 	return fmt.Sprintf("https://bensmith.sh%s", p.Slug)
 }

@@ -9,6 +9,7 @@ import (
 
 var DevMode bool
 
+// Renders a route containing the content of a specific blog `Post`
 templ PostRoute(post *models.Post) {
 	<html lang="en">
 		@components.Head(post.Title) {

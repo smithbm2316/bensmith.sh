@@ -12,12 +12,17 @@ import (
 	"github.com/yuin/goldmark/parser"
 )
 
+// The data processed from a markdown file in our `Dirs.Content` directory.
+// Used to generate a specific `Page` on our site instead of having to author
+// the page fully in HTML
 type Page struct {
-	Title   string
-	Slug    string
+	Title string
+	Slug  string
+	// The generated HTML from a markdown source file
 	Content string
 }
 
+// Instantiates a new `Page` object that will represent a specific route on our site
 func NewPage(md goldmark.Markdown, metadataContext parser.Context, path string) (*Page, error) {
 	rawMarkdownBytes, err := os.ReadFile(path)
 	if err != nil {

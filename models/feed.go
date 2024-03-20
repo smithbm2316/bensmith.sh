@@ -16,13 +16,14 @@ import (
 // A data type that has all the data necessary to
 // generate an Atom, RSS, and JSON feed
 type Feed struct {
-	Title       string
-	Subtitle    string
-	Language    string
+	Title    string
+	Subtitle string
+	Language string
+	Name     string
+	Email    string
+	Posts    []*Post
+	// the domain name of the site (homepage, https://bensmith.sh)
 	AbsoluteUrl string
-	Name        string
-	Email       string
-	Posts       []*Post
 }
 
 // Create a new `Feed` struct which will have data necessary to

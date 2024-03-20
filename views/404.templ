@@ -2,6 +2,8 @@ package views
 
 import "bensmith.sh/views/components"
 
+// Our `404` fallback `404.html` error page if the user tries
+// to visit a page that doesn't exist
 templ ErrorNotFound() {
 	<html lang="en">
 		@components.Head("404 Not Found")

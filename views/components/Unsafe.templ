@@ -5,6 +5,10 @@ import (
 	"io"
 )
 
+// Returns a templ.Component that allows for processing an unescaped string
+// as-is. Should be considered unsafe in general, but since we have full
+// control of all our content at build time, it's not something for us to
+// be concerned about
 func Unsafe(html string) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, w io.Writer) (err error) {
 		_, err = io.WriteString(w, html)

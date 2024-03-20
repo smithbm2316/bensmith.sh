@@ -5,6 +5,7 @@ import (
 	"bensmith.sh/views/components"
 )
 
+// Renders a `Page` that has content generated from a markdown file
 templ MarkdownPageRoute(page *models.Page) {
 	<html lang="en">
 		@components.Head(page.Title)

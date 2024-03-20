@@ -12,22 +12,27 @@ import (
 	"github.com/tdewolff/minify/v2/xml"
 )
 
-type SitemapRoute struct {
+// An entry representing one route in the sitemap
+type SitemapEntry struct {
 	Url          string
 	LastModified time.Time
 }
 
-func (s SitemapRoute) FormatDate() string {
+// Format the `SitemapEntry`'s `LastModified` date to ISO-8601/RFC3339.
+// Used in the text/template that we generate our sitemap from
+func (s SitemapEntry) FormatDate() string {
 	return s.LastModified.Format(time.RFC3339)
 }
 
+// The data type used to generate the Sitemap for the site
 type Sitemap struct {
-	Routes []SitemapRoute
+	Entries []SitemapEntry
 }
 
+// Instantiates a new `Sitemap`
 func NewSitemap() Sitemap {
 	return Sitemap{
-		Routes: make([]SitemapRoute, 0),
+		Entries: make([]SitemapEntry, 0),
 	}
 }
 
@@ -42,7 +47,7 @@ func (s Sitemap) Generate(slug string) {
 
 	// create a new buffer and write the template to it
 	var buf bytes.Buffer
-	err := tmpl.Execute(&buf, s.Routes)
+	err := tmpl.Execute(&buf, s.Entries)
 	if err != nil {
 		log.Fatalf("failed to execute sitemap.xml template: %v", err)
 	}

@@ -7,6 +7,7 @@ import (
 	"bensmith.sh/views/components"
 )
 
+// Renders a route with our latest blog posts and all of the tags on our blogs
 templ BlogRoute(posts []*models.Post, tags []string) {
 	<html lang="en">
 		@components.Head("Blog")
