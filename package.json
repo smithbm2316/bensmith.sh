@@ -9,7 +9,8 @@
     "@parcel/config-default": "^2.12.0",
     "@parcel/packager-xml": "^2.12.0",
     "@parcel/transformer-raw": "^2.12.0",
-    "parcel": "^2.12.0"
+    "parcel": "^2.12.0",
+    "sharp": "^0.31.3"
   },
   "browserslist": "> 0.5%, last 2 versions, not dead",
   "@parcel/transformer-css": {

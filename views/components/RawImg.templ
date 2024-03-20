@@ -1,0 +1,54 @@
+package components
+
+import (
+	"fmt"
+	"path/filepath"
+	"strings"
+	"log"
+)
+
+// transform an input image `src` path from something like a `jpg` or `png`
+// into the supplied `ft`, like a `webp` or `avif`
+func transformSrc(src, ft string) string {
+	srcWithoutSuffix, ok := strings.CutSuffix(src, filepath.Ext(src))
+	if !ok {
+		log.Fatalf("Couldn't transform %s img with filetype of %s", src, ft)
+	}
+	return fmt.Sprintf("%s.%s", srcWithoutSuffix, ft)
+}
+
+// if you aren't utilizing parcel's image processing, you can use this
+// image component to render an image
+templ RawImg(src, width, height string, attrs templ.Attributes) {
+	<picture>
+		for _, ft := range []string{ "avif", "webp" } {
+			<source
+				srcset={ transformSrc(src, ft) }
+				type={ fmt.Sprintf("image/%s", ft) }
+				width={ width }
+				height={ height }
+			/>
+		}
+		<img
+			src={ src }
+			width={ width }
+			height={ height }
+			if alt, ok := attrs["alt"].(string); ok && alt != "" {
+				alt={ alt }
+			} else {
+				alt=""
+			}
+			if loading, ok := attrs["loading"].(string); ok && loading != "" {
+				loading={ loading }
+			} else {
+				loading="lazy"
+			}
+			if decoding, ok := attrs["decoding"].(string); ok && decoding != "" {
+				decoding={ decoding }
+			} else {
+				decoding="async"
+			}
+			{ attrs... }
+		/>
+	</picture>
+}
