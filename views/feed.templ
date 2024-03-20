@@ -5,6 +5,8 @@ import (
 	"bensmith.sh/views/components"
 )
 
+// Renders a Feed page with links to all of the various feeds that we offer
+// as well as the latest blog posts
 templ BlogFeedsRoute(posts []*models.Post) {
 	<html lang="en">
 		@components.Head("Feeds")

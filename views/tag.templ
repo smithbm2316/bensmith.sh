@@ -7,6 +7,8 @@ import (
 	"bensmith.sh/views/components"
 )
 
+// Renders a route that renders all of the relevant `Posts` that the supplied
+// `tag` is found on
 templ TagRoute(tag string, posts []*models.Post) {
 	<html lang="en">
 		@components.Head(fmt.Sprintf(`Tagged "%s"`, tag))
@@ -25,6 +27,7 @@ templ TagRoute(tag string, posts []*models.Post) {
 	</html>
 }
 
+// Returns a list of `Posts` that the current `tag` is found on
 func getPostsWithTag(tag string, posts []*models.Post) []*models.Post {
 	var filteredPosts = make([]*models.Post, 0)
 	for _, post := range posts {

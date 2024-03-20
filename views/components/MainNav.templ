@@ -5,6 +5,10 @@ import (
 	"slices"
 )
 
+// Validates that the `routesMap` context variable is valid and returns it
+// Used to get access to the `routesMap` that contains a mapping of all of
+// our routes/slugs to their relevant data that we need in different Templ
+// pages and components
 func GetRoutesMap(ctx context.Context) models.RoutesMap {
 	if routesMap, ok := ctx.Value("routesMap").(models.RoutesMap); ok {
 		return routesMap
@@ -12,7 +16,9 @@ func GetRoutesMap(ctx context.Context) models.RoutesMap {
 	return nil
 }
 
-func GetLinks(routesMap models.RoutesMap) []models.Link {
+// Takes a valid `routesMap` from context and renders a sorted slice of
+// the links for the main navigation menu
+func GetSortedNavLinks(routesMap models.RoutesMap) []models.Link {
 	links := make([]models.Link, 0, 5)
 	for route, routeEntry := range routesMap {
 		if routeEntry.IsMainNavLink {
@@ -38,6 +44,8 @@ func GetLinks(routesMap models.RoutesMap) []models.Link {
 	return links
 }
 
+// Validates that the `currentRoute` context variable is valid and returns it.
+// Used to get the route slug that is currently being rendered
 func GetCurrentRoute(ctx context.Context) string {
 	if route, ok := ctx.Value("currentRoute").(string); ok {
 		return route
@@ -45,6 +53,9 @@ func GetCurrentRoute(ctx context.Context) string {
 	return ""
 }
 
+// Renders a `<body>` layout that contains a column for the `MainNav` component
+// as well as a `<main>` tag that takes any `children` supplied to it. Use this
+// generally in favor of the `MainNav` component directly
 templ WithMainNav() {
 	<body>
 		<div class="with-main-nav">
@@ -57,12 +68,16 @@ templ WithMainNav() {
 	</body>
 }
 
+// Renders a component that represents the main navigation menu for the site.
+// Only use this component if you need *specific* control of the exact markup
+// for the page. Otherwise, default to using the `WithMainNav` helper component
+// which provides a sensible default layout containing this component
 templ MainNav() {
 	<header class="main-nav">
 		<nav aria-label="Primary navigation">
 			if routesMap := GetRoutesMap(ctx); routesMap != nil {
 				<ul role="list">
-					for _, link := range GetLinks(routesMap) {
+					for _, link := range GetSortedNavLinks(routesMap) {
 						<li>
 							<a
 								href={ templ.SafeURL(link.Url) }

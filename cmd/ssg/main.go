@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	"encoding/json"
 	"flag"
 	"fmt"
 	"io/fs"
@@ -164,17 +163,19 @@ func main() {
 
 	// initialize our sitemap data
 	sitemap := models.NewSitemap()
-	// loop through all our routes and write the file to disk
+	// loop through all our routes and write the file to disk,
+	// saving the timestamp of that route's output file generation
+	// into our `sitemap.Routes`
 	for route, routeEntry := range routesMap {
 		var modified time.Time
 		if routeEntry.Handler != nil {
-			modified = generateOutputFile(route, routesMap, routeEntry.Handler())
+			modified = generateOutputFile(route, routeEntry.Handler(), routesMap)
 		} else if routeEntry.Generator != nil {
 			modified = routeEntry.Generator()
 		} else {
 			continue
 		}
-		sitemap.Routes = append(sitemap.Routes, models.SitemapRoute{
+		sitemap.Entries = append(sitemap.Entries, models.SitemapEntry{
 			Url:          route,
 			LastModified: modified,
 		})
@@ -186,10 +187,13 @@ func main() {
 	log.Printf("Generated static files to `%s`\n", Dirs.Build)
 }
 
+// Take a slug and Templ component/route to render to a static HTML file
+// in our build output directory. Return the timestamp of that newly
+// outputted HTML file's creation/modification for use in our Sitemap
 func generateOutputFile(
 	slug string,
-	routesMap models.RoutesMap,
 	component templ.Component,
+	routesMap models.RoutesMap,
 ) time.Time {
 	var dir, htmlFilePath string
 
@@ -230,6 +234,10 @@ func generateOutputFile(
 	return info.ModTime()
 }
 
+// Walk the `Dirs.Posts` directory and parse every markdown file found into
+// a `Post` struct which we will use as content for our site. Returns
+// a list of all the posts we found and a list of all the tags we found in
+// those markdown posts
 func generatePostsAndTags(
 	md goldmark.Markdown,
 	metadataContext parser.Context,
@@ -291,6 +299,9 @@ func generatePostsAndTags(
 	return posts, tags
 }
 
+// Walk the `Dirs.Content` directory and parse every markdown file found into
+// a `Page` struct which we will use as content for various pages on our site.
+// Returns a list of the generated `Page`s
 func generatePages(md goldmark.Markdown, metadataContext parser.Context) []*models.Page {
 	var pages = make([]*models.Page, 0)
 
@@ -316,12 +327,4 @@ func generatePages(md goldmark.Markdown, metadataContext parser.Context) []*mode
 	}
 
 	return pages
-}
-
-func PrettyPrint(v interface{}) (err error) {
-	b, err := json.MarshalIndent(v, "", "  ")
-	if err == nil {
-		fmt.Println(string(b))
-	}
-	return
 }
