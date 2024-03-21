@@ -9,5 +9,3 @@
 @import "components/return-to-top.css" layer(components);
 
 @import "utils.css" layer(utils);
-
-@import "routes/post.css" layer(routes);
