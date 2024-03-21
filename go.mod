@@ -10,6 +10,7 @@ require (
 	github.com/yuin/goldmark v1.7.0
 	github.com/yuin/goldmark-highlighting/v2 v2.0.0-20230729083705-37449abec8cc
 	github.com/yuin/goldmark-meta v1.1.0
+	go.abhg.dev/goldmark/anchor v0.1.1
 )
 
 require (
@@ -27,7 +28,6 @@ require (
 	github.com/segmentio/asm v1.2.0 // indirect
 	github.com/segmentio/encoding v0.3.6 // indirect
 	github.com/tdewolff/parse/v2 v2.7.12 // indirect
-	go.abhg.dev/goldmark/anchor v0.1.1 // indirect
 	go.lsp.dev/jsonrpc2 v0.10.0 // indirect
 	go.lsp.dev/pkg v0.0.0-20210717090340-384b27a52fb2 // indirect
 	go.lsp.dev/uri v0.3.0 // indirect

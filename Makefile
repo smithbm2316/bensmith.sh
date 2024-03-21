@@ -1,5 +1,8 @@
-# set GOBIN to be local to the project
+# set GOBIN to be local to the project (using an absolute path to it)
 export GOBIN := ${CURDIR}/bin
+# update our Makefile's path with absolute paths to our local $GOBIN and an
+# absolute path to our project's lightningcss CLI binary
+export PATH := ${CURDIR}/node_modules/lightningcss-cli:$(GOBIN):$(PATH)
 
 # our main package commands
 webPkg := ./cmd/web
@@ -32,30 +35,34 @@ help:
 #- DEVELOPMENT:
 #
 # ============================================================================ #
-#- dev/ssg: runs `wgo` & `templ generate --watch` together for watching .go files
-.PHONY: dev/ssg
-dev/ssg:
-	@./bin/wgo \
-		-file=.go -file=.tmpl.xml -file=.tmpl.json \
-		-xfile=_templ.go -xfile=_templ.txt -xfile=.templ \
-		-xdir=bin -xdir=styles -xdir=${staticDir} \
-		./bin/templ generate --watch --cmd "go run ${ssgPkg} --dev"
+# line 1: watch .go, .tmpl.{xml,json}, and .md files
+# line 2: ignore watch-mode artifacts from templ
+# line 3: ignore ${outputDir} and ${staticDir}
+# line 4: run templ generate in watch mode to handle watching .templ files with
+# its faster dev mode compilation, so that whenever any of our input files
+# (whether being watched by `wgo` or `templ`) we trigger a rebuild of our static
+# site with our ${ssgPkg}
+# line 5...-1: and run a parallel `wgo` process to update our input css files
+# independently of the files above
+#- dev: run a file watcher to rebuild our static site automatically
+.PHONY: dev
+dev:
+	@wgo -file .go -file '.tmpl.*' -file .md \
+		-xfile _templ.go -xfile _templ.txt -xfile .templ \
+		-xdir ${outputDir} -xdir ${staticDir} \
+		templ generate --watch --cmd="go run ./cmd/ssg --dev" \
+		:: wgo -dir styles -file .css lightningcss \
+			--sourcemap \
+			--error-recovery \
+			--bundle \
+			--custom-media \
+			--targets 'defaults' \
+			styles/index.css -o ${outputDir}/styles.css \
+			:: echo "bundled and transpiled CSS"
 
-#- dev/css: transpiles + bundles our css in dev mode with lightningcss
-.PHONY: dev/css
-dev/css:
-	@cd styles && ../bin/wgo -file .css \
-		npx lightningcss \
-		--sourcemap \
-		--bundle \
-		--custom-media \
-		--targets 'defaults' \
-		index.css -o ../${outputDir}/styles.css \
-		:: echo "bundled and transpiled CSS"
-
-#- dev/hmr: uses `browser-sync` for a auto-reloading dev server
-.PHONY: dev/hmr
-dev/hmr:
+#- dev/serve: uses `browser-sync` for a auto-reloading dev server
+.PHONY: serve
+serve:
 	@npx browser-sync start \
 		--server ${outputDir} \
 		--port ${serverPort} \
@@ -76,12 +83,13 @@ build: clean build/assets build/css build/templ build/ssg build/run-ssg
 # transpiles + bundles our css for prod with lightningcss
 .PHONY: build/css
 build/css:
-	@npx lightningcss \
+	@lightningcss \
 		--minify \
 		--bundle \
 		--custom-media \
 		--targets 'defaults' \
 		styles/index.css -o ${outputDir}/styles.css
+	@echo "Bundled and transpiled CSS"
 
 # build the ssg binary for production
 .PHONY: build/ssg
@@ -104,11 +112,11 @@ build/assets:
 # build templ files into go files for production
 .PHONY: build/templ
 build/templ:
-	@./bin/templ generate
+	@templ generate
 
 #- preview: run the production-ready application
 .PHONY: preview
-preview:
+preview: build
 	@${webBinary}
 
 
