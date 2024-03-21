@@ -15,6 +15,9 @@ templ PostRoute(post *models.Post) {
 		@components.Head(post.Title) {
 			<link rel="preload" as="style" href="/chroma.css"/>
 			<link rel="stylesheet" href="/chroma.css"/>
+			<!-- route-specific styles -->
+			<link rel="preload" as="style" href="/styles/routes/post.css"/>
+			<link rel="stylesheet" href="/styles/routes/post.css"/>
 		}
 		<body>
 			<div class="with-main-nav">
