@@ -22,6 +22,10 @@ body {
   }
 }
 
+@keyframes flash-bg {
+  from { background-color: yellow; }
+  to { background-color: transparent; }
+}
 
 .with-main-nav {
   container: layout / inline-size;
