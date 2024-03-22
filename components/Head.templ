@@ -28,11 +28,6 @@ templ Head(title string) {
 		<!-- css -->
 		<link rel="preload" as="style" href="/styles.css"/>
 		<link rel="stylesheet" href="/styles.css"/>
-		<script>
-      if (!window.CSSPropertyRule) {
-        document.documentElement.classList.add('atproperty-fallback');
-      }
-    </script>
 		<!-- feeds -->
 		if routesMap := GetRoutesMap(ctx); routesMap != nil {
 			for route, routeEntry := range routesMap {
