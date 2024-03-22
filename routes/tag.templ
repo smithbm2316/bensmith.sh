@@ -1,15 +1,15 @@
-package views
+package routes
 
 import (
 	"fmt"
 
-	"bensmith.sh/models"
-	"bensmith.sh/views/components"
+	"bensmith.sh"
+	"bensmith.sh/components"
 )
 
 // Renders a route that renders all of the relevant `Posts` that the supplied
 // `tag` is found on
-templ TagRoute(tag string, posts []*models.Post) {
+templ TagRoute(tag string, posts []*bs.Post) {
 	<html lang="en">
 		@components.Head(fmt.Sprintf(`Tagged "%s"`, tag))
 		@components.WithMainNav() {
@@ -28,8 +28,8 @@ templ TagRoute(tag string, posts []*models.Post) {
 }
 
 // Returns a list of `Posts` that the current `tag` is found on
-func getPostsWithTag(tag string, posts []*models.Post) []*models.Post {
-	var filteredPosts = make([]*models.Post, 0)
+func getPostsWithTag(tag string, posts []*bs.Post) []*bs.Post {
+	var filteredPosts = make([]*bs.Post, 0)
 	for _, post := range posts {
 		for _, postTag := range post.Tags {
 			if postTag == tag {

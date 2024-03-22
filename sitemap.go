@@ -1,4 +1,4 @@
-package models
+package bs
 
 import (
 	"bytes"
@@ -41,7 +41,7 @@ func (s Sitemap) Generate(slug string) {
 	// load the sitemap.xml text template
 	tmpl := template.Must(
 		template.ParseFiles(
-			filepath.Join(Dirs.TextTemplates, "sitemap.tmpl.xml"),
+			filepath.Join(Dirs.Templates, "sitemap.tmpl.xml"),
 		),
 	)
 

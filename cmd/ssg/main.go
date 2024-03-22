@@ -12,27 +12,19 @@ import (
 	"strings"
 	"time"
 
-	"bensmith.sh/models"
-	"bensmith.sh/views"
+	"bensmith.sh"
+	"bensmith.sh/routes"
 
 	"github.com/a-h/templ"
 	chroma "github.com/alecthomas/chroma/v2"
 	chromahtml "github.com/alecthomas/chroma/v2/formatters/html"
 	"github.com/yuin/goldmark"
 	highlighting "github.com/yuin/goldmark-highlighting/v2"
-	"github.com/yuin/goldmark-meta"
+	meta "github.com/yuin/goldmark-meta"
 	"github.com/yuin/goldmark/extension"
 	"github.com/yuin/goldmark/parser"
 	"go.abhg.dev/goldmark/anchor"
 )
-
-var Dirs = models.Directories{
-	Build:         "www",
-	Content:       "content",
-	Posts:         "content/words",
-	TextTemplates: "views/templates",
-	Views:         "views",
-}
 
 func main() {
 	// True if we are in development mode
@@ -40,17 +32,13 @@ func main() {
 	flag.BoolVar(&devMode, "dev", false, "True if we are in development mode")
 	flag.Parse()
 
-	// inject Dirs into nested packages
-	models.Dirs = Dirs
-	views.DevMode = devMode
-
 	// create build directory for output
-	if err := os.MkdirAll(Dirs.Build, os.ModePerm); err != nil {
+	if err := os.MkdirAll(bs.Dirs.Build, os.ModePerm); err != nil {
 		log.Fatalf("failed to create output directory: %v", err)
 	}
 
 	// setup file writer for chroma CSS generation, we want to write it to a static CSS file that targets the "chroma" class instead of using inline HTML styles
-	chromaCSSPath := filepath.Join(Dirs.Build, "chroma.css")
+	chromaCSSPath := filepath.Join(bs.Dirs.Build, "chroma.css")
 	chromaCSSFile, err := os.Create(chromaCSSPath)
 	if err != nil {
 		log.Fatalf("failed to create output file: %v", err)
@@ -95,36 +83,36 @@ func main() {
 	// generate all markdown pages
 	pages := generatePages(md, metadataContext)
 	// instantiate the Feed model with our generated posts
-	feed := models.NewFeed(posts)
+	feed := bs.NewFeed(posts)
 
 	// create a single source of truth for all of our routes
-	routesMap := models.RoutesMap{
+	routesMap := bs.RoutesMap{
 		"/": {
 			Text:          "Ben Smith",
-			Handler:       func() templ.Component { return views.IndexRoute() },
+			Handler:       func() templ.Component { return routes.IndexRoute() },
 			IsMainNavLink: true,
 		},
 		"/404/": {
 			Text:    "Error Not Found",
-			Handler: func() templ.Component { return views.ErrorNotFound() },
+			Handler: func() templ.Component { return routes.ErrorNotFound() },
 		},
 		"/tags/": {
 			Text:    "Tags",
-			Handler: func() templ.Component { return views.TagsRoute(tags) },
+			Handler: func() templ.Component { return routes.TagsRoute(tags) },
 		},
 		"/projects/": {
 			Text:          "Projects",
-			Handler:       func() templ.Component { return views.ProjectsRoute() },
+			Handler:       func() templ.Component { return routes.ProjectsRoute() },
 			IsMainNavLink: true,
 		},
 		"/words/": {
 			Text:          "Writing",
-			Handler:       func() templ.Component { return views.BlogRoute(posts, tags) },
+			Handler:       func() templ.Component { return routes.BlogRoute(posts, tags) },
 			IsMainNavLink: true,
 		},
 		"/words/feed/": {
 			Text:          "RSS",
-			Handler:       func() templ.Component { return views.BlogFeedsRoute(posts) },
+			Handler:       func() templ.Component { return routes.BlogFeedsRoute(posts) },
 			IsMainNavLink: true,
 		},
 		"/words/feed.rss.xml": {
@@ -141,28 +129,28 @@ func main() {
 		},
 	}
 	for _, post := range posts {
-		routesMap[post.Slug] = models.RouteEntry{
+		routesMap[post.Slug] = bs.RouteEntry{
 			Text:    post.Title,
-			Handler: func() templ.Component { return views.PostRoute(post) },
+			Handler: func() templ.Component { return routes.PostRoute(post) },
 		}
 	}
 	for _, tag := range tags {
-		routesMap[fmt.Sprintf("/tags/%s/", tag)] = models.RouteEntry{
+		routesMap[fmt.Sprintf("/tags/%s/", tag)] = bs.RouteEntry{
 			Text:    fmt.Sprintf(`Tagged "%s"`, tag),
-			Handler: func() templ.Component { return views.TagsRoute(tags) },
+			Handler: func() templ.Component { return routes.TagsRoute(tags) },
 		}
 	}
 	for _, page := range pages {
 		isUsesPage := page.Title == "Uses"
-		routesMap[page.Slug] = models.RouteEntry{
+		routesMap[page.Slug] = bs.RouteEntry{
 			Text:          page.Title,
-			Handler:       func() templ.Component { return views.MarkdownPageRoute(page) },
+			Handler:       func() templ.Component { return routes.MarkdownPageRoute(page) },
 			IsMainNavLink: isUsesPage,
 		}
 	}
 
 	// initialize our sitemap data
-	sitemap := models.NewSitemap()
+	sitemap := bs.NewSitemap()
 	// loop through all our routes and write the file to disk,
 	// saving the timestamp of that route's output file generation
 	// into our `sitemap.Routes`
@@ -175,7 +163,7 @@ func main() {
 		} else {
 			continue
 		}
-		sitemap.Entries = append(sitemap.Entries, models.SitemapEntry{
+		sitemap.Entries = append(sitemap.Entries, bs.SitemapEntry{
 			Url:          route,
 			LastModified: modified,
 		})
@@ -184,7 +172,7 @@ func main() {
 	sitemap.Generate("/sitemap.xml")
 
 	// Log successful completion of all the generation and exit
-	log.Printf("Generated static files to `%s`\n", Dirs.Build)
+	log.Printf("Generated static files to `%s`\n", bs.Dirs.Build)
 }
 
 // Take a slug and Templ component/route to render to a static HTML file
@@ -193,7 +181,7 @@ func main() {
 func generateOutputFile(
 	slug string,
 	component templ.Component,
-	routesMap models.RoutesMap,
+	routesMap bs.RoutesMap,
 ) time.Time {
 	var dir, htmlFilePath string
 
@@ -201,10 +189,10 @@ func generateOutputFile(
 	// called "404/" with an "index.html" file in it. Otherwise, create a directory based upon
 	// the provided `slug` and generate an `index.html` file for the route in it
 	if strings.Contains(slug, "404") {
-		dir = filepath.Join(Dirs.Build)
+		dir = filepath.Join(bs.Dirs.Build)
 		htmlFilePath = filepath.Join(dir, "404.html")
 	} else {
-		dir = filepath.Join(Dirs.Build, slug)
+		dir = filepath.Join(bs.Dirs.Build, slug)
 		htmlFilePath = filepath.Join(dir, "index.html")
 	}
 
@@ -234,7 +222,7 @@ func generateOutputFile(
 	return info.ModTime()
 }
 
-// Walk the `Dirs.Posts` directory and parse every markdown file found into
+// Walk the `bs.Dirs.Posts` directory and parse every markdown file found into
 // a `Post` struct which we will use as content for our site. Returns
 // a list of all the posts we found and a list of all the tags we found in
 // those markdown posts
@@ -242,10 +230,10 @@ func generatePostsAndTags(
 	md goldmark.Markdown,
 	metadataContext parser.Context,
 	devMode bool,
-) ([]*models.Post, []string) {
-	var posts = make([]*models.Post, 0)
+) ([]*bs.Post, []string) {
+	var posts = make([]*bs.Post, 0)
 
-	if err := filepath.WalkDir(Dirs.Posts, func(path string, d fs.DirEntry, err error) error {
+	if err := filepath.WalkDir(bs.Dirs.Posts, func(path string, d fs.DirEntry, err error) error {
 		// handle errors with reading the directory
 		if err != nil {
 			return err
@@ -255,7 +243,7 @@ func generatePostsAndTags(
 			return nil
 		}
 
-		post, err := models.NewPost(md, metadataContext, path)
+		post, err := bs.NewPost(md, metadataContext, path)
 		if err != nil {
 			log.Fatalf("Failed to create new post from '%s'", path)
 		}
@@ -299,23 +287,24 @@ func generatePostsAndTags(
 	return posts, tags
 }
 
-// Walk the `Dirs.Content` directory and parse every markdown file found into
+// Walk the `bs.Dirs.Content` directory and parse every markdown file found into
 // a `Page` struct which we will use as content for various pages on our site.
 // Returns a list of the generated `Page`s
-func generatePages(md goldmark.Markdown, metadataContext parser.Context) []*models.Page {
-	var pages = make([]*models.Page, 0)
+func generatePages(md goldmark.Markdown, metadataContext parser.Context) []*bs.Page {
+	var pages = make([]*bs.Page, 0)
 
-	if err := filepath.WalkDir(Dirs.Content, func(path string, d fs.DirEntry, err error) error {
+	if err := filepath.WalkDir(bs.Dirs.Content, func(path string, d fs.DirEntry, err error) error {
 		// handle errors with reading the directory
 		if err != nil {
 			return err
 		}
-		// skip processing directories and files that aren't markdown, and don't process any directories that are in the Dirs.Posts directory
-		if d.IsDir() || filepath.Ext(path) != ".md" || strings.Contains(path, Dirs.Posts) {
+		// skip processing directories and files that aren't markdown, and don't
+		// process any directories that are in the `bs.Dirs.Posts` directory
+		if d.IsDir() || filepath.Ext(path) != ".md" || strings.Contains(path, bs.Dirs.Posts) {
 			return nil
 		}
 
-		page, err := models.NewPage(md, metadataContext, path)
+		page, err := bs.NewPage(md, metadataContext, path)
 		if err != nil {
 			log.Fatalf("Failed to create new post from '%s'", path)
 		}
