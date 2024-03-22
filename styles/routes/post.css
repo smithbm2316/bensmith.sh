@@ -1,5 +1,4 @@
 @layer routes {
-
   /* https://css-tricks.com/books/greatest-css-tricks/the-yellow-flash/ */
   :is(h1, h2, h3, h4, h5, h6):target {
     animation: flash-bg 2s;
@@ -14,7 +13,7 @@
   }
 
   /* calc(var(--main-content) + var(--toc-column) + var(--column-gap) * 2) */
-  @container article-container (width >=96ch) {
+  @container article-container (width >= 96ch) {
     article {
       display: grid;
       grid-template-columns: 1fr var(--main-content) minmax(24ch, 1fr);
