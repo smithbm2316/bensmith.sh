@@ -1,10 +1,16 @@
-package models
+package bs
 
 import (
 	"time"
 
 	"github.com/a-h/templ"
 )
+
+// A generic type to represent a URL/Link on our site
+type Link struct {
+	Url  string
+	Text string
+}
 
 // A controller that is mapped to one unique slug on our site
 type RouteEntry struct {

@@ -1,4 +1,4 @@
-package models
+package bs
 
 import (
 	"bytes"
@@ -65,7 +65,7 @@ func (feed Feed) Generate(slug string, feedType string) time.Time {
 	// load the text template
 	tmpl := template.Must(
 		template.ParseFiles(
-			filepath.Join(Dirs.TextTemplates, templateName),
+			filepath.Join(Dirs.Templates, templateName),
 		),
 	)
 

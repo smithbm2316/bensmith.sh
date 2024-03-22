@@ -1,16 +1,14 @@
-package views
+package routes
 
 import (
 	"time"
 
-	"bensmith.sh/models"
-	"bensmith.sh/views/components"
+	"bensmith.sh"
+	"bensmith.sh/components"
 )
 
-var DevMode bool
-
 // Renders a route containing the content of a specific blog `Post`
-templ PostRoute(post *models.Post) {
+templ PostRoute(post *bs.Post) {
 	<html lang="en">
 		@components.Head(post.Title) {
 			<link rel="preload" as="style" href="/chroma.css"/>

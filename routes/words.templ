@@ -1,14 +1,14 @@
-package views
+package routes
 
 import (
 	"fmt"
 
-	"bensmith.sh/models"
-	"bensmith.sh/views/components"
+	"bensmith.sh"
+	"bensmith.sh/components"
 )
 
 // Renders a route with our latest blog posts and all of the tags on our blogs
-templ BlogRoute(posts []*models.Post, tags []string) {
+templ BlogRoute(posts []*bs.Post, tags []string) {
 	<html lang="en">
 		@components.Head("Blog")
 		@components.WithMainNav() {

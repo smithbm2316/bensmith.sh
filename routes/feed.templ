@@ -1,13 +1,13 @@
-package views
+package routes
 
 import (
-	"bensmith.sh/models"
-	"bensmith.sh/views/components"
+	"bensmith.sh"
+	"bensmith.sh/components"
 )
 
 // Renders a Feed page with links to all of the various feeds that we offer
 // as well as the latest blog posts
-templ BlogFeedsRoute(posts []*models.Post) {
+templ BlogFeedsRoute(posts []*bs.Post) {
 	<html lang="en">
 		@components.Head("Feeds")
 		@components.WithMainNav() {

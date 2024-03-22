@@ -1,4 +1,4 @@
-package models
+package bs
 
 // Represents all the input/output directories for the site
 type Directories struct {
@@ -9,11 +9,17 @@ type Directories struct {
 	// the input directory of markdown files to be used to generate blog `Post`s
 	Posts string
 	// the input directory of all the Templ components
-	Views string
+	Routes string
 	// the input directory of all the stdlib text/templates for generating feeds
 	// or a sitemap
-	TextTemplates string
+	Templates string
 }
 
 // Our globally instantiated object of input/output directories for the site
-var Dirs Directories
+var Dirs = Directories{
+	Build:     "www",
+	Content:   "content",
+	Posts:     "content/words",
+	Routes:    "routes",
+	Templates: "templates",
+}

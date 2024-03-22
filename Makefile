@@ -22,6 +22,10 @@ outputDir := www
 # HELP MENU
 #
 # ============================================================================ #
+.PHONY: path
+path:
+	@echo $(PATH)
+	@which templ
 
 #- help: print this help message
 .PHONY: help
