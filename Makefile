@@ -22,11 +22,6 @@ outputDir := www
 # HELP MENU
 #
 # ============================================================================ #
-.PHONY: path
-path:
-	@echo $(PATH)
-	@which templ
-
 #- help: print this help message
 .PHONY: help
 help:
@@ -59,16 +54,22 @@ dev: clean
 		-xdir ${outputDir} -xdir ${staticDir} \
 		./scripts/build-css.sh -o ${outputDir} -m dev
 
-#- dev/serve: uses `browser-sync` for a auto-reloading dev server
+#- serve: uses `browser-sync` for a auto-reloading dev server
 .PHONY: serve
 serve:
 	@npx browser-sync start \
-		--server ${outputDir} \
-		--port ${serverPort} \
-		--ui-port 2324 \
+		--files "${outputDir},${staticDir}" \
 		--no-open \
+		--port ${serverPort} \
 		--serveStatic ${staticDir} \
-		--files "${outputDir},${staticDir}"
+		--server ${outputDir} \
+		--ui-port 2324 $(SERVE_FLAG) $(SERVE_VALUE)
+
+#- serve-local: calls `make serve`, but hides dev server from the local network
+.PHONY: serve-local
+serve-local:
+	@$(MAKE) --no-print-directory serve \
+		SERVE_FLAG="--listen" SERVE_VALUE="localhost"
 
 #- clean: remove all build artifacts from the output directory
 .PHONY: clean
