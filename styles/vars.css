@@ -1,0 +1,80 @@
+/* https://www.realtimecolors.com/dashboard?colors=dae0f6-191d2e-f075f0-949fd1-dae0f6 */
+:root {
+  /* brand colors */
+  /* fg */
+  --light-50: #eaeefa;
+  --light-100: #dae0f6;
+  --light-200: #adbaeb;
+  --light-300: #8094e0;
+  --light-400: #536fd5;
+  --light-500: #2f4ec1;
+  --light-600: #243c94;
+  --light-700: #192a66;
+  --light-800: #0e1739;
+  --light-900: #03050c;
+  --light-950: #000000;
+
+  /* bg */
+  --dark-50: #d0d5e6;
+  --dark-100: #c3c8df;
+  --dark-200: #a9b0d0;
+  --dark-300: #8e98c2;
+  --dark-400: #7480b3;
+  --dark-500: #5a68a5;
+  --dark-600: #4b578b;
+  --dark-700: #3d4770;
+  --dark-800: #2f3656;
+  --dark-900: #20253b;
+  --dark-950: #191d2e;
+
+  /* primary */
+  --primary-50: #fef6fe;
+  --primary-100: #fce3fc;
+  --primary-200: #f8bff8;
+  --primary-300: #f49af4;
+  --primary-400: #f075f0;
+  --primary-500: #eb42ea;
+  --primary-600: #dd18dd;
+  --primary-700: #aa12aa;
+  --primary-800: #780d78;
+  --primary-900: #450845;
+  --primary-950: #2c052c;
+
+  /* secondary */
+  --secondary-50: #f8f9fc;
+  --secondary-100: #eaecf6;
+  --secondary-200: #cdd2ea;
+  --secondary-300: #b1b9dd;
+  --secondary-400: #949fd1;
+  --secondary-500: #6d7cc0;
+  --secondary-600: #4a5bab;
+  --secondary-700: #394684;
+  --secondary-800: #28315d;
+  --secondary-900: #171c35;
+  --secondary-950: #0f1222;
+
+  /* main brand colors */
+  --light: var(--light-100);
+  --dark: var(--dark-950);
+  --primary: var(--primary-400);
+  --secondary: var(--secondary-400);
+
+  /* globally used values */
+  --fg: var(--light);
+  --bg: var(--dark);
+  --bg-pre-code: var(--dark-900);
+  --bg-flash: oklch(37.43% 0.064 273.63);
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    /* main brand colors */
+    --primary: var(--secondary-600);
+
+    /* globally used values */
+    --fg: var(--dark);
+    --bg: var(--dark-50);
+    --bg-pre-code: unset;
+    --bg-flash: oklch(85.31% 0.1224 94.54);
+  }
+}

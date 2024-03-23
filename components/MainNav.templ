@@ -54,15 +54,15 @@ func GetCurrentRoute(ctx context.Context) string {
 }
 
 // Renders a `<body>` layout that contains a column for the `MainNav` component
-// as well as a `<main>` tag that takes any `children` supplied to it. Use this
+// as well as a `<div>` tag that takes any `children` supplied to it. Use this
 // generally in favor of the `MainNav` component directly
 templ WithMainNav() {
 	<body>
 		<div class="with-main-nav">
 			@MainNav()
-			<main>
+			<div>
 				{ children... }
-			</main>
+			</div>
 		</div>
 		@ReturnToTop()
 	</body>
