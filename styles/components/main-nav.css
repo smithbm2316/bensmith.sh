@@ -19,7 +19,7 @@
     text-decoration: underline;
   }
 
-  & a[aria-page="current"] {
+  & a[aria-current="page"] {
     font-weight: 600;
   }
 }
