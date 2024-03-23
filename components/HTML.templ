@@ -1,0 +1,11 @@
+package components 
+
+// Wrap any templ.Component with the proper <!DOCTYPE html> tag and with
+// an <html> tag that has an attribute of `lang="en"`. Used in the
+// `cmd/main/ssg.go` builder to wrap every route we handle
+templ HTML(page templ.Component) {
+	<!DOCTYPE html>
+	<html lang="en">
+		@page
+	</html>
+}

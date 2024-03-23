@@ -9,64 +9,62 @@ import (
 
 // Renders a route containing the content of a specific blog `Post`
 templ PostRoute(post *bs.Post) {
-	<html lang="en">
-		@components.Head(post.Title) {
-			<link rel="preload" as="style" href="/chroma.css"/>
-			<link rel="stylesheet" href="/chroma.css"/>
-			<!-- route-specific styles -->
-			<link rel="preload" as="style" href="/styles/routes/post.css"/>
-			<link rel="stylesheet" href="/styles/routes/post.css"/>
-		}
-		<body>
-			<div class="with-main-nav">
-				@components.MainNav()
-				<div class="article-container">
-					<article id="#top" class="flow">
-						<header>
-							<h1>{ post.Title }</h1>
-							<div class="post-metadata">
-								<time datetime={ post.Published.Format(time.RFC3339) }>
-									{ post.Published.Format("Monday, January 1, 2006") }
-								</time>
-								if len(post.Tags) > 0 {
+	@components.Head(post.Title) {
+		<link rel="preload" as="style" href="/chroma.css"/>
+		<link rel="stylesheet" href="/chroma.css"/>
+		<!-- route-specific styles -->
+		<link rel="preload" as="style" href="/styles/routes/post.css"/>
+		<link rel="stylesheet" href="/styles/routes/post.css"/>
+	}
+	<body>
+		<div class="with-main-nav">
+			@components.MainNav()
+			<div class="article-container">
+				<article id="#top" class="flow">
+					<header>
+						<h1>{ post.Title }</h1>
+						<div class="post-metadata">
+							<time datetime={ post.Published.Format(time.RFC3339) }>
+								{ post.Published.Format("Monday, January 1, 2006") }
+							</time>
+							if len(post.Tags) > 0 {
+								<ul>
+									for _, tag := range post.Tags {
+										<li>{ tag }</li>
+									}
+								</ul>
+							}
+						</div>
+					</header>
+					<post-toc
+						if len(post.Headings) == 0 {
+							aria-hidden="true"
+						}
+					>
+						if len(post.Headings) > 0 {
+							<nav aria-labelledby="article-toc">
+								<details>
+									<summary id="article-toc">
+										Table of Contents
+									</summary>
 									<ul>
-										for _, tag := range post.Tags {
-											<li>{ tag }</li>
+										for _, heading := range post.Headings {
+											<li>
+												<a href={ templ.SafeURL(heading.Id) }>{ heading.Text }</a>
+											</li>
 										}
 									</ul>
-								}
-							</div>
-						</header>
-						<post-toc
-							if len(post.Headings) == 0 {
-								aria-hidden="true"
-							}
-						>
-							if len(post.Headings) > 0 {
-								<nav aria-labelledby="article-toc">
-									<details>
-										<summary id="article-toc">
-											Table of Contents
-										</summary>
-										<ul>
-											for _, heading := range post.Headings {
-												<li>
-													<a href={ templ.SafeURL(heading.Id) }>{ heading.Text }</a>
-												</li>
-											}
-										</ul>
-									</details>
-								</nav>
-							}
-						</post-toc>
-						<main class="flow">
-							@components.Unsafe(post.Content)
-						</main>
-					</article>
-				</div>
+								</details>
+							</nav>
+						}
+					</post-toc>
+					<main class="flow">
+						@components.Unsafe(post.Content)
+					</main>
+				</article>
 			</div>
-			<script src="/scripts/post-toc.js" defer type="text/javascript"></script>
-			@components.ReturnToTop()
-		</body>
-	</html>
+		</div>
+		<script src="/scripts/post-toc.js" defer type="text/javascript"></script>
+		@components.ReturnToTop()
+	</body>
 }

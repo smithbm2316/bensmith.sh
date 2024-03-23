@@ -49,23 +49,21 @@ var links = []bs.Link{
 }
 
 templ MeRoute() {
-	<html lang="en">
-		@components.Head("Linktree")
-		<body>
-			<main>
-				<a href="/">
-					<h1>{ "Ben Smith" }</h1>
-				</a>
-				<ul>
-					for _, link := range links {
-						<li>
-							<a href={ templ.SafeURL(link.Url) } rel="noreferrer">
-								<span>{ link.Text }</span>
-							</a>
-						</li>
-					}
-				</ul>
-			</main>
-		</body>
-	</html>
+	@components.Head("Linktree")
+	<body>
+		<main>
+			<a href="/">
+				<h1>{ "Ben Smith" }</h1>
+			</a>
+			<ul>
+				for _, link := range links {
+					<li>
+						<a href={ templ.SafeURL(link.Url) } rel="noreferrer">
+							<span>{ link.Text }</span>
+						</a>
+					</li>
+				}
+			</ul>
+		</main>
+	</body>
 }

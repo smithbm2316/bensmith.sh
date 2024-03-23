@@ -6,10 +6,8 @@ import (
 
 // Renders a route with all of my projects
 templ ProjectsRoute() {
-	<html lang="en">
-		@components.Head("Projects")
-		@components.WithMainNav() {
-			<h1>Projects</h1>
-		}
-	</html>
+	@components.Head("Projects")
+	@components.WithMainNav() {
+		<h1>Projects</h1>
+	}
 }

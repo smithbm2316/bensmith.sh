@@ -7,15 +7,13 @@ import (
 
 // Renders a `Page` that has content generated from a markdown file
 templ MarkdownPageRoute(page *bs.Page) {
-	<html lang="en">
-		@components.Head(page.Title)
-		@components.WithMainNav() {
-			<article>
-				<h1>{ page.Title }</h1>
-				<section>
-					@components.Unsafe(page.Content)
-				</section>
-			</article>
-		}
-	</html>
+	@components.Head(page.Title)
+	@components.WithMainNav() {
+		<article>
+			<h1>{ page.Title }</h1>
+			<section>
+				@components.Unsafe(page.Content)
+			</section>
+		</article>
+	}
 }
