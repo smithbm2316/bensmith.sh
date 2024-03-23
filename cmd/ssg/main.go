@@ -70,7 +70,8 @@ func main() {
 					chromahtml.WithClasses(true),
 					// make sure that <pre> tags overflow
 					chromahtml.WithCustomCSS(map[chroma.TokenType]string{
-						chroma.PreWrapper: "overflow-x: auto; padding: 1em; border-radius",
+						chroma.PreWrapper: "overflow-x: auto; padding: 1em;",
+						chroma.Background: "background-color: var(--bg-pre-code)",
 					}),
 				),
 			),

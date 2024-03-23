@@ -1,7 +1,7 @@
 @layer routes {
   /* https://css-tricks.com/books/greatest-css-tricks/the-yellow-flash/ */
   :is(h1, h2, h3, h4, h5, h6):target {
-    animation: flash-bg 2s;
+    animation: bg-flash 2s;
   }
 
   .article-container {
@@ -57,17 +57,13 @@
     margin-block-end: 1em;
   }
 
-  .post-metadata,
-  post-toc ul,
-  .post-metadata {
-    font-size: var(--fs-sm);
-  }
-
   post-toc details {
     cursor: pointer;
   }
 
   pre {
+    /* use a brand color background for code blocks */
+    /* background-color: var(--dark-900) !important; */
     font-size: var(--fs-sm);
   }
 }

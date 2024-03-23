@@ -1,6 +1,8 @@
 package routes
 
 import (
+	"time"
+
 	"bensmith.sh"
 	"bensmith.sh/components"
 )
@@ -9,34 +11,37 @@ import (
 // as well as the latest blog posts
 templ BlogFeedsRoute(posts []*bs.Post) {
 	<html lang="en">
-		@components.Head("Feeds")
+		@components.Head("Feeds") {
+			<link rel="preload" as="style" href="/styles/routes/words.css"/>
+			<link rel="stylesheet" href="/styles/routes/words.css"/>
+		}
 		@components.WithMainNav() {
-			<h1>RSS</h1>
-			<nav aria-labelledby="rss-feeds">
-				<h2 id="rss-feeds">RSS Feeds</h2>
-				<ul>
-					<li><a href="/words/feed.rss.xml">RSS</a></li>
-					<li><a href="/words/feed.atom.xml">Atom</a></li>
-					<li><a href="/words/feed.json">JSON</a></li>
-				</ul>
-			</nav>
-			<!-- Posts will already be sorted by newest first -->
-			<section aria-labelledby="#latest-posts">
-				<h2 id="latest-posts">
-					if len(posts) == 0 {
-						{ "No posts found" }
-					} else {
-						{ "Latest Posts" }
-					}
-				</h2>
-				if len(posts) > 0 {
-					<ul>
-						for _, post := range posts {
-							<li><a href={ templ.URL(post.Slug) }>{ post.Title }</a></li>
-						}
+			<main>
+				<h1 id="feeds">Feeds</h1>
+				<section class="tags-section" aria-labelledby="feeds">
+					<ul role="list">
+						<li><a href="/words/feed.rss.xml">RSS</a></li>
+						<li><a href="/words/feed.atom.xml">Atom</a></li>
+						<li><a href="/words/feed.json">JSON</a></li>
 					</ul>
-				}
-			</section>
+				</section>
+				<!-- Posts will already be sorted by newest first -->
+				<section class="posts-section" aria-labelledby="#latest-posts">
+					<h2 id="latest-posts">Latest Posts</h2>
+					if len(posts) > 0 {
+						<ul role="list">
+							for _, post := range posts {
+								<li>
+									<a href={ templ.URL(post.Slug) }>{ post.Title }</a>
+									<time datetime={ post.Published.Format(time.RFC3339) }>
+										{ post.Published.Format("1/1/06") }
+									</time>
+								</li>
+							}
+						</ul>
+					}
+				</section>
+			</main>
 		}
 	</html>
 }

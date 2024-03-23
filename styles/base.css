@@ -10,8 +10,9 @@
   --fs-3xl: clamp(3.05rem, 2.81vw + 2.49rem, 4.73rem);
 }
 
-
 body {
+  background-color: var(--bg);
+  color: var(--fg);
   font-family: Inter, system-ui, sans-serif;
   font-size: var(--fs-base);
   min-height: 100vh;
@@ -22,9 +23,37 @@ body {
   }
 }
 
-@keyframes flash-bg {
-  from { background-color: yellow; }
-  to { background-color: transparent; }
+/* links should go from --fg to --primary by default */
+:where(a) {
+  color: var(--fg);
+}
+:where(a):is(:hover, :focus-visible, :active) {
+  color: var(--primary);
+}
+
+/* but if they're in an article/paragraph, go from --primary to --fg */
+:where(p, article) a {
+  color: var(--primary);
+}
+:where(p, article) a:is(:hover, :focus-visible, :active) {
+  color: var(--fg);
+}
+
+/* disable link underline by default if it's a direct child of a heading element */
+:where(h1, h2, h3, h4, h5, h6) > a {
+  text-decoration: none;
+}
+:where(h1, h2, h3, h4, h5, h6) > a:is(:hover, :focus-visible, :active) {
+  text-decoration: underline;
+}
+
+@keyframes bg-flash {
+  from {
+    background-color: var(--bg-flash);
+  }
+  to {
+    background-color: transparent;
+  }
 }
 
 .with-main-nav {
