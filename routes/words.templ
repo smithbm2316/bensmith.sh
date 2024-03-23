@@ -10,50 +10,48 @@ import (
 
 // Renders a route with our latest blog posts and all of the tags on our blogs
 templ BlogRoute(posts []*bs.Post, tags []string) {
-	<html lang="en">
-		@components.Head("Blog") {
-			<link rel="preload" as="style" href="/styles/routes/words.css"/>
-			<link rel="stylesheet" href="/styles/routes/words.css"/>
-		}
-		@components.WithMainNav() {
-			<main>
-				<h1>{ "Blog" }</h1>
-				<!-- Posts will already be sorted by newest first -->
-				<section class="posts-section" aria-labelledby="latest-posts">
-					<h2 id="latest-posts">Latest Posts</h2>
-					if len(posts) > 0 {
-						<ul role="list">
-							for _, post := range posts {
-								<li>
-									<a href={ templ.SafeURL(post.Slug) }>
-										{ post.Title }
-									</a>
-									<time datetime={ post.Published.Format(time.RFC3339) }>
-										{ post.Published.Format("1/1/06") }
-									</time>
-								</li>
-							}
-						</ul>
-					}
-				</section>
-				<!-- Tags will already be sorted alphabetically -->
-				<section class="tags-section" aria-labelledby="tags">
-					<h2 id="tags">
-						<a href="/tags">{ "Tags" }</a>
-					</h2>
-					if len(tags) > 0 {
-						<ul role="list">
-							for _, tag := range tags {
-								<li>
-									<a href={ templ.SafeURL(fmt.Sprintf("/tags/%s", tag)) }>
-										{ tag }
-									</a>
-								</li>
-							}
-						</ul>
-					}
-				</section>
-			</main>
-		}
-	</html>
+	@components.Head("Blog") {
+		<link rel="preload" as="style" href="/styles/routes/words.css"/>
+		<link rel="stylesheet" href="/styles/routes/words.css"/>
+	}
+	@components.WithMainNav() {
+		<main>
+			<h1>{ "Blog" }</h1>
+			<!-- Posts will already be sorted by newest first -->
+			<section class="posts-section" aria-labelledby="latest-posts">
+				<h2 id="latest-posts">Latest Posts</h2>
+				if len(posts) > 0 {
+					<ul role="list">
+						for _, post := range posts {
+							<li>
+								<a href={ templ.SafeURL(post.Slug) }>
+									{ post.Title }
+								</a>
+								<time datetime={ post.Published.Format(time.RFC3339) }>
+									{ post.Published.Format("1/1/06") }
+								</time>
+							</li>
+						}
+					</ul>
+				}
+			</section>
+			<!-- Tags will already be sorted alphabetically -->
+			<section class="tags-section" aria-labelledby="tags">
+				<h2 id="tags">
+					<a href="/tags">{ "Tags" }</a>
+				</h2>
+				if len(tags) > 0 {
+					<ul role="list">
+						for _, tag := range tags {
+							<li>
+								<a href={ templ.SafeURL(fmt.Sprintf("/tags/%s", tag)) }>
+									{ tag }
+								</a>
+							</li>
+						}
+					</ul>
+				}
+			</section>
+		</main>
+	}
 }

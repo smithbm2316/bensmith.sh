@@ -8,29 +8,27 @@ import (
 
 // Renders a route that shows all of the tags found in all of our blog posts
 templ TagsRoute(tags []string) {
-	<html lang="en">
-		@components.Head("Tags") {
-			<link rel="preload" as="style" href="/styles/routes/words.css"/>
-			<link rel="stylesheet" href="/styles/routes/words.css"/>
-		}
-		@components.WithMainNav() {
-			<main>
-				<h1 id="tags">Tags</h1>
-				<!-- Tags will already be sorted alphabetically -->
-				<section class="tags-section" aria-labelledby="tags">
-					if len(tags) > 0 {
-						<ul role="list">
-							for _, tag := range tags {
-								<li>
-									<a href={ templ.SafeURL(fmt.Sprintf("/tags/%s", tag)) }>
-										{ tag }
-									</a>
-								</li>
-							}
-						</ul>
-					}
-				</section>
-			</main>
-		}
-	</html>
+	@components.Head("Tags") {
+		<link rel="preload" as="style" href="/styles/routes/words.css"/>
+		<link rel="stylesheet" href="/styles/routes/words.css"/>
+	}
+	@components.WithMainNav() {
+		<main>
+			<h1 id="tags">Tags</h1>
+			<!-- Tags will already be sorted alphabetically -->
+			<section class="tags-section" aria-labelledby="tags">
+				if len(tags) > 0 {
+					<ul role="list">
+						for _, tag := range tags {
+							<li>
+								<a href={ templ.SafeURL(fmt.Sprintf("/tags/%s", tag)) }>
+									{ tag }
+								</a>
+							</li>
+						}
+					</ul>
+				}
+			</section>
+		</main>
+	}
 }

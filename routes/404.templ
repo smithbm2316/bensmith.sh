@@ -5,11 +5,9 @@ import "bensmith.sh/components"
 // Our `404` fallback `404.html` error page if the user tries
 // to visit a page that doesn't exist
 templ ErrorNotFound() {
-	<html lang="en">
-		@components.Head("404 Not Found")
-		@components.WithMainNav() {
-			<h1>{ "404 Not Found" }</h1>
-			<a href="/">{ "Back to homepage" }</a>
-		}
-	</html>
+	@components.Head("404 Not Found")
+	@components.WithMainNav() {
+		<h1>{ "404 Not Found" }</h1>
+		<a href="/">{ "Back to homepage" }</a>
+	}
 }

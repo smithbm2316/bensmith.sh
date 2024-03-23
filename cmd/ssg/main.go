@@ -13,6 +13,7 @@ import (
 	"time"
 
 	"bensmith.sh"
+	"bensmith.sh/components"
 	"bensmith.sh/routes"
 
 	"github.com/a-h/templ"
@@ -212,7 +213,7 @@ func generateOutputFile(
 	// render the specified template to the file writer
 	ctx := context.WithValue(context.Background(), "currentRoute", slug)
 	ctx = context.WithValue(ctx, "routesMap", routesMap)
-	err = component.Render(ctx, file)
+	err = components.HTML(component).Render(ctx, file)
 	if err != nil {
 		log.Fatalf("failed to write blog index page: %v", err)
 	}
