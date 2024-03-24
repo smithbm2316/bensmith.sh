@@ -28,6 +28,9 @@ templ Head(title string) {
 		<!-- css -->
 		<link rel="preload" as="style" href="/styles.css"/>
 		<link rel="stylesheet" href="/styles.css"/>
+		<!-- inter font -->
+		<link rel="preconnect" href="https://rsms.me/"/>
+		<link rel="stylesheet" href="https://rsms.me/inter/inter.css"/>
 		<!-- feeds -->
 		if routesMap := GetRoutesMap(ctx); routesMap != nil {
 			for route, routeEntry := range routesMap {
