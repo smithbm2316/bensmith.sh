@@ -139,7 +139,7 @@ func main() {
 	for _, tag := range tags {
 		routesMap[fmt.Sprintf("/tags/%s/", tag)] = bs.RouteEntry{
 			Text:    fmt.Sprintf(`Tagged "%s"`, tag),
-			Handler: func() templ.Component { return routes.TagsRoute(tags) },
+			Handler: func() templ.Component { return routes.TagRoute(tag, posts) },
 		}
 	}
 	for _, page := range pages {
