@@ -23,12 +23,12 @@ templ PostRoute(post *bs.Post) {
 				<article id="#top" class="flow">
 					<header>
 						<h1>{ post.Title }</h1>
-						<div class="post-metadata">
+						<div class="post-metadata tags-section">
 							<time datetime={ post.Published.Format(time.RFC3339) }>
 								{ post.Published.Format("Monday, January 1, 2006") }
 							</time>
 							if len(post.Tags) > 0 {
-								<ul>
+								<ul role="list">
 									for _, tag := range post.Tags {
 										<li>{ tag }</li>
 									}

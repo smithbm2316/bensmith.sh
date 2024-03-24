@@ -1,4 +1,4 @@
-@layer reset, base, components, utils, routes;
+@layer reset, base, utils, components, routes;
 
 @import "reset.css" layer(reset);
 
@@ -7,5 +7,7 @@
 
 @import "components/main-nav.css" layer(components);
 @import "components/return-to-top.css" layer(components);
+@import "components/posts-section.css" layer(components);
+@import "components/tags-section.css" layer(components);
 
 @import "utils.css" layer(utils);

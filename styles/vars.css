@@ -1,7 +1,9 @@
-/* https://www.realtimecolors.com/dashboard?colors=dae0f6-191d2e-f075f0-949fd1-dae0f6 */
+/*
+ * design tokens (don't override)
+ * https://www.realtimecolors.com/dashboard?colors=dae0f6-191d2e-f075f0-949fd1-dae0f6
+ */
 :root {
-  /* brand colors */
-  /* fg */
+  /* light */
   --light-50: #eaeefa;
   --light-100: #dae0f6;
   --light-200: #adbaeb;
@@ -14,7 +16,7 @@
   --light-900: #03050c;
   --light-950: #000000;
 
-  /* bg */
+  /* dark */
   --dark-50: #d0d5e6;
   --dark-100: #c3c8df;
   --dark-200: #a9b0d0;
@@ -53,25 +55,61 @@
   --secondary-900: #171c35;
   --secondary-950: #0f1222;
 
-  /* main brand colors */
+  /* 
+   * type scale
+   * https://www.fluid-type-scale.com
+   * minFontSize: 20px
+   * minWidth: 320px
+   * minRatio: 1.25
+   * maxFontSize: 16px
+   * maxWidth: 1280px
+   * maxRatio: 1.33
+   * steps: xs,sm,base,md,lg,xl,2xl,3xl
+   * baseStep: base
+   * prefix: fs
+   * decimals: 2
+   * useRems: true
+   * remValue: 16
+   * previewFont: Inter
+   * previewWidth: 1280px
+   */
+  --fs-xs: clamp(0.8rem, -0.39vi + 0.88rem, 0.57rem);
+  --fs-sm: clamp(1rem, -0.41vi + 1.08rem, 0.75rem);
+  --fs-base: clamp(1.25rem, -0.42vi + 1.33rem, 1rem);
+  --fs-md: clamp(1.56rem, -0.39vi + 1.64rem, 1.33rem);
+  --fs-lg: clamp(1.95rem, -0.31vi + 2.01rem, 1.77rem);
+  --fs-xl: clamp(2.44rem, -0.15vi + 2.47rem, 2.35rem);
+  --fs-2xl: clamp(3.05rem, 0.13vi + 3.03rem, 3.13rem);
+  --fs-3xl: clamp(3.81rem, 0.58vi + 3.7rem, 4.16rem);
+}
+
+/*
+ * global component values (overrideable)
+ */
+:root {
+  --fg: var(--light);
+  --bg: var(--dark);
+  --bg-pre-code: var(--dark-900);
+  --bg-flash: oklch(37.43% 0.064 273.63);
   --light: var(--light-100);
   --dark: var(--dark-950);
   --primary: var(--primary-400);
   --secondary: var(--secondary-400);
 
-  /* globally used values */
-  --fg: var(--light);
-  --bg: var(--dark);
-  --bg-pre-code: var(--dark-900);
-  --bg-flash: oklch(37.43% 0.064 273.63);
+  --content: 60ch;
+  --sidebar: 16ch;
+  --gap-col: 6ch;
+  --gap-row: 3ch;
+  --viewport-padding: calc(var(--gap-col) / 2 + 1vw);
+
+  @media screen and (width < 400px) {
+    --viewport-padding: calc(var(--gap-col) / 3);
+  }
 }
 
 @media (prefers-color-scheme: light) {
   :root {
-    /* main brand colors */
     --primary: var(--secondary-600);
-
-    /* globally used values */
     --fg: var(--dark);
     --bg: var(--dark-50);
     --bg-pre-code: unset;

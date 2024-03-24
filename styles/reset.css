@@ -20,15 +20,23 @@ html {
 }
 
 /* Remove default margin in favour of better control in authored CSS */
-body, h1, h2, h3, h4, p,
-figure, blockquote, dl, dd {
+body,
+h1,
+h2,
+h3,
+h4,
+p,
+figure,
+blockquote,
+dl,
+dd {
   margin: 0;
 }
 
 /* Remove list styles on ul, ol elements with a list role, which suggests default styling will be removed */
 /* https://bugs.webkit.org/show_bug.cgi?id=170179 */
-ul[role='list'],
-ol[role='list'] {
+ul[role="list"],
+ol[role="list"] {
   margin: 0;
   padding: 0;
   list-style: none;
@@ -37,7 +45,7 @@ ol[role='list'] {
 /* Set core body defaults */
 body {
   min-height: 100vh;
-  line-height: 1.5;
+  line-height: 1.6;
   /* improve text rendering */
   /* https://www.joshwcomeau.com/css/custom-css-reset/#four-font-smoothing-5 */
   -webkit-font-smoothing: antialiased;
@@ -51,13 +59,23 @@ body {
 }
 
 /* Set shorter line heights on headings and interactive elements */
-h1, h2, h3, h4,
-button, input, label {
+h1,
+h2,
+h3,
+h4,
+button,
+input,
+label {
   line-height: 1.1;
 }
 
 /* Balance text wrapping on headings */
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   text-wrap: balance;
 }
 
@@ -74,7 +92,13 @@ h1, h2, h3, h4, h5, h6 {
  * overflow issue.
  */
 /* https://www.joshwcomeau.com/css/custom-css-reset/#seven-word-wrapping-8 */
-p, h1, h2, h3, h4, h5, h6 {
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   overflow-wrap: break-word;
   /* hyphens: auto; */
 }
@@ -86,13 +110,18 @@ a:not([class]) {
 }
 
 /* Make images & video easier to work with */
-img, picture, video {
+img,
+picture,
+video {
   max-width: 100%;
   display: block;
 }
 
 /* Inherit fonts for inputs and buttons */
-input, button, textarea, select {
+input,
+button,
+textarea,
+select {
   font: inherit;
 }
 

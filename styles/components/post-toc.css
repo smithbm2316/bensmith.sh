@@ -1,0 +1,22 @@
+post-toc {
+  display: block;
+  font-size: var(--fs-sm);
+
+  details {
+    cursor: pointer;
+  }
+
+  summary {
+    font-weight: 600;
+  }
+
+  ul {
+    list-style-position: inside;
+    margin: 0;
+    padding-inline-start: 0.5em;
+    padding-block: 1em;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+  }
+}

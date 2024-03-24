@@ -7,7 +7,7 @@
   & li:first-of-type {
     line-height: 1;
     font-size: var(--fs-lg);
-    font-weight: 700;
+    font-weight: 800;
   }
 
   & a {
@@ -24,11 +24,10 @@
   }
 }
 
-/* calc(var(--main-content) + var(--sidebar) + var(--column-gap)) */
+/* calc(var(--content) + var(--sidebar) + var(--gap-col)) */
 @container layout (width >= 82ch) {
   .main-nav {
     position: sticky;
     top: var(--viewport-padding);
   }
 }
-
