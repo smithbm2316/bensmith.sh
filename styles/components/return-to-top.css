@@ -4,16 +4,30 @@ return-to-top button {
   right: 0.5rem;
   z-index: 10;
 
-  background-color: black;
-  color: white;
+  border: 2px solid var(--fg);
+  border-radius: 50%;
+  background-color: var(--dark-950);
+  color: var(--fg);
   display: flex;
   justify-items: center;
   align-items: center;
-  border-radius: 50%;
-  padding: 0.5rem;
+  padding: 0.5em;
+
+  &:is(:hover, :active, :focus-visible) {
+    background-color: var(--dark-900);
+  }
 
   & svg {
     height: 1.5rem;
     width: 1.5rem;
+  }
+
+  @media screen and (pointer: coarse) {
+    padding: 0.75em;
+
+    & svg {
+      height: 2rem;
+      width: 2rem;
+    }
   }
 }

@@ -1,13 +1,13 @@
-/* https://www.fluid-type-scale.com/calculate?minFontSize=16&minWidth=320&minRatio=1.25&maxFontSize=18&maxWidth=1280&maxRatio=1.333&steps=xs%2Csm%2Cbase%2Cmd%2Clg%2Cxl%2C2xl%2C3xl&baseStep=base&prefix=fs&decimals=2&useRems=on&remValue=16&previewFont=Inter&previewText=Almost+before+we+knew+it%2C+we+had+left+the+ground&previewWidth=1280 */
+/* Load Inter font */
 :root {
-  --fs-xs: clamp(0.64rem, -0.01vw + 0.64rem, 0.63rem);
-  --fs-sm: clamp(0.8rem, 0.07vw + 0.79rem, 0.84rem);
-  --fs-base: clamp(1rem, 0.21vw + 0.96rem, 1.13rem);
-  --fs-md: clamp(1.25rem, 0.42vw + 1.17rem, 1.5rem);
-  --fs-lg: clamp(1.56rem, 0.73vw + 1.42rem, 2rem);
-  --fs-xl: clamp(1.95rem, 1.19vw + 1.72rem, 2.66rem);
-  --fs-2xl: clamp(2.44rem, 1.85vw + 2.07rem, 3.55rem);
-  --fs-3xl: clamp(3.05rem, 2.81vw + 2.49rem, 4.73rem);
+  font-feature-settings:
+    "liga" 1,
+    "calt" 1; /* fix for Chrome */
+}
+@supports (font-variation-settings: normal) {
+  :root {
+    font-family: InterVariable, sans-serif;
+  }
 }
 
 body {
@@ -17,10 +17,27 @@ body {
   font-size: var(--fs-base);
   min-height: 100vh;
   scroll-behavior: smooth;
+  max-width: 120rem; /* 1920px */
+  margin-inline: auto;
 
   @media (prefers-reduced-motion: reduce) {
     scroll-behavior: auto;
   }
+}
+
+h1 {
+  font-size: var(--fs-xl);
+}
+h2 {
+  font-size: var(--fs-lg);
+}
+h3,
+h4 {
+  font-size: var(--fs-md);
+}
+h5,
+h6 {
+  font-size: var(--fs-base);
 }
 
 /* links should go from --fg to --primary by default */
@@ -59,17 +76,11 @@ body {
 .with-main-nav {
   container: layout / inline-size;
 
-  --main-content: 60ch;
-  --sidebar: 16ch;
-  --column-gap: 6ch;
-  --row-gap: 3ch;
-  --viewport-padding: calc(var(--column-gap) / 2 + 1vw);
-
   display: flex;
   flex-wrap: wrap;
   align-items: flex-start;
-  column-gap: var(--column-gap);
-  row-gap: var(--row-gap);
+  column-gap: var(--gap-col);
+  row-gap: var(--gap-row);
   padding: var(--viewport-padding);
 
   & > :first-child {
@@ -80,13 +91,26 @@ body {
   & > :last-child {
     flex-basis: 0;
     flex-grow: 999;
-    min-width: calc(96vw - var(--viewport-padding) * 2);
+    min-width: min(100%, var(--content));
   }
 }
 
-/* var(--main-content) */
-@container layout (width >= 60ch) {
-  .with-main-nav > :last-child {
-    min-width: var(--main-content);
+.with-sidebar-r {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: var(--gap-col);
+  max-width: calc(var(--content) + var(--sidebar) + var(--gap-col));
+  margin-inline-start: auto;
+
+  & > :first-child {
+    flex-grow: 999;
+    flex-basis: min(100%, var(--content));
+    max-width: var(--content);
+  }
+
+  & > :last-child {
+    flex-grow: 1;
+    flex-basis: var(--sidebar);
   }
 }

@@ -15,26 +15,28 @@ templ BlogRoute(posts []*bs.Post, tags []string) {
 		<link rel="stylesheet" href="/styles/routes/words.css"/>
 	}
 	@components.WithMainNav() {
-		<main>
-			<h1>{ "Blog" }</h1>
-			<!-- Posts will already be sorted by newest first -->
-			<section class="posts-section" aria-labelledby="latest-posts">
-				<h2 id="latest-posts">Latest Posts</h2>
-				if len(posts) > 0 {
-					<ul role="list">
-						for _, post := range posts {
-							<li>
-								<a href={ templ.SafeURL(post.Slug) }>
-									{ post.Title }
-								</a>
-								<time datetime={ post.Published.Format(time.RFC3339) }>
-									{ post.Published.Format("1/1/06") }
-								</time>
-							</li>
-						}
-					</ul>
-				}
-			</section>
+		<main class="with-sidebar-r">
+			<div>
+				<h1>{ "Blog" }</h1>
+				<!-- Posts will already be sorted by newest first -->
+				<section class="posts-section" aria-labelledby="latest-posts">
+					<h2 id="latest-posts">Latest Posts</h2>
+					if len(posts) > 0 {
+						<ul role="list">
+							for _, post := range posts {
+								<li>
+									<a href={ templ.SafeURL(post.Slug) }>
+										{ post.Title }
+									</a>
+									<time datetime={ post.Published.Format(time.RFC3339) }>
+										{ post.Published.Format("1/1/06") }
+									</time>
+								</li>
+							}
+						</ul>
+					}
+				</section>
+			</div>
 			<!-- Tags will already be sorted alphabetically -->
 			<section class="tags-section" aria-labelledby="tags">
 				<h2 id="tags">

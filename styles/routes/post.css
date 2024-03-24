@@ -1,3 +1,5 @@
+@import "../components/post-toc.css" layer(components);
+
 @layer routes {
   /* https://css-tricks.com/books/greatest-css-tricks/the-yellow-flash/ */
   :is(h1, h2, h3, h4, h5, h6):target {
@@ -9,18 +11,43 @@
   }
 
   article {
-    max-width: var(--main-content);
+    max-width: var(--content);
   }
 
-  /* calc(var(--main-content) + var(--toc-column) + var(--column-gap) * 2) */
+  article > * + * {
+    margin-block-start: 2em;
+  }
+
+  h1 {
+    margin-block-end: 1em;
+    line-height: 1.25;
+  }
+
+  .post-metadata {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--gap-row);
+
+    font-size: var(--fs-sm);
+  }
+
+  pre {
+    /* use a brand color background for code blocks */
+    /* background-color: var(--dark-900) !important; */
+    font-size: var(--fs-sm);
+  }
+
+  /* calc(var(--content) + var(--toc-column) + var(--gap-col) * 2) */
   @container article-container (width >= 96ch) {
     article {
       display: grid;
-      grid-template-columns: 1fr var(--main-content) minmax(24ch, 1fr);
+      grid-template-columns: 1fr var(--content) minmax(24ch, 1fr);
       grid-template-areas:
         "auto-col header   blank"
         "auto-col content  toc";
-      column-gap: var(--column-gap);
+      column-gap: var(--gap-col);
 
       max-width: unset;
     }
@@ -35,11 +62,15 @@
 
     post-toc {
       grid-area: toc;
-    }
 
-    post-toc nav {
-      position: sticky;
-      top: var(--viewport-padding);
+      nav {
+        position: sticky;
+        top: var(--viewport-padding);
+      }
+
+      summary {
+        font-size: var(--fs-base);
+      }
     }
 
     /*
@@ -49,21 +80,5 @@
     post-toc details {
       --auto-open-toc: true;
     }
-  }
-
-  h1 {
-    font-size: var(--fs-lg);
-    line-height: 1.25;
-    margin-block-end: 1em;
-  }
-
-  post-toc details {
-    cursor: pointer;
-  }
-
-  pre {
-    /* use a brand color background for code blocks */
-    /* background-color: var(--dark-900) !important; */
-    font-size: var(--fs-sm);
   }
 }

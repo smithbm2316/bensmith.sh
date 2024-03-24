@@ -1,0 +1,22 @@
+.tags-section {
+  ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5em;
+  }
+
+  li:not(:has(*)),
+  li:has(a) > a {
+    border-radius: 0.25em;
+    border: 1px solid var(--fg);
+    display: inline-block;
+    font-size: var(--fs-sm);
+    padding: 0.25em 0.5em;
+    text-decoration: none;
+
+    &:hover,
+    &:focus-visible {
+      border-color: var(--primary);
+    }
+  }
+}
