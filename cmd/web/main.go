@@ -3,11 +3,12 @@ package main
 import (
 	"flag"
 	"fmt"
-	"log"
 	"net/http"
 	"os"
 
 	"bensmith.sh"
+
+	"github.com/charmbracelet/log"
 )
 
 type fileSystemHandlingNotFound struct {
@@ -33,7 +34,7 @@ func main() {
 	fileServer := fileSystemHandlingNotFound{root: http.Dir(bs.Dirs.Build)}
 	http.Handle("/", http.FileServer(fileServer))
 
-	log.Printf("Listening on :%d...", port)
+	log.Infof("Listening on :%d...", port)
 	var err = http.ListenAndServe(fmt.Sprintf(":%d", port), nil)
 	if err != nil {
 		log.Fatal(err)

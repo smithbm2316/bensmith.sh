@@ -2,12 +2,12 @@ package bs
 
 import (
 	"bytes"
-	"log"
 	"os"
 	"path/filepath"
 	"text/template"
 	"time"
 
+	"github.com/charmbracelet/log"
 	"github.com/tdewolff/minify/v2"
 	"github.com/tdewolff/minify/v2/xml"
 )
@@ -39,15 +39,15 @@ func NewSitemap() Sitemap {
 // Generate and write a new Feed to our build directory
 func (s Sitemap) Generate(slug string) {
 	// load the sitemap.xml text template
-	tmpl := template.Must(
-		template.ParseFiles(
-			filepath.Join(Dirs.Templates, "sitemap.tmpl.xml"),
-		),
-	)
+	templatePath := filepath.Join(Dirs.Templates, "sitemap.tmpl.xml")
+	tmpl, err := template.ParseFiles(templatePath)
+	if err != nil {
+		log.Fatalf("failed to load `%s` template for Sitemap", templatePath)
+	}
 
 	// create a new buffer and write the template to it
 	var buf bytes.Buffer
-	err := tmpl.Execute(&buf, s.Entries)
+	err = tmpl.Execute(&buf, s.Entries)
 	if err != nil {
 		log.Fatalf("failed to execute sitemap.xml template: %v", err)
 	}
@@ -71,5 +71,5 @@ func (s Sitemap) Generate(slug string) {
 		log.Fatalf("Error executing the XML minfier's `io.Close` method, %v", err)
 	}
 
-	log.Printf("Created %s\n", slug)
+	log.Infof("Created %s", slug)
 }

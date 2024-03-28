@@ -2,12 +2,12 @@ package bs
 
 import (
 	"bytes"
-	"log"
 	"os"
 	"path/filepath"
 	"text/template"
 	"time"
 
+	"github.com/charmbracelet/log"
 	"github.com/tdewolff/minify/v2"
 	"github.com/tdewolff/minify/v2/json"
 	"github.com/tdewolff/minify/v2/xml"
@@ -63,15 +63,15 @@ func (feed Feed) Generate(slug string, feedType string) time.Time {
 		log.Fatalf("`feedType` '%s' should be one of 'rss', 'atom', or 'json'.", feedType)
 	}
 	// load the text template
-	tmpl := template.Must(
-		template.ParseFiles(
-			filepath.Join(Dirs.Templates, templateName),
-		),
-	)
+	templatePath := filepath.Join(Dirs.Templates, templateName)
+	tmpl, err := template.ParseFiles(templatePath)
+	if err != nil {
+		log.Fatalf("failed to load `%s` template for `%s` feed", templatePath, feedType)
+	}
 
 	// create a new buffer and write the template to it
 	var buf bytes.Buffer
-	err := tmpl.Execute(&buf, feed)
+	err = tmpl.Execute(&buf, feed)
 	if err != nil {
 		log.Fatalf("failed to execute `%s` template: %v", slugFilename, err)
 	}
@@ -107,7 +107,7 @@ func (feed Feed) Generate(slug string, feedType string) time.Time {
 	}
 
 	// log successful creation and return modified at time of output file
-	log.Printf("Created %s\n", slug)
+	log.Infof("Created %s", slug)
 	info, _ := file.Stat()
 	return info.ModTime()
 }

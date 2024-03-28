@@ -3,13 +3,13 @@ package bs
 import (
 	"bytes"
 	"fmt"
-	"log"
 	"os"
 	"regexp"
 	"strconv"
 	"strings"
 	"time"
 
+	"github.com/charmbracelet/log"
 	"github.com/yuin/goldmark"
 	meta "github.com/yuin/goldmark-meta"
 	"github.com/yuin/goldmark/parser"
