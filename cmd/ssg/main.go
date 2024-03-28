@@ -5,7 +5,6 @@ import (
 	"flag"
 	"fmt"
 	"io/fs"
-	"log"
 	"os"
 	"path/filepath"
 	"sort"
@@ -19,6 +18,7 @@ import (
 	"github.com/a-h/templ"
 	chroma "github.com/alecthomas/chroma/v2"
 	chromahtml "github.com/alecthomas/chroma/v2/formatters/html"
+	"github.com/charmbracelet/log"
 	"github.com/yuin/goldmark"
 	highlighting "github.com/yuin/goldmark-highlighting/v2"
 	meta "github.com/yuin/goldmark-meta"
@@ -174,7 +174,7 @@ func main() {
 	sitemap.Generate("/sitemap.xml")
 
 	// Log successful completion of all the generation and exit
-	log.Printf("Generated static files to `%s`\n", bs.Dirs.Build)
+	log.Infof("Generated static files to `%s`", bs.Dirs.Build)
 }
 
 // Take a slug and Templ component/route to render to a static HTML file
@@ -219,7 +219,7 @@ func generateOutputFile(
 	}
 
 	// log successful creation and return modified at time of output file
-	log.Printf("Created %s\n", slug)
+	log.Infof("Created %s", slug)
 	info, _ := file.Stat()
 	return info.ModTime()
 }
@@ -254,7 +254,7 @@ func generatePostsAndTags(
 		if devMode || (!devMode && !post.Draft) {
 			posts = append(posts, post)
 		} else {
-			log.Printf("Skipping draft Post %s", post.Slug)
+			log.Infof("Skipping draft Post %s", post.Slug)
 		}
 
 		return nil

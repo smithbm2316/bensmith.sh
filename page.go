@@ -3,10 +3,10 @@ package bs
 import (
 	"bytes"
 	"fmt"
-	"log"
 	"os"
 	"strings"
 
+	"github.com/charmbracelet/log"
 	"github.com/yuin/goldmark"
 	meta "github.com/yuin/goldmark-meta"
 	"github.com/yuin/goldmark/parser"
