@@ -10,14 +10,11 @@ import (
 // Renders a Feed page with links to all of the various feeds that we offer
 // as well as the latest blog posts
 templ BlogFeedsRoute(posts []*bs.Post) {
-	@components.Head("Feeds") {
-		<link rel="preload" as="style" href="/styles/routes/words.css"/>
-		<link rel="stylesheet" href="/styles/routes/words.css"/>
-	}
+	@components.Head("Feeds")
 	@components.WithMainNav() {
-		<main class="flow">
-			<h1 id="feeds">Feeds</h1>
-			<section class="tags-section" aria-labelledby="feeds">
+		<main class="readable flow">
+			<section class="outline-btns-section flow" aria-labelledby="feeds">
+				<h1 id="feeds">Feeds</h1>
 				<ul role="list">
 					<li><a href="/words/feed.rss.xml">RSS</a></li>
 					<li><a href="/words/feed.atom.xml">Atom</a></li>

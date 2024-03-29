@@ -5,6 +5,7 @@ import (
 
 	"bensmith.sh"
 	"bensmith.sh/components"
+	"fmt"
 )
 
 // Renders a route containing the content of a specific blog `Post`
@@ -20,7 +21,7 @@ templ PostRoute(post *bs.Post) {
 		<div class="with-main-nav">
 			@components.MainNav()
 			<div class="article-container">
-				<article id="#top" class="flow">
+				<article>
 					<header>
 						<h1>{ post.Title }</h1>
 						<div class="post-metadata tags-section">
@@ -30,7 +31,11 @@ templ PostRoute(post *bs.Post) {
 							if len(post.Tags) > 0 {
 								<ul role="list">
 									for _, tag := range post.Tags {
-										<li>{ tag }</li>
+										<li>
+											<a href={ templ.SafeURL(fmt.Sprintf("/tags/%s", tag)) }>
+												{ tag }
+											</a>
+										</li>
 									}
 								</ul>
 							}

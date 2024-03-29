@@ -1,21 +1,14 @@
 package routes
 
 import (
-	"bensmith.sh"
 	"bensmith.sh/components"
 )
-
-var socials = []bs.Link{
-	{Text: "GitHub", Url: "https://github.com/smithbm2316"},
-	{Text: "LinkedIn", Url: "https://www.linkedin.com/in/smithbm2316"},
-	{Text: "Email", Url: "mailto:bsmithdev@mailbox.org"},
-}
 
 // Renders the homepage route
 templ IndexRoute() {
 	@components.Head("Home")
 	@components.WithMainNav() {
-		<main class="flow" style="max-width: 60ch; margin-inline: auto;">
+		<main class="readable flow">
 			<section id="intro-section" aria-describedby="intro" class="flow">
 				@components.Picture(
 					"/images/profile_pic.jpeg",
@@ -26,22 +19,11 @@ templ IndexRoute() {
 						"loading": "eager",
 					},
 				)
-				<p>
-					<a href="/">
-						<h1 id="intro">Ben Smith</h1>
-					</a>
-				</p>
+				<h1 id="intro">Ben Smith</h1>
 				<p>
 					I'm a web developer with a passion for the command line, coffee, and
 					crafting delightful user experiences for the web!
 				</p>
-				<ul>
-					for _, link := range socials {
-						<li>
-							<a rel="noreferrer" href={ templ.SafeURL(link.Url) }>{ link.Text }</a>
-						</li>
-					}
-				</ul>
 			</section>
 			<section aria-describedby="about-me" class="flow">
 				<h2 id="about-me">About Me</h2>
