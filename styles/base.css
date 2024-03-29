@@ -54,9 +54,12 @@ h6 {
 /* links should go from an inherited style to --primary by default */
 :where(a) {
   color: inherit;
-}
-:where(a):is(:hover, :focus-visible, :active) {
-  color: var(--primary);
+
+  :hover,
+  :focus-visible,
+  :active {
+    color: var(--primary);
+  }
 }
 
 /*
@@ -66,10 +69,12 @@ h6 {
 :where(p) a,
 :where(a[data-anchor="true"]) {
   color: var(--primary);
-}
-:where(p) a:is(:hover, :focus-visible, :active),
-:where(a[data-anchor="true"]):is(:hover, :active, :focus-visible) {
-  color: var(--fg);
+
+  :hover,
+  :active,
+  :focus-visible {
+    color: var(--fg);
+  }
 }
 
 /* disable link underline by default if it's a direct child of a heading element */

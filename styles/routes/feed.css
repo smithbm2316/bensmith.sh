@@ -1,0 +1,16 @@
+.feeds-list {
+  display: flex;
+  align-items: center;
+  gap: 1em;
+
+  a {
+    color: var(--primary);
+    font-weight: 600;
+
+    :hover,
+    :active,
+    :focus-visible {
+      color: var(--fg);
+    }
+  }
+}

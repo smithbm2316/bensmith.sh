@@ -10,12 +10,15 @@ import (
 // Renders a Feed page with links to all of the various feeds that we offer
 // as well as the latest blog posts
 templ BlogFeedsRoute(posts []*bs.Post) {
-	@components.Head("Feeds")
+	@components.Head("Feeds") {
+		<link rel="preload" as="style" href="/styles/routes/feed.css"/>
+		<link rel="stylesheet" href="/styles/routes/feed.css"/>
+	}
 	@components.WithMainNav() {
 		<main class="flow" style="--flow-space: 1.5em;">
 			<h1>Feeds</h1>
 			if routesMap := components.GetRoutesMap(ctx); routesMap != nil {
-				<ul class="outline-btns-list" role="list">
+				<ul class="feeds-list" role="list">
 					for route, routeEntry := range routesMap {
 						if routeEntry.FeedType != "" {
 							<li><a href={ templ.SafeURL(route) }>{ routeEntry.Text }</a></li>
