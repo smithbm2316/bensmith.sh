@@ -24,12 +24,12 @@ templ PostRoute(post *bs.Post) {
 				<article>
 					<header>
 						<h1>{ post.Title }</h1>
-						<div class="post-metadata tags-section">
+						<div class="post-metadata">
 							<time datetime={ post.Published.Format(time.RFC3339) }>
 								{ post.Published.Format("Monday, January 1, 2006") }
 							</time>
 							if len(post.Tags) > 0 {
-								<ul role="list">
+								<ul class="tags-list" role="list">
 									for _, tag := range post.Tags {
 										<li>
 											<a href={ templ.SafeURL(fmt.Sprintf("/tags/%s", tag)) }>

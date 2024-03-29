@@ -5,10 +5,11 @@
 @import "vars.css" layer(base);
 @import "base.css" layer(base);
 
+@import "layouts.css" layer(components);
 @import "components/main-nav.css" layer(components);
 @import "components/return-to-top.css" layer(components);
-@import "components/outline-btns-section.css" layer(components);
-@import "components/posts-section.css" layer(components);
-@import "components/tags-section.css" layer(components);
+@import "components/outline-btns-list.css" layer(components);
+@import "components/posts-list.css" layer(components);
+@import "components/tags-list.css" layer(components);
 
 @import "utils.css" layer(utils);

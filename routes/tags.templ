@@ -10,11 +10,11 @@ import (
 templ TagsRoute(tags []string) {
 	@components.Head("Tags")
 	@components.WithMainNav() {
-		<main class="readable flow tags-section">
+		<main class="flow" style="--flow-space: 2em;">
 			<h1>Tags</h1>
 			<!-- Tags will already be sorted alphabetically -->
 			if len(tags) > 0 {
-				<ul role="list">
+				<ul class="tags-list" role="list">
 					for _, tag := range tags {
 						<li>
 							<a href={ templ.SafeURL(fmt.Sprintf("/tags/%s", tag)) }>

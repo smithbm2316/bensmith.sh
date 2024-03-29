@@ -1,0 +1,83 @@
+.tags-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5em;
+
+  li > a {
+    background-color: var(--dark-800);
+    display: flex;
+    align-items: center;
+    column-gap: 0.45em;
+    justify-content: space-between;
+    font-size: var(--fs-sm);
+    font-weight: 600;
+    padding-block: 0.15em;
+    padding-inline: 0.6em;
+    text-decoration: none;
+    position: relative;
+    /* clips the element to match the ::before element's path, otherwise
+     * the background color of this element will escape the bounds
+     * 
+     * order: 123456
+     * 
+     * 1-----------------6\
+     * |                   \5
+     * |                    |
+     * |                    |
+     * |                   /4
+     * 2-----------------3/
+     */
+    clip-path: polygon(
+      /* 1 */ 0% 0%,
+      /* 2 */ 0% 100%,
+      /* 3 */ calc(100% - 0.45em) 100%,
+      /* 4 */ 100% calc(100% - 0.45em),
+      /* 5 */ 100% 0.45em,
+      /* 6 */ calc(100% - 0.45em) 0%
+    );
+
+    /* clip path border to overlay on top of the tag
+     * order: 12345678930abc
+     * 
+     * 1--------------------c\
+     * |  4--------------5\   \
+     * |  |                \6  \b
+     * |  |                |   |
+     * |  |                |   |
+     * |  |                /7  /a
+     * |  9--------------8/   /               
+     * 2--3-----------------0/
+     */
+    &::before {
+      position: absolute;
+      inset: 0;
+      background-color: var(--dark-600);
+      content: "";
+      clip-path: polygon(
+        /* 1 */ 0% 0%,
+        /* 2 */ 0% 100%,
+        /* 3 */ 0.15em 100%,
+        /* 4 */ 0.15em 0.15em,
+        /* 5 */ calc(100% - 0.525em) 0.15em,
+        /* 6 */ calc(100% - 0.15em) 0.525em,
+        /* 7 */ calc(100% - 0.15em) calc(100% - 0.525em),
+        /* 8 */ calc(100% - 0.525em) calc(100% - 0.15em),
+        /* 9 */ 0.15em calc(100% - 0.15em),
+        /* 3 */ 0.15em 100%,
+        /* 0 */ calc(100% - 0.45em) 100%,
+        /* a */ 100% calc(100% - 0.45em),
+        /* b */ 100% 0.45em,
+        /* c */ calc(100% - 0.45em) 0%
+      );
+    }
+
+    /* decorative circle that appears to the right of the tag's content */
+    &::after {
+      content: "";
+      height: 0.45em;
+      width: 0.45em;
+      clip-path: circle(50% at 50% 50%);
+      background-color: var(--dark-500);
+    }
+  }
+}

@@ -9,7 +9,7 @@ import (
 templ MarkdownPageRoute(page *bs.Page) {
 	@components.Head(page.Title)
 	@components.WithMainNav() {
-		<main class="readable flow">
+		<main class="flow">
 			<h1>{ page.Title }</h1>
 			@components.Unsafe(page.Content)
 		</main>
