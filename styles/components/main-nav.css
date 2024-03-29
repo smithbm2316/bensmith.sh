@@ -7,7 +7,13 @@
   & li:first-of-type {
     line-height: 1;
     font-size: var(--fs-lg);
-    font-weight: 800;
+    font-family: var(--ff-serif);
+    @supports (font-variation-settings: normal) {
+      font-family: var(--ff-serif-var);
+    }
+  /* current page should have a heavier font weight, so long as it's not the homepage */
+  & a[aria-current="page"]:not([href="/"]) {
+    font-weight: 600;
   }
 
   & a {
@@ -17,10 +23,6 @@
 
   & a:is(:hover, :active, :focus) {
     text-decoration: underline;
-  }
-
-  & a[aria-current="page"] {
-    font-weight: 600;
   }
 }
 

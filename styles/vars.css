@@ -58,13 +58,13 @@
   /* 
    * type scale
    * https://www.fluid-type-scale.com
-   * minFontSize: 20px
+   * minFontSize: 18px
    * minWidth: 320px
    * minRatio: 1.25
    * maxFontSize: 16px
    * maxWidth: 1280px
-   * maxRatio: 1.33
-   * steps: xs,sm,base,md,lg,xl,2xl,3xl
+   * maxRatio: 1.333
+   * steps: xs,sm,base,md,lg,xl,xxl,xxxl
    * baseStep: base
    * prefix: fs
    * decimals: 2
@@ -73,14 +73,20 @@
    * previewFont: Inter
    * previewWidth: 1280px
    */
-  --fs-xs: clamp(0.8rem, -0.39vi + 0.88rem, 0.57rem);
-  --fs-sm: clamp(1rem, -0.41vi + 1.08rem, 0.75rem);
-  --fs-base: clamp(1.25rem, -0.42vi + 1.33rem, 1rem);
-  --fs-md: clamp(1.56rem, -0.39vi + 1.64rem, 1.33rem);
-  --fs-lg: clamp(1.95rem, -0.31vi + 2.01rem, 1.77rem);
-  --fs-xl: clamp(2.44rem, -0.15vi + 2.47rem, 2.35rem);
-  --fs-2xl: clamp(3.05rem, 0.13vi + 3.03rem, 3.13rem);
-  --fs-3xl: clamp(3.81rem, 0.58vi + 3.7rem, 4.16rem);
+  --fs-xs: clamp(0.72rem, -0.26vi + 0.77rem, 0.56rem);
+  --fs-sm: clamp(0.9rem, -0.25vi + 0.95rem, 0.75rem);
+  --fs-base: clamp(1.13rem, -0.21vi + 1.17rem, 1rem);
+  --fs-md: clamp(1.41rem, -0.12vi + 1.43rem, 1.33rem);
+  --fs-lg: clamp(1.76rem, 0.03vi + 1.75rem, 1.78rem);
+  --fs-xl: clamp(2.2rem, 0.29vi + 2.14rem, 2.37rem);
+  --fs-xxl: clamp(2.75rem, 0.68vi + 2.61rem, 3.16rem);
+  --fs-xxxl: clamp(3.43rem, 1.29vi + 3.17rem, 4.21rem);
+
+  /* font family stacks */
+  --ff-sans: Inter, system-ui, sans-serif;
+  --ff-sans-var: InterVariable, system-ui, sans-serif;
+  --ff-serif: "Young Serif", Inter, system-ui, sans-serif;
+  --ff-serif-var: "Young Serif", InterVariable, system-ui, sans-serif;
 }
 
 /*
