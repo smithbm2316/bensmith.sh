@@ -1,6 +1,9 @@
 .main-nav {
-  & li {
-    margin-block-end: 0.5em;
+  ul {
+    display: flex;
+    flex-direction: column;
+    row-gap: 0.5em;
+    column-gap: 1em;
   }
 
   /* main link list item */
@@ -34,10 +37,30 @@
   }
 }
 
-/* calc(var(--content) + var(--sidebar) + var(--gap-col)) */
+/*
+ * calc(var(--content) + var(--sidebar) + var(--gap-col))
+ * layout should have the left-aligned sidebar for these styles
+ */
 @container layout (width >= 82ch) {
   .main-nav {
     position: sticky;
     top: var(--viewport-padding);
+  }
+}
+
+/*
+ * calc(var(--content) + var(--sidebar) + var(--gap-col))
+ * layout should be single column for these styles
+ */
+@container layout (width < 82ch) {
+  .main-nav {
+    & ul {
+      flex-direction: row;
+      flex-wrap: wrap;
+    }
+
+    & li:first-of-type {
+      flex-basis: 100%;
+    }
   }
 }
