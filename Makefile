@@ -46,10 +46,11 @@ help:
 #- dev: run a file watcher to rebuild the static site automatically
 .PHONY: dev
 dev: clean
-	@wgo -file .go -file '.tmpl.*' -file .md \
-		-xfile _templ.go -xfile _templ.txt -xfile .templ \
+	@wgo -file .go -file .templ -file '.tmpl.*' -file .md \
+		-xfile _templ.go -xfile _templ.txt \
 		-xdir ${outputDir} -xdir ${staticDir} \
-		templ generate --watch --cmd="go run ./cmd/ssg --dev" \
+		templ generate \
+		:: go run ${ssgPkg} --dev \
 		:: wgo -dir styles -file .css \
 		-xdir ${outputDir} -xdir ${staticDir} \
 		./scripts/build-css.sh -o ${outputDir} -m dev
