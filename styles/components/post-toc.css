@@ -22,5 +22,12 @@ post-toc {
     display: flex;
     flex-direction: column;
     gap: 0.5em;
+
+    a {
+      color: var(--primary);
+    }
+    a:is(:hover, :focus-visible, :active) {
+      color: var(--fg);
+    }
   }
 }

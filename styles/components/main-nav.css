@@ -11,6 +11,14 @@
     @supports (font-variation-settings: normal) {
       font-family: var(--ff-serif-var);
     }
+
+    a {
+      color: var(--secondary);
+    }
+    a:is(:hover, :active, :focus-visible) {
+      color: var(--primary);
+    }
+  }
   /* current page should have a heavier font weight, so long as it's not the homepage */
   & a[aria-current="page"]:not([href="/"]) {
     font-weight: 600;

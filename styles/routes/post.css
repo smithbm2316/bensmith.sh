@@ -14,12 +14,12 @@
     max-width: var(--content);
   }
 
-  article > * + * {
-    margin-block-start: 2em;
+  header > *,
+  post-toc {
+    margin-block-end: 3rem;
   }
 
   h1 {
-    margin-block-end: 1em;
     line-height: 1.25;
   }
 
@@ -28,14 +28,14 @@
     flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
-    gap: var(--gap-row);
+    row-gap: 0.6em;
+    column-gap: 1.2em;
 
-    font-size: var(--fs-sm);
-  }
+    background-color: var(--dark-950);
+    border: 0.15em solid var(--dark-700);
+    padding: 0.6em 0.9em;
+    margin-inline: -0.9em;
 
-  pre {
-    /* use a brand color background for code blocks */
-    /* background-color: var(--dark-900) !important; */
     time {
       font-family: var(--ff-serif);
       @supports (font-variation-settings: normal) {

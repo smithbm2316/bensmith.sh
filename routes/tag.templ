@@ -13,7 +13,7 @@ templ TagRoute(tag string, posts []*bs.Post) {
 	@components.Head(fmt.Sprintf(`Tagged "%s"`, tag))
 	@components.WithMainNav() {
 		<main>
-			<h1>{ "Tagged " }<em>{ fmt.Sprintf(`"%s"`, tag) }</em></h1>
+			<h1>{ fmt.Sprintf(`Tagged "%s"`, tag) }</h1>
 			if len(posts) > 0 {
 				<ul>
 					for _, post := range getPostsWithTag(tag, posts) {

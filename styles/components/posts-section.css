@@ -9,7 +9,7 @@
     align-items: center;
     justify-content: space-between;
     gap: calc(2em + 1vw);
-    border-block-end: 1px solid var(--dark-800);
+    border-block-end: 1px solid var(--dark-700);
 
     font-weight: 500;
     padding-block: 1em;

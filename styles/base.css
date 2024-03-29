@@ -31,6 +31,7 @@ h3,
 h4,
 h5,
 h6 {
+  color: var(--secondary);
   font-weight: 400;
   font-family: var(--ff-serif);
   @supports (font-variation-settings: normal) {
@@ -52,19 +53,24 @@ h6 {
   font-size: var(--fs-md);
 }
 
-/* links should go from --fg to --primary by default */
+/* links should go from an inherited style to --primary by default */
 :where(a) {
-  color: var(--fg);
+  color: inherit;
 }
 :where(a):is(:hover, :focus-visible, :active) {
   color: var(--primary);
 }
 
-/* but if they're in an article/paragraph, go from --primary to --fg */
-:where(p, article) a {
+/*
+ * but if they're in an paragraph or are anchor links inside of a heading on one
+ * of our blog posts (with [data-anchor="true"]), go from --primary to --fg
+ */
+:where(p) a,
+:where(a[data-anchor="true"]) {
   color: var(--primary);
 }
-:where(p, article) a:is(:hover, :focus-visible, :active) {
+:where(p) a:is(:hover, :focus-visible, :active),
+:where(a[data-anchor="true"]):is(:hover, :active, :focus-visible) {
   color: var(--fg);
 }
 
@@ -81,6 +87,20 @@ pre,
 code {
   font-family: monospace;
 }
+pre {
+  background-color: var(--bg);
+  border: 0.3em solid var(--dark-600);
+  font-size: var(--fs-sm);
+  font-weight: 500;
+  padding: 1em;
+  overflow-x: auto;
+}
+
+/* 
+ * when a scroll anchor is clicked, we'll use this animation to show a brief
+ * flash of a background color to help the user see what piece of content
+ * they were jumped to
+ */
 @keyframes bg-flash {
   from {
     background-color: var(--bg-flash);
@@ -90,6 +110,10 @@ code {
   }
 }
 
+/*
+ * the main layout for the site. puts the main nav as a left sidebar when the
+ * browser gives enough space, otherwise stacks it before the rest of the content
+ */
 .with-main-nav {
   container: layout / inline-size;
 
@@ -112,6 +136,12 @@ code {
   }
 }
 
+/*
+ * uses a similar algorithm to the .with-main-nav class, but aligns a sidebar 
+ * to the right of the first child of this class's containing element when
+ * the browser gives enough space, otherwise it stacks that sidebar below
+ * the existing content
+ */
 .with-sidebar-r {
   display: flex;
   flex-wrap: wrap;
