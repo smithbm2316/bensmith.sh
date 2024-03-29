@@ -6,6 +6,7 @@ require (
 	github.com/a-h/templ v0.2.598
 	github.com/alecthomas/chroma/v2 v2.13.0
 	github.com/bokwoon95/wgo v0.5.6
+	github.com/charmbracelet/log v0.4.0
 	github.com/tdewolff/minify/v2 v2.20.19
 	github.com/yuin/goldmark v1.7.0
 	github.com/yuin/goldmark-highlighting/v2 v2.0.0-20230729083705-37449abec8cc
@@ -20,7 +21,6 @@ require (
 	github.com/aymanbagabas/go-osc52/v2 v2.0.1 // indirect
 	github.com/cenkalti/backoff/v4 v4.2.1 // indirect
 	github.com/charmbracelet/lipgloss v0.10.0 // indirect
-	github.com/charmbracelet/log v0.4.0 // indirect
 	github.com/cli/browser v1.2.0 // indirect
 	github.com/dlclark/regexp2 v1.11.0 // indirect
 	github.com/fatih/color v1.16.0 // indirect
