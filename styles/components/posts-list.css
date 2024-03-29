@@ -1,8 +1,6 @@
-.posts-section {
-  ul {
-    display: grid;
-    gap: 0.5em;
-  }
+.posts-list {
+  display: grid;
+  gap: 0.5em;
 
   li {
     display: flex;

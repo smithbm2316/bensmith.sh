@@ -103,10 +103,10 @@ func main() {
 			Text:    "Error Not Found",
 			Handler: func() templ.Component { return routes.ErrorNotFound() },
 		},
-		"/tags/": {
+		/* "/tags/": {
 			Text:    "Tags",
 			Handler: func() templ.Component { return routes.TagsRoute(tags) },
-		},
+		}, */
 		/* "/projects/": {
 			Text:          "Projects",
 			Handler:       func() templ.Component { return routes.ProjectsRoute() },
@@ -123,14 +123,17 @@ func main() {
 			IsMainNavLink: true,
 		},
 		"/words/feed.rss.xml": {
+			Text:      "RSS",
 			FeedType:  "rss",
 			Generator: func() time.Time { return feed.Generate("/words/feed.rss.xml", "rss") },
 		},
 		"/words/feed.atom.xml": {
+			Text:      "Atom",
 			FeedType:  "atom",
 			Generator: func() time.Time { return feed.Generate("/words/feed.atom.xml", "atom") },
 		},
 		"/words/feed.json": {
+			Text:      "JSON",
 			FeedType:  "json",
 			Generator: func() time.Time { return feed.Generate("/words/feed.json", "json") },
 		},

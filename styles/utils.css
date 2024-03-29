@@ -20,8 +20,3 @@
   object-fit: cover;
   object-position: center;
 }
-
-.readable {
-  max-width: 60ch;
-  margin-inline: auto;
-}

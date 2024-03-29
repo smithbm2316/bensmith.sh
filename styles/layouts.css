@@ -1,0 +1,70 @@
+/*
+ * the main layout for the site. puts the main nav as a left sidebar when the
+ * browser gives enough space, otherwise stacks it before the rest of the content
+ */
+.with-main-nav {
+  container: layout / inline-size;
+
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  column-gap: var(--gap-col);
+  row-gap: var(--gap-row);
+  padding: var(--viewport-padding);
+
+  & > :first-child {
+    flex-grow: 1;
+    min-width: var(--sidebar);
+  }
+
+  & > :last-child {
+    flex-basis: 0;
+    flex-grow: 999;
+    min-width: min(100%, var(--content));
+  }
+}
+
+/*
+ * uses a similar algorithm to the .with-main-nav class, but aligns a sidebar 
+ * to the right of the first child of this class's containing element when
+ * the browser gives enough space, otherwise it stacks that sidebar below
+ * the existing content
+ */
+.with-sidebar-r {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: var(--gap-col);
+  max-width: calc(var(--content) + var(--sidebar) + var(--gap-col));
+  margin-inline-start: auto;
+
+  & > :first-child {
+    flex-grow: 999;
+    flex-basis: min(100%, var(--content));
+    max-width: var(--content);
+  }
+
+  & > :last-child {
+    flex-grow: 1;
+    flex-basis: var(--sidebar);
+  }
+}
+
+/*
+ * uses the same algorithm as the .with-sidebar-r class, but forgoes the sidebar
+ * to constrain the element's direct child to a maximum width of var(--content).
+ */
+.readable {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: var(--gap-col);
+  max-width: calc(var(--content) + var(--sidebar) + var(--gap-col));
+  margin-inline-start: auto;
+
+  & > :only-child {
+    flex-grow: 999;
+    flex-basis: min(100%, var(--content));
+    max-width: var(--content);
+  }
+}
