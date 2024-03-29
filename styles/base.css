@@ -1,19 +1,18 @@
 /* Load Inter font */
 :root {
+  font-family: var(--ff-sans);
+  @supports (font-variation-settings: normal) {
+    font-family: var(--ff-sans-var);
+  }
+  /* fix for Chrome */
   font-feature-settings:
     "liga" 1,
-    "calt" 1; /* fix for Chrome */
-}
-@supports (font-variation-settings: normal) {
-  :root {
-    font-family: InterVariable, sans-serif;
-  }
+    "calt" 1;
 }
 
 body {
   background-color: var(--bg);
   color: var(--fg);
-  font-family: Inter, system-ui, sans-serif;
   font-size: var(--fs-base);
   min-height: 100vh;
   scroll-behavior: smooth;
@@ -25,19 +24,32 @@ body {
   }
 }
 
+/* setup default font family and sizes for headings */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 400;
+  font-family: var(--ff-serif);
+  @supports (font-variation-settings: normal) {
+    font-family: var(--ff-serif-var);
+  }
+}
 h1 {
-  font-size: var(--fs-xl);
+  font-size: var(--fs-xxl);
 }
 h2 {
-  font-size: var(--fs-lg);
+  font-size: var(--fs-xl);
 }
 h3,
 h4 {
-  font-size: var(--fs-md);
+  font-size: var(--fs-lg);
 }
 h5,
 h6 {
-  font-size: var(--fs-base);
+  font-size: var(--fs-md);
 }
 
 /* links should go from --fg to --primary by default */
@@ -64,6 +76,11 @@ h6 {
   text-decoration: underline;
 }
 
+/* default styles for code blocks */
+pre,
+code {
+  font-family: monospace;
+}
 @keyframes bg-flash {
   from {
     background-color: var(--bg-flash);

@@ -36,7 +36,12 @@
   pre {
     /* use a brand color background for code blocks */
     /* background-color: var(--dark-900) !important; */
-    font-size: var(--fs-sm);
+    time {
+      font-family: var(--ff-serif);
+      @supports (font-variation-settings: normal) {
+        font-family: var(--ff-serif-var);
+      }
+    }
   }
 
   /* calc(var(--content) + var(--toc-column) + var(--gap-col) * 2) */
@@ -69,7 +74,7 @@
       }
 
       summary {
-        font-size: var(--fs-base);
+        font-size: var(--fs-md);
       }
     }
 

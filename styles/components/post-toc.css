@@ -7,7 +7,11 @@ post-toc {
   }
 
   summary {
-    font-weight: 600;
+    font-size: var(--fs-base);
+    font-family: var(--ff-serif);
+    @supports (font-variation-settings: normal) {
+      font-family: var(--ff-serif-var);
+    }
   }
 
   ul {
