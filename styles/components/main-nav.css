@@ -18,7 +18,7 @@
     a {
       color: var(--secondary);
     }
-    a:is(:hover, :active, :focus-visible) {
+    a:is(:hover, :active) {
       color: var(--primary);
     }
   }
@@ -41,7 +41,7 @@
  * calc(var(--content) + var(--sidebar) + var(--gap-col))
  * layout should have the left-aligned sidebar for these styles
  */
-@container layout (width >= 82ch) {
+@container layout (width > 84ch) {
   .main-nav {
     position: sticky;
     top: var(--viewport-padding);
@@ -52,8 +52,12 @@
  * calc(var(--content) + var(--sidebar) + var(--gap-col))
  * layout should be single column for these styles
  */
-@container layout (width < 82ch) {
+@container layout (width <= 84ch) {
   .main-nav {
+    flex-basis: min(100%, var(--content));
+    max-width: var(--content);
+    margin-inline: auto;
+
     & ul {
       flex-direction: row;
       flex-wrap: wrap;
@@ -63,4 +67,19 @@
       flex-basis: 100%;
     }
   }
+}
+
+/*
+ * element to be used in an intersection observer to show/hide the
+ * <return-to-top> button
+ */
+#return-to-top-intersection {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+  width: 1px;
+  height: 1px;
+  content: "";
+  top: 75vh;
+  left: 0;
 }

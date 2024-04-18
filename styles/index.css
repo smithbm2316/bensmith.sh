@@ -1,4 +1,4 @@
-@layer reset, chroma, base, utils, components, routes;
+@layer reset, chroma, base, components, utils, routes;
 
 @import "reset.css" layer(reset);
 

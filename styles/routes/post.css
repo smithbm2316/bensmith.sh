@@ -6,12 +6,12 @@
     animation: bg-flash 2s;
   }
 
-  .article-container {
+  /*
+   * setup a container query on the <div> that our WithMainNav component wraps
+   * the <article> element with (it will have a class of .readable on it)
+   */
+  .with-main-nav > :last-child {
     container: article-container / inline-size;
-  }
-
-  article {
-    max-width: var(--content);
   }
 
   header > *,

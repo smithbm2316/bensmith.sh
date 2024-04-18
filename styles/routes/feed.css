@@ -8,8 +8,7 @@
     font-weight: 600;
 
     :hover,
-    :active,
-    :focus-visible {
+    :active {
       color: var(--fg);
     }
   }

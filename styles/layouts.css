@@ -10,7 +10,7 @@
   align-items: flex-start;
   column-gap: var(--gap-col);
   row-gap: var(--gap-row);
-  padding: var(--viewport-padding);
+  margin: var(--viewport-padding);
 
   & > :first-child {
     flex-grow: 1;
@@ -59,12 +59,11 @@
   flex-wrap: wrap;
   align-items: flex-start;
   gap: var(--gap-col);
-  max-width: calc(var(--content) + var(--sidebar) + var(--gap-col));
-  margin-inline-start: auto;
 
-  & > :only-child {
+  & > :first-child {
     flex-grow: 999;
     flex-basis: min(100%, var(--content));
-    max-width: var(--content);
+    max-width: min(100%, var(--content));
+    margin-inline: auto;
   }
 }

@@ -5,7 +5,9 @@
     font-family: var(--ff-sans-var);
   }
   /* fix for Chrome */
-  font-feature-settings: "liga" 1, "calt" 1;
+  font-feature-settings:
+    "liga" 1,
+    "calt" 1;
 }
 
 body {
@@ -56,7 +58,6 @@ h6 {
   color: inherit;
 
   :hover,
-  :focus-visible,
   :active {
     color: var(--primary);
   }
@@ -71,8 +72,7 @@ h6 {
   color: var(--primary);
 
   :hover,
-  :active,
-  :focus-visible {
+  :active {
     color: var(--fg);
   }
 }
@@ -95,8 +95,8 @@ pre {
   border: 0.3em solid var(--dark-600);
   font-size: var(--fs-sm);
   font-weight: 500;
-  padding: 1em;
-  overflow-x: auto;
+  padding: var(--pre-padding);
+  overflow-x: scroll;
 }
 
 /* 
