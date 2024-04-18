@@ -109,6 +109,7 @@
   --gap-col: 6ch;
   --gap-row: 3ch;
   --viewport-padding: calc(var(--gap-col) / 2 + 1vw);
+  --pre-padding: 1em;
 
   @media screen and (width < 400px) {
     --viewport-padding: calc(var(--gap-col) / 3);

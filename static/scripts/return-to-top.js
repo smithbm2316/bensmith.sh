@@ -3,20 +3,43 @@ window.customElements.define(
   class ReturnToTopElement extends HTMLElement {
     connectedCallback() {
       try {
-        // if the <body> tag is greater than the viewport, we'll execute javascript
-        // below to unhide the <return-to-top> button which is hidden by default.
-        // we should only show the tag if the contents of the page exceed the
-        // viewport's height. it stays disabled inside of the default HTML
-        if (document.querySelector("body").offsetHeight <= window.innerHeight) {
-          return;
-        }
-
         let button = this.querySelector(":scope button");
         if (!button) {
           return;
         }
-        button.classList.remove("hidden");
-        button.ariaHidden = null;
+
+        let returnToTop = {
+          intersectionElement: document.querySelector(
+            "#return-to-top-intersection",
+          ),
+          isVisible: false,
+        };
+        if (!returnToTop.intersectionElement) {
+          return;
+        }
+
+        // setup an intersection observer that will watch the element with the
+        // id of `#return-to-top-intersection` to show/hide our <return-to-top>
+        // button as we scroll up/down the page
+        let observer = new IntersectionObserver((entries) => {
+          for (let entry of entries) {
+            if (!returnToTop.isVisible && entry.boundingClientRect.y < 0) {
+              button.classList.remove("hidden");
+              button.ariaHidden = null;
+              returnToTop.isVisible = true;
+            } else if (
+              returnToTop.isVisible && entry.boundingClientRect.y >= 0
+            ) {
+              button.classList.add("hidden");
+              button.ariaHidden = "true";
+              returnToTop.isVisible = false;
+            }
+          }
+        }, {
+          rootMargin: "0px",
+          threshold: 1.0,
+        });
+        observer.observe(returnToTop.intersectionElement);
 
         // set up a click handler for our button to scroll to the top of the page
         button.addEventListener("click", () => {
