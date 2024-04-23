@@ -1,31 +1,61 @@
 package routes
 
 import (
+	"bensmith.sh"
 	"bensmith.sh/components"
 )
 
+var homepageLinks = []bs.Link{
+	{
+		Text: "bsmithdev@mailbox.org",
+		Url:  "mailto:bsmithdev@mailbox.org",
+	},
+	{
+		Text: "GitHub",
+		Url:  "https://github.com/smithbm2316",
+	},
+	{
+		Text: "LinkedIn",
+		Url:  "https://linkedin.com/in/smithbm2316",
+	},
+	{
+		Text: "YouTube",
+		Url:  "https://youtube.com/@smithbm2316",
+	},
+	{
+		Text: "Twitter",
+		Url:  "https://twitter.com/smithbm2316",
+	},
+}
+
 // Renders the homepage route
 templ IndexRoute() {
-	@components.Head("Home")
+	@components.Head("Home") {
+		<!-- route-specific styles -->
+		<link rel="preload" as="style" href="/styles/routes/homepage.css"/>
+		<link rel="stylesheet" href="/styles/routes/homepage.css"/>
+	}
 	@components.WithMainNav() {
 		<main class="flow">
-			@components.Picture(
-				"/images/profile_pic.jpeg",
-				"400",
-				"400",
-				templ.Attributes{
-					"class":   "square-img",
-					"loading": "eager",
-				},
-			)
-			<h1>Ben Smith</h1>
+			<h1>Hey, I'm Ben Smith</h1>
 			<p>
-				I'm a web developer with a passion for the command line, coffee, and
-				crafting delightful user experiences for the web!
+				@templ.Raw(`I'm a web developer with a passion for the command line, coffee, and crafting delightful user experiences for the web.`)
 			</p>
-			<h2 id="about-me">About Me</h2>
+			<ul role="list">
+				for _, link := range homepageLinks {
+					<li>
+						<a href={ templ.SafeURL(link.Url) } rel="noreferrer">{ link.Text }</a>
+					</li>
+				}
+			</ul>
 			<p>
-				@templ.Raw(`I've been refining my web development skills at <a href='https://vincit.com'>Vincit USA</a> for the last 3 years, a software development consulting agency. I've helped multiple startups launch their flagship web-based SaaS products, replaced an existing Shopify website with a more performant headless Shopify storefront, and taught several internal workshops on web accessibility and developer tools.`)
+				<span>
+					@templ.Raw(`I've been refining my web development skills at `)
+				</span>
+				<a href="https://vincit.com" rel="noreferrer">Vincit USA</a>
+				<span>
+					@templ.Raw(` for the last 3 years, a software development consulting agency. I've helped multiple startups launch their flagship web-based SaaS products, replaced an existing Shopify website with a more performant headless Shopify storefront, and taught several internal workshops on web accessibility and developer tools.`)
+				</span>
 			</p>
 			<p>
 				@templ.Raw(`I've been programming and tinkering with tech since I first got my hands on a text editor and some 2012-era Youtube C programming language tutorials. However, it was an online course that I took the summer before my first year of high school from San Jose State University on an Introduction to the Java programming language that sparked an initial interest in coding well over a decade ago. While I would go on to take a Python course at my high school, write some "RobotC" code for the high school Robotics team, and a history fair website constructed with some basic HTML and CSS, it wasn't until halfway through my time in college at UC Irvine that I'd discover the passion that still burns bright today: <em>building for the web.</em>`)
