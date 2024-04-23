@@ -1,15 +1,17 @@
-.feeds-list {
-  display: flex;
-  align-items: center;
-  gap: 1em;
+@layer routes {
+  .feeds-list {
+    display: flex;
+    align-items: center;
+    gap: 1em;
 
-  a {
-    color: var(--primary);
-    font-weight: 600;
+    a {
+      color: var(--primary);
+      font-weight: 600;
 
-    :hover,
-    :active {
-      color: var(--fg);
+      :hover,
+      :active {
+        color: var(--fg);
+      }
     }
   }
 }
