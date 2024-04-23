@@ -4,15 +4,20 @@
   gap: 0.5em;
 
   li > a {
+    --padding-block-size: 0.15em;
+    --padding-inline-size: 0.6em;
+    --tag-hole-punch-size: 0.45em;
+
     background-color: var(--dark-800);
-    display: flex;
-    align-items: center;
-    column-gap: 0.45em;
-    justify-content: space-between;
+    display: inline-block;
     font-size: var(--fs-sm);
     font-weight: 600;
-    padding-block: 0.15em;
-    padding-inline: 0.6em;
+    padding-block: var(--padding-block-size);
+    padding-inline-start: var(--padding-inline-size);
+    padding-inline-end: calc(
+      var(--padding-block-size) + var(--padding-inline-size) +
+        var(--tag-hole-punch-size)
+    );
     text-decoration: none;
     position: relative;
     /* clips the element to match the ::before element's path, otherwise
@@ -78,6 +83,10 @@
       width: 0.45em;
       clip-path: circle(50% at 50% 50%);
       background-color: var(--dark-500);
+      position: absolute;
+      top: 50%;
+      right: var(--tag-hole-punch-size);
+      transform: translateY(-50%);
     }
 
     /*
