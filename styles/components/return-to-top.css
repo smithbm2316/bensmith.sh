@@ -4,16 +4,17 @@ return-to-top button {
   right: 0.5rem;
   z-index: 10;
 
-  border: 2px solid var(--fg);
+  border: 2px solid var(--dark-800);
   border-radius: 50%;
-  background-color: var(--dark-900);
+  background-color: var(--dark-700);
   color: var(--fg);
   display: flex;
   justify-items: center;
   align-items: center;
+  transition: border-color 0.25s ease;
 
   &:is(:hover, :active, :focus-visible) {
-    background-color: var(--dark-800);
+    border-color: currentColor;
   }
 
   padding: 0.5em;
