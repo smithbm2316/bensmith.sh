@@ -79,5 +79,14 @@
       clip-path: circle(50% at 50% 50%);
       background-color: var(--dark-500);
     }
+
+    /*
+     * since we are using `clip-path` to hide all content that expands from
+     * beyond the element, we need to set a negative outline-offset so that
+     * the outline shows up
+     */
+    &:focus-visible {
+      outline-offset: -0.4em;
+    }
   }
 }

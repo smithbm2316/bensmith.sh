@@ -32,7 +32,7 @@
     text-decoration: none;
   }
 
-  & a:is(:hover, :active, :focus) {
+  & a:is(:hover, :active, :focus-visible) {
     text-decoration: underline;
   }
 }

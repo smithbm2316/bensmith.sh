@@ -134,3 +134,11 @@ textarea:not([rows]) {
 :target {
   scroll-margin-block: 5ex;
 }
+
+/* set default outline styles that work cross-browser */
+:focus-visible {
+  outline-style: solid;
+  outline-color: currentColor;
+  outline-width: 1px;
+  outline-offset: 1px;
+}
