@@ -59,6 +59,7 @@ templ PostRoute(post *bs.Post) {
 						</details>
 					</nav>
 				}
+				<script src="/scripts/post-toc.js" defer type="text/javascript"></script>
 			</post-toc>
 			<main class="flow">
 				@components.Unsafe(post.Content)
