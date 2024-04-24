@@ -29,7 +29,7 @@ templ PostRoute(post *bs.Post) {
 						<ul class="tags-list" role="list">
 							for _, tag := range post.Tags {
 								<li>
-									<a href={ templ.SafeURL(fmt.Sprintf("/tags/%s", tag)) }>
+									<a href={ templ.SafeURL(fmt.Sprintf("/tags/%s/", tag)) }>
 										{ tag }
 									</a>
 								</li>

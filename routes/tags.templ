@@ -17,7 +17,7 @@ templ TagsRoute(tags []string) {
 				<ul class="tags-list" role="list">
 					for _, tag := range tags {
 						<li>
-							<a href={ templ.SafeURL(fmt.Sprintf("/tags/%s", tag)) }>
+							<a href={ templ.SafeURL(fmt.Sprintf("/tags/%s/", tag)) }>
 								{ tag }
 							</a>
 						</li>

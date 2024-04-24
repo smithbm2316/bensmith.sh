@@ -29,13 +29,11 @@ templ BlogRoute(posts []*bs.Post, tags []string) {
 				}
 			</ul>
 			<!-- Tags will already be sorted alphabetically -->
-			<h2>
-				<a href="/tags">Tags</a>
-			</h2>
+			<h2>Tags</h2>
 			<ul class="tags-list" role="list">
 				for _, tag := range tags {
 					<li>
-						<a href={ templ.SafeURL(fmt.Sprintf("/tags/%s", tag)) }>
+						<a href={ templ.SafeURL(fmt.Sprintf("/tags/%s/", tag)) }>
 							{ tag }
 						</a>
 					</li>
