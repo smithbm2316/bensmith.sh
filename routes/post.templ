@@ -17,53 +17,60 @@ templ PostRoute(post *bs.Post) {
 		<link rel="preload" as="style" href="/styles/routes/post.css"/>
 		<link rel="stylesheet" href="/styles/routes/post.css"/>
 	}
-	@components.WithMainNav() {
-		<article>
-			<header>
-				<h1>{ post.Title }</h1>
-				<div class="post-metadata">
-					<time datetime={ post.Published.Format(time.RFC3339) }>
-						{ post.Published.Format("Monday, January 1, 2006") }
-					</time>
-					if len(post.Tags) > 0 {
-						<ul class="tags-list" role="list">
-							for _, tag := range post.Tags {
-								<li>
-									<a href={ templ.SafeURL(fmt.Sprintf("/tags/%s/", tag)) }>
-										{ tag }
-									</a>
-								</li>
+	<body>
+		<div class="with-main-nav">
+			@components.MainNav()
+			<main class="readable">
+				<article>
+					<header>
+						<h1>{ post.Title }</h1>
+						<div class="post-metadata">
+							<time datetime={ post.Published.Format(time.RFC3339) }>
+								{ post.Published.Format("Monday, January 1, 2006") }
+							</time>
+							if len(post.Tags) > 0 {
+								<ul class="tags-list" role="list">
+									for _, tag := range post.Tags {
+										<li>
+											<a href={ templ.SafeURL(fmt.Sprintf("/tags/%s/", tag)) }>
+												{ tag }
+											</a>
+										</li>
+									}
+								</ul>
 							}
-						</ul>
-					}
-				</div>
-			</header>
-			<post-toc
-				if len(post.Headings) == 0 {
-					aria-hidden="true"
-				}
-			>
-				if len(post.Headings) > 0 {
-					<nav aria-labelledby="article-toc">
-						<details>
-							<summary id="article-toc">
-								Table of Contents
-							</summary>
-							<ul>
-								for _, heading := range post.Headings {
-									<li>
-										<a href={ templ.SafeURL(heading.Id) }>{ heading.Text }</a>
-									</li>
-								}
-							</ul>
-						</details>
-					</nav>
-				}
-				<script src="/scripts/post-toc.js" defer type="text/javascript"></script>
-			</post-toc>
-			<main class="flow">
-				@components.Unsafe(post.Content)
+						</div>
+					</header>
+					<post-toc
+						if len(post.Headings) == 0 {
+							aria-hidden="true"
+						}
+					>
+						if len(post.Headings) > 0 {
+							<nav aria-labelledby="article-toc">
+								<details>
+									<summary id="article-toc">
+										Table of Contents
+									</summary>
+									<ul>
+										for _, heading := range post.Headings {
+											<li>
+												<a href={ templ.SafeURL(heading.Id) }>{ heading.Text }</a>
+											</li>
+										}
+									</ul>
+								</details>
+							</nav>
+						}
+						<script src="/scripts/post-toc.js" defer type="text/javascript"></script>
+					</post-toc>
+					<div class="article-content flow">
+						@components.Unsafe(post.Content)
+					</div>
+				</article>
+				<div id="return-to-top-intersection" aria-hidden="true"></div>
 			</main>
-		</article>
-	}
+		</div>
+		@components.ReturnToTop()
+	</body>
 }

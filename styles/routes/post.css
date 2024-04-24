@@ -61,7 +61,7 @@
       grid-area: header;
     }
 
-    main {
+    .article-content {
       grid-area: content;
     }
 
