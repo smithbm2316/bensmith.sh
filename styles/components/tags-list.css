@@ -97,5 +97,18 @@
     &:focus-visible {
       outline-offset: -0.4em;
     }
+
+    /* add slight hover transitions to the links that are children of <li> */
+    transition: transform 0.3s ease-out;
+    will-change: transform;
+    &:hover {
+      transition: transform 0.15s ease-in;
+    }
+    &:nth-child(odd):hover {
+      transform: rotate(5deg);
+    }
+    &:nth-child(even):hover {
+      transform: rotate(-5deg);
+    }
   }
 }
