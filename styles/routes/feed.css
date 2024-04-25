@@ -8,8 +8,8 @@
       color: var(--primary);
       font-weight: 600;
 
-      :hover,
-      :active {
+      &:hover,
+      &:active {
         color: var(--fg);
       }
     }

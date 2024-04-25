@@ -6,6 +6,8 @@ tags:
   - rss
   - open-web
 ---
+*Note: the content of this post is likely out of date as Astro has had multiple major version releases since the time that this post was written.*
+
 If you haven't seen it yet, [Astro](https://astro.build) is a *delightful* tool for building faster websites. It supports static-site generation (SSG), server-side rendering (SSR), as well as islands architecture for adding small pockets of interactivity to your websites with your frontend Javascript framework of choice.
 
 If you're sitting here wondering *what in the world did any of that just mean?*, don't worry! Astro is approachable to web developers of all skill levels. Whether you've barely started learning HTML and CSS, are a veteran of the web development scene, or are somewhere inbetween like myself, Astro will welcome you with open arms. I recommend you start with [their tutorial here](https://docs.astro.build/en/tutorial/0-introduction/). Their documentation team sets the bar *incredibly high* for what the docs of a modern Javascript framework should look like.
@@ -30,88 +32,64 @@ The way that we can extend the specifications is by adding some metadata for a â
 
 ### Show me the code! {#show-me-the-code}
 
-First, let's take a look at the full example that I wrote for my own personal site before I
-upstreamed the implementation to the `@astrojs/rss` package:
+Let's take a look at the full example that I wrote for my own personal site before I
+upstreamed the implementation to the `@astrojs/rss` package. First, we need to get a list of our posts and their content using the [`import.meta.glob`](https://docs.astro.build/en/reference/api-reference/#importmeta) function. 
 
 ```typescript
-// src/pages/feed.xml.ts
 import rss from '@astrojs/rss';
 import sanitizeHtml from 'sanitize-html';
-// We'll assume that our feed is located at src/pages/feed.xml
-// and our blog posts are all located in the src/pages/posts folder
 
-// import all markdown files with Vite's import.meta.glob
-// synchronously from our posts folder. If we don't set
-// `eager` to `true` below, this function will be lazy-loaded
-// with a dynamic import instead which we don't want
 const posts = Object.values(
   import.meta.glob('./posts/**/*.md', {
     eager: true, 
   }),
 );
+```
 
-// SITE will use "site" from your project's astro.config.
-const SITE = import.meta.env.SITE;
+Next, we'll set up a couple of custom config options to pass to the config object that Astro's `rss` function accepts. First, we'll set the `site` variable to be equal to our base URL. Then the `customData` variable will be a string which we pass some extra XML tags that are necessary to enable this for Atom feed readers and set the language to `en-us` (change this to whatever language you are specifying yourself). Lastly, we'll set up the `xmlns` variable which will be an object that allows us to inject `<xmlns:content>` tags into the feed so that we can tell feed readers to use special tags that are not necessarily a part of the RSS 2.0 spec. We will set up our feed to enable Atom and the `<content:encoding>` tags by default.
 
-// set up some custom XML tags to inject into the RSS feed
-const customDataTags = [
-  // enable Atom feed, as some RSS readers use that format
-  // https://www.fpds.gov/wiki/index.php/FAADC_Atom_Feed_Specifications_V_1.0
-  `<atom:link href="${SITE}feed.xml" rel="self" type="application/rss+xml" />`,
-  // enable language metadata
+```typescript
+const site = import.meta.env.SITE;
+const customData = [
+  `<atom:link href="${site}feed.xml" rel="self" type="application/rss+xml" />`,
   `<language>en-us</language>`,
-];
+].join('');
+const xmlns = {
+  atom: 'http://www.w3.org/2005/Atom',
+  content: 'http://purl.org/rss/1.0/modules/content/',
+};
+```
 
-// We need to export a default `get` function from this file in order
-// to hook into Astro's Static File Endpoints feature which will
-// generate our `feed.xml` file at build time for us
-// https://docs.astro.build/en/core-concepts/endpoints/
+Once we've taken care of all that setup, we can export a default function called `get` which Astro will treat as a `GET` [API endpoint](https://docs.astro.build/en/guides/endpoints/) from which we can return the call to the `rss` function provided by Astro. We can pass along our `site`, `customData`, and `xmlns` to the object accepted by the `rss` function as well as our `title` and `description` for the site. Note: the `\u2019` that you see below is the unicode code for an apostrophe so that it's properly escaped in our feed.
+
+The last piece of the puzzle that we need to pass to the `rss` function is our `posts`, where I've used the `sanitize-html` package to sanitize our post's content before injecting it into our feed. Once we've sanitized the content, we can pass it to the `customData` property where we can tell Astro to inject a tag using the `<content:encoded>` tag that contains our post's sanitized HTML.
+
+```typescript
 export const get = () =>
   rss({
-    // \u2019 is the unicode code for an apostrophe
     title: 'Ben Smith\u2019s Blog',
     description: 'Ben\u2019s writings and thoughts about tech',
-    site: SITE,
+    site,
     items: posts.map((post) => {
-        // get the compiled HTML output from our post from the
-        // `compiledContent()` function in our post. Then let's sanitize and
-        // encode the post properly for use in the <content:encoded> tag
-        // we'll include below in the RSSFeedItem object that we're returning
-        // https://docs.astro.build/en/guides/rss/#1-importmetaglob-result
-        const postHTML = sanitizeHtml(post.compiledContent());
-
-        return {
-          title: post.frontmatter.title,
-          link: post.url,
-          pubDate: new Date(post.frontmatter.pubDate),
-          description: descriptionOrExcerpt,
-          customData: `<content:encoded><![CDATA[${postHTML}]]></content:encoded>`,
-        };
-      }),
-    // inject custom tags defined above as a string so that we have support
-    // for the Atom feed standard and give RSS readers information about what
-    // language our posts are in
-    customData: customDataTags.join(''),
-    // inject the `xmlns:content` attribute with the namespace that defines
-    // how the <content:encoded> element should work (as it's not part of
-    // the RSS 2.0 spec by default)
-    xmlns: {
-      // the namespace that enables Atom feed
-      atom: 'http://www.w3.org/2005/Atom',
-      // the namespace that enables the <content:encoding> tag
-      content: 'http://purl.org/rss/1.0/modules/content/',
-    },
+      const postHTML = sanitizeHtml(post.compiledContent());
+      return {
+        title: post.frontmatter.title,
+        link: post.url,
+        pubDate: new Date(post.frontmatter.pubDate),
+        description: descriptionOrExcerpt,
+        customData: `<content:encoded><![CDATA[${postHTML}]]></content:encoded>`,
+      };
+    }),
+    customData,
+    xmlns,
   });
 ```
 
-<br />
+### Final code {#final-code}
 
-Now let's drastically simplify that with the new updates to the `@astrojs/rss` post here:
-
-<br />
+Now let's drastically simplify that with the new updates to the `@astrojs/rss` post below with the [contribution that I made to the Astro project](https://github.com/withastro/astro/pull/5366) which removes a lot of the tedious configuration that I covered above. Now when you pass the list of our `posts` to the `items` property, you don't have to add those extra tags yourself as you can pass your sanitized post content directly to the new `content` property! The releveant meta tags, namespace definitions, Atom feed-specific tags, and other convoluted configuration is in Astro's `rss` package itself now.
 
 ```typescript
-// src/pages/feed.xml.ts
 import rss from '@astrojs/rss';
 import sanitizeHtml from 'sanitize-html';
 
@@ -125,9 +103,6 @@ export const get = () => rss({
   title: 'Ben Smith\u2019s Blog',
   description: 'Ben\u2019s writings and thoughts about tech',
   site: import.meta.env.SITE,
-  // now all we have to do is just pass the sanitized + encoded HTML of
-  // each of our posts to the new `content` property on the RSSFeedItem
-  // objects that we're generating for each post! So much simpler :)
   items: posts.map((post) => ({
     link: post.url,
     title: post.frontmatter.title,
@@ -137,6 +112,4 @@ export const get = () => rss({
 });
 ```
 
-<br />
-
-Thanks for reading! If this post was helpful, please let me know on [Twitter](https://twitter.com/smithbm2316), I'd love to hear any feedback you might have.
+Thanks for reading! If this post was helpful, please let me know, I'd love to hear any feedback you might have.

@@ -54,11 +54,11 @@ h6 {
 }
 
 /* links should go from an inherited style to --primary by default */
-:where(a) {
+a {
   color: inherit;
 
-  :hover,
-  :active {
+  &:hover,
+  &:active {
     color: var(--primary);
   }
 }
@@ -67,22 +67,34 @@ h6 {
  * but if they're in an paragraph or are anchor links inside of a heading on one
  * of our blog posts (with [data-anchor="true"]), go from --primary to --fg
  */
-:where(p) a,
-:where(a[data-anchor="true"]) {
+p a,
+a[data-anchor="true"] {
   color: var(--primary);
 
-  :hover,
-  :active {
+  &:hover,
+  &:active {
     color: var(--fg);
   }
 }
 
 /* disable link underline by default if it's a direct child of a heading element */
-:where(h1, h2, h3, h4, h5, h6) > a {
-  text-decoration: none;
+:is(h1, h2, h3, h4, h5, h6) > a {
+  text-decoration-line: none;
+  &:is(:hover, :active, :focus-visible) {
+    text-decoration-line: underline;
+  }
 }
-:where(h1, h2, h3, h4, h5, h6) > a:is(:hover, :focus-visible, :active) {
-  text-decoration: underline;
+/* 
+ * adjust the default styles of heading anchor links so that they are 
+ * distinguishable from the rest of the heading element via the underline rather
+ * than just on the change of color alone, so that a11ty tests are satisfied
+ */
+a[data-anchor="true"] {
+  display: inline-block;
+  line-height: 1;
+  text-decoration-line: underline;
+  text-decoration-thickness: 2px;
+  transform: translateX(-0.05em) translateY(-0.05em);
 }
 
 /* default styles for code blocks */
@@ -91,7 +103,7 @@ code {
   font-family: monospace;
 }
 pre {
-  background-color: var(--bg);
+  background-color: var(--dark-950);
   border: 0.3em solid var(--dark-600);
   font-size: var(--fs-sm);
   font-weight: 500;
