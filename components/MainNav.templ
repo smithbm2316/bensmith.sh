@@ -66,6 +66,7 @@ templ WithMainNav() {
 			</div>
 		</div>
 		@ReturnToTop()
+		@GoatCounterAnalytics()
 	</body>
 }
 
@@ -92,4 +93,9 @@ templ MainNav() {
 			}
 		</nav>
 	</header>
+}
+
+// Analytics script for goatcounter stats
+templ GoatCounterAnalytics() {
+	<script data-goatcounter="https://smithbm2316.goatcounter.com/count" src="https://gc.zgo.at/count.js" async defer></script>
 }
