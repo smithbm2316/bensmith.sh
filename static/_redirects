@@ -1,0 +1,7 @@
+# vim:ft=text
+# Netlify redirects file
+# https://docs.netlify.com/routing/redirects/
+#
+# Add redirects for go packages that I publish with a module name of
+# `bensmith.sh/<pkg-name>` to point to their respective git repos
+/pflags   https://git.sr.ht/~smithbm2316/pflags
