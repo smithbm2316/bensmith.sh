@@ -103,6 +103,10 @@ func main() {
 			Text:    "Error Not Found",
 			Handler: func() templ.Component { return routes.ErrorNotFound() },
 		},
+		"/pflags": {
+			Text:    "pflags",
+			Handler: func() templ.Component { return routes.Pflags() },
+		},
 		/* "/tags/": {
 			Text:    "Tags",
 			Handler: func() templ.Component { return routes.TagsRoute(tags) },
