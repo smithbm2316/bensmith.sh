@@ -111,11 +111,11 @@ func main() {
 			Text:    "Tags",
 			Handler: func() templ.Component { return routes.TagsRoute(tags) },
 		}, */
-		/* "/projects/": {
+		"/projects/": {
 			Text:          "Projects",
 			Handler:       func() templ.Component { return routes.ProjectsRoute() },
 			IsMainNavLink: true,
-		}, */
+		},
 		"/words/": {
 			Text:          "Writing",
 			Handler:       func() templ.Component { return routes.BlogRoute(posts, tags) },
@@ -155,11 +155,12 @@ func main() {
 		}
 	}
 	for _, page := range pages {
-		isUsesPage := page.Title == "Uses"
+		// disable /uses route for now in main nav until you update the content
+		// isUsesPage := page.Title == "Uses"
 		routesMap[page.Slug] = bs.RouteEntry{
-			Text:          page.Title,
-			Handler:       func() templ.Component { return routes.MarkdownPageRoute(page) },
-			IsMainNavLink: isUsesPage,
+			Text:    page.Title,
+			Handler: func() templ.Component { return routes.MarkdownPageRoute(page) },
+			// IsMainNavLink: isUsesPage,
 		}
 	}
 

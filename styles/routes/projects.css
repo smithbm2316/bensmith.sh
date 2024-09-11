@@ -1,0 +1,52 @@
+@layer routes {
+  .projects {
+    h1 {
+      margin-block-end: 1.2em;
+    }
+
+    li {
+      display: contents;
+    }
+
+    ul {
+      display: flex;
+      flex-direction: column;
+      row-gap: 0.6em;
+    }
+  }
+
+  .project-link {
+    display: flex;
+    flex-direction: column;
+    row-gap: 0.6em;
+    column-gap: 1.2em;
+
+    background-color: var(--dark-950);
+    border: 0.15em solid var(--dark-700);
+    padding: 0.6em 0.9em;
+    margin-inline: -0.9em;
+
+    text-decoration: none;
+
+    &:focus-visible {
+      outline-color: var(--primary);
+      outline-width: 2px;
+      outline-offset: 2px;
+    }
+
+    h2 {
+      font-size: var(--fs-lg);
+    }
+    &:hover h2 {
+      color: var(--primary);
+    }
+
+    p {
+      color: var(--dark-50);
+      font-size: var(--fs-sm);
+    }
+    &:hover p {
+      color: var(--dark-200);
+    }
+  }
+}
