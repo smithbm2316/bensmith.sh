@@ -4,17 +4,17 @@ import (
 	"bensmith.sh/components"
 )
 
-type Project struct {
+type project struct {
 	Name        string
 	Url         string
 	Description string
 }
 
-var projects = []Project{
+var projects = []project{
 	{
-		Name:        "node-generate-svg-spritesheet",
-		Url:         "https://git.sr.ht/~smithbm2316/node-generate-svg-spritesheet",
-		Description: "Generate a SVG spritesheet for use in React that is cacheable on a CDN",
+		Name:        "svgs-to-spritesheet",
+		Url:         "https://git.sr.ht/~smithbm2316/svgs-to-spritesheet",
+		Description: "Generate a cacheable SVG spritesheet to be consumed by a JSX component with a Typescript definition.",
 	},
 	{
 		Name:        "a-little-copy",
