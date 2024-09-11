@@ -36,17 +36,20 @@
 
     h2 {
       font-size: var(--fs-lg);
-    }
-    &:hover h2 {
-      color: var(--primary);
+
+      &:hover {
+        color: var(--primary);
+      }
     }
 
     p {
-      color: var(--dark-50);
+      color: var(--secondary);
       font-size: var(--fs-sm);
-    }
-    &:hover p {
-      color: var(--dark-200);
+      font-weight: 500;
+
+      &:hover {
+        color: var(--dark-50);
+      }
     }
   }
 }
