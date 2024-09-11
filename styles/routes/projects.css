@@ -1,7 +1,7 @@
 @layer routes {
   .projects {
     h1 {
-      margin-block-end: 1.2em;
+      margin-block-end: 0.6em;
     }
 
     li {
@@ -11,7 +11,7 @@
     ul {
       display: flex;
       flex-direction: column;
-      row-gap: 0.6em;
+      row-gap: 1.2em;
     }
   }
 
