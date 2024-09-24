@@ -28,23 +28,23 @@
 </main>
 
 <style>
-  .feeds-list-nav {
-    margin-block-end: 3em;
-  }
-  
-  .feeds-list {
-    display: flex;
-    align-items: center;
-    gap: 1em;
+.feeds-list-nav {
+  margin-block-end: 3em;
+}
 
-    a {
-      color: var(--primary);
-      font-weight: 600;
+.feeds-list {
+  display: flex;
+  align-items: center;
+  gap: 1em;
 
-      &:hover,
-      &:active {
-        color: var(--fg);
-      }
+  a {
+    color: var(--primary);
+    font-weight: 600;
+
+    &:hover,
+    &:active {
+      color: var(--fg);
     }
   }
+}
 </style>

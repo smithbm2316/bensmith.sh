@@ -22,8 +22,11 @@ import slugify from '@sindresorhus/slugify';
  * @returns {Record<string, unknown>} Final configuration that we give to Eleventy
  */
 export default function configureEleventy(eleventyConfig) {
-  /** @see {@link https://www.11ty.dev/docs/config/#configuration-options Configuration Options} */
-  const config = {
+  /**
+   * @link {https://www.11ty.dev/docs/config/#configuration-options}
+   * @link {https://stackoverflow.com/a/64687300/15089697}
+   */
+  const config = /** @type {const} */ ({
     dir: {
       input: 'src',
       output: '_site',
@@ -33,7 +36,14 @@ export default function configureEleventy(eleventyConfig) {
     markdownTemplateEngine: 'njk',
     htmlTemplateEngine: 'njk',
     templateFormats: ['html', 'md', 'njk', '11ty.js', 'webc', 'css'],
-  };
+  });
+
+  // if a post's `draft` property is truthy, ignore processing it in prod
+  eleventyConfig.addPreprocessor('drafts', 'md', (data, content) => {
+    if (data.draft && data.eleventyExcludeFromCollections) {
+      return false;
+    }
+  });
 
   // set frontmatter data template format to Javascript by default instead of YAML
   eleventyConfig.setFrontMatterParsingOptions({ language: 'javascript' });
