@@ -44,7 +44,7 @@
 
   <!-- goatcounter analytics -->
   <script
-    webc:if="process.env.SITE_ENV !== 'development'"
+    webc:if="eleventy.env.runMode !== 'build'"
     webc:keep
     data-goatcounter="https://smithbm2316.goatcounter.com/count"
     src="https://gc.zgo.at/count.js"
