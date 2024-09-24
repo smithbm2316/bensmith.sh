@@ -6,6 +6,7 @@
 
   <meta name="author" :content="site.author.name">
   <meta name="description" :content="site.description">
+  <meta name="generator" content="{{ eleventy.generator }}">
   <!--- <link :href="site.favicon" rel="icon" type="image/svg+xml"> --->
 
   <title @text="pageTitle(title)"></title>
