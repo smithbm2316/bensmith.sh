@@ -27,7 +27,28 @@
 - [Understanding WebC Features and Concepts | 11ty Rocks!](https://11ty.rocks/posts/understanding-webc-features-and-concepts/)
 - [WebC scoped styles className applied to every element · Issue #18 · 11ty/eleventy-plugin-webc](https://github.com/11ty/eleventy-plugin-webc/issues/18)
 - [CSS and JavaScript as first-class citizens in Eleventy — Vadim Makeev](https://pepelsbey.dev/articles/eleventy-css-js/)
+- [webmentions + eleventy tutorial](https://sia.codes/posts/webmentions-eleventy-in-depth/)
+- [migrating from netlify to cloudflare for ai bot protection](https://sia.codes/posts/migrating-netlify-to-cloudflare/)
+- [rebuilding my site with eleventy - blake watson](https://blakewatson.com/journal/rebuilding-my-website-with-eleventy/)
+- [11tybundle.dev - tagged 'webc'](https://11tybundle.dev/categories/webc/)
+- [looping with render functions in webc](https://11tywebcfun.netlify.app/recipes/looping-render-function/)
+- [quick tip - draft posts (old) - 11ty.dev](https://www.11ty.dev/docs/quicktips/draft-posts/)
+- [blog posts by topic - alexedwards.net](https://www.alexedwards.net/blog/topic)
+- [exclude specific tags in an eleventy filter](https://cri.dev/posts/2024-09-21-how-to-exclude-tags-collection-filter-eleventy/)
 - [eleventy vite plugin](https://www.11ty.dev/docs/server-vite/)
+- [Typescript Eleventy Config](https://bennypowers.dev/posts/typescript-11ty-config/)
+- [Sorting and Dating 11ty Posts by Name](https://bennypowers.dev/posts/sort-and-date-11ty-posts-by-name/)
+- [SVG Icon Sprites in Eleventy](https://bennypowers.dev/posts/11ty-svg-sprites/)
+- [Upgrade 11ty to v3, reorg, ESM, and debug](https://www.bobmonsour.com/posts/upgrade-and-debug/)
+- [Behavior Belongs in the HTML](https://unplannedobsolescence.com/blog/behavior-belongs-in-html/)
+- [pre-commit for safe image handling - jade's www site](https://jade.fyi/blog/pre-commit-exif-safety/)
+- [Scheduled and draft 11ty posts](https://remysharp.com/2019/06/26/scheduled-and-draft-11ty-posts)
+- [Eleventy - Add CSV data file support](https://www.roboleary.net/blog/eleventy-csv/)
+- [Eleventy - Convert a RSS Feed to a collection](https://www.roboleary.net/2024/06/05/eleventy-rss-collection.html)
+- [Eleventy - Merge data with an existing collection](https://www.roboleary.net/2024/05/26/eleventy-external-posts.html)
+- [Eleventy - Group posts by year](https://www.roboleary.net/2024/03/01/eleventy-posts-by-year.html)
+- [Devon Govett on X: "More design systems should use utilities over style components..."](https://x.com/devongovett/status/1836770668953620640)
+- [Design System Retrospective | Kyle Shevlin](https://kyleshevlin.com/design-system-retrospective/)
 - [Unit Test 11ty Pages With Vitest and Typescript | Khalid Abuhakmeh](https://khalidabuhakmeh.com/unit-test-11ty-pages-with-vitest-and-typescript)
 - [tailwindcss as a utility generator with eleventy](https://eleventy-excellent.netlify.app/blog/what-is-tailwind-css-doing-here/)
 - [tailwindcss v4 alpha](https://tailwindcss.com/blog/tailwindcss-v4-alpha#try-out-the-alpha)
@@ -44,6 +65,7 @@
 - [Front-of-the-front-end and back-of-the-front-end web development](https://bradfrost.com/blog/post/front-of-the-front-end-and-back-of-the-front-end-web-development/)
 - [Tailwind and the Femininity of CSS](https://thoughtbot.com/blog/tailwind-and-the-femininity-of-css)
 - [Styling rss and atom feeds](https://rknight.me/blog/styling-rss-and-atom-feeds/)
+- [all the ways to render a webc component](https://luhr.co/blog/2023/07/11/all-the-ways-to-render-a-webc-component-with-11ty/)
 
 ## eleventy solutions
 - [fix template content too early in eleventy](https://hamatti.org/snacks/fix-templatecontent-too-early-in-eleventy)
@@ -51,8 +73,18 @@
 ## webc/11ty bugs
 - [`addPreprocessor` doesn't work together with keyed `addExtension` · Issue #3433 · 11ty/eleventy](https://github.com/11ty/eleventy/issues/3433)
 - [:host CSS class is duplicated and appended to all children with webc:scoped](https://github.com/11ty/eleventy-plugin-webc/issues/101)
+- [Components don’t have access to props data within `webc:setup` script tags · Issue #196 · 11ty/webc](https://github.com/11ty/webc/issues/196)
 
-## 11ty plugins
+## 3.0 beta features
+- [`eleventyDataSchema` data validation](https://github.com/11ty/eleventy/issues/879)
+- [Configuration API method to create a content template (aka Virtual Templates) · Issue #1612 · 11ty/eleventy](https://github.com/11ty/eleventy/issues/1612)
+- [Add option to use new Virtual Templates feature to avoid creating feed template files manually. · Issue #47 · 11ty/eleventy-plugin-rss](https://github.com/11ty/eleventy-plugin-rss/issues/47)
+- [RSS — Eleventy](https://www.11ty.dev/docs/plugins/rss/#virtual-template)
+- [New `IdAttributePlugin` will add `id` attributes to your headings · Issue #3363 · 11ty/eleventy](https://github.com/11ty/eleventy/issues/3363)
+- [Configuration Hook/callback for custom `date` parsing · Issue #867 · 11ty/eleventy](https://github.com/11ty/eleventy/issues/867)
+- [`addPreprocessor` Configuration API method to Ignore Files and simplify "Draft" templates · Issue #188 · 11ty/eleventy](https://github.com/11ty/eleventy/issues/188)
+
+## plugins
 - [eleventy-plugin-poison - npm](https://www.npmjs.com/package/eleventy-plugin-poison)
 - [eleventy-plugin-no-robots - npm](https://www.npmjs.com/package/eleventy-plugin-no-robots)
 - [eleventy-plugin-html-validate - npm](https://www.npmjs.com/package/eleventy-plugin-html-validate)
@@ -70,6 +102,12 @@
 - [@sardine/eleventy-plugin-tinysvg - npm](https://www.npmjs.com/package/@sardine/eleventy-plugin-tinysvg)
 - [eleventy-plugin-gen-favicons - npm](https://www.npmjs.com/package/eleventy-plugin-gen-favicons)
 - [eleventy-plugin-file-list - npm](https://www.npmjs.com/package/eleventy-plugin-file-list)
+- [eleventy-plugin-embed-everything](https://gfscott.com/embed-everything/)
+
+## starters / example projects
+- [jetbrains.com/guide - uses TS, JSX, Vitest, etc](https://github.com/JetBrains/guide)
+- [eleventy-excellent - sets up tailwind as a utility generator](https://github.com/madrilene/eleventy-excellent)
+- [fly.io node + docker app](https://github.com/fly-apps/node-dictaphone)
 
 ## load html custom data files in neovim
 - [vscode custom data file docs](https://github.com/microsoft/vscode-html-languageservice/blob/main/docs/customData.md)
