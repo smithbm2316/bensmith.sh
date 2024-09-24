@@ -1,11 +1,10 @@
 ---
 {
   title: 'Tailwind is good enough',
+  date: '2024-09-24',
   tags: ['tailwind', 'css'],
 }
 ---
-
-# Tailwind is good enough.
 
 There are a plethora of CSS tools, frameworks, methodologies, runtimes, etc out
 there that attempt to wrangle in the beast that is managing CSS in a project in

@@ -1,7 +1,6 @@
 ---
 {
   permalink: '/404.html',
-  layout: 'layouts/base.webc',
   title: 'Oops! Not Found',
 }
 ---
