@@ -1,7 +1,3 @@
----
-layout: layouts/base.webc
----
-
 <main class="flow">
   <h1>Hey, I'm Ben Smith</h1>
   <p @text="site.description"></p>

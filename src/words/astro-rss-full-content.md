@@ -1,12 +1,9 @@
 ---
-layout: layouts/post.webc
-title: Add the content of your blog posts to your Astro RSS feed
-date: 2022-12-09
-showMeTheCode: true
-tags:
-  - astro
-  - rss
-  - open-web
+{
+  title: 'Add the content of your blog posts to your Astro RSS feed',
+  date: '2022-12-09',
+  tags: ['astro', 'rss', 'open-web'],
+}
 ---
 
 *Note: the content of this post is likely out of date as Astro has had multiple major version releases since the time that this post was written.*

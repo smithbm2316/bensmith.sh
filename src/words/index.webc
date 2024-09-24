@@ -1,11 +1,12 @@
 ---
-layout: layouts/base.webc
-title: Writing
-override:tags: []
-eleventyImport:
-  collections:
-    - posts
-    - postTags
+{
+  layout: 'layouts/base.webc',
+  title: 'Writing',
+  'override:tags': [],
+  eleventyImport: {
+    collections: ['posts', 'postTags'],
+  },
+}
 ---
 
 <script webc:setup>

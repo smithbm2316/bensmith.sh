@@ -41,6 +41,9 @@
 - [Tailwind and the Femininity of CSS](https://thoughtbot.com/blog/tailwind-and-the-femininity-of-css)
 - [Styling rss and atom feeds](https://rknight.me/blog/styling-rss-and-atom-feeds/)
 
+## eleventy solutions
+- [fix template content too early in eleventy](https://hamatti.org/snacks/fix-templatecontent-too-early-in-eleventy)
+
 ## webc bugs
 - [:host CSS class is duplicated and appended to all children with webc:scoped](https://github.com/11ty/eleventy-plugin-webc/issues/101)
 

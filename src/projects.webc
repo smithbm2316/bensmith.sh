@@ -1,6 +1,7 @@
 ---
-layout: layouts/base.webc
-title: Projects
+{
+  title: 'Projects',
+}
 ---
 
 <main class="flow">
