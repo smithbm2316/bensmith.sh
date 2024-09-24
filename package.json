@@ -9,10 +9,10 @@
     "debug:build": "DEBUG=Eleventy* npm run build",
     "dev": "run-p dev:*",
     "dev:11ty": "eleventy --watch --serve --port 2323",
-    "dev:tailwind": "tailwindcss -w -i styles.css -o src/assets/styles.css",
+    "dev:tailwind": "tailwindcss -w -i src/styles/styles.css -o src/assets/styles.css",
     "build": "run-s build:tailwind build:11ty",
     "build:11ty": "rm -rf _site && eleventy",
-    "build:tailwind": "tailwindcss -m -i styles.css -o src/assets/styles.css",
+    "build:tailwind": "tailwindcss -m -i src/styles/styles.css -o src/assets/styles.css",
     "preview": "npm run build && eleventy-dev-server --port 2323 --dir _site --no-domdiff"
   },
   "devDependencies": {
