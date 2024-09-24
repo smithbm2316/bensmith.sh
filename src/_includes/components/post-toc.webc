@@ -1,10 +1,10 @@
-<nav aria-labelledby="article-toc-heading">
+<nav aria-labelledby="article-toc-heading" webc:if='headings.length > 0'>
   <details style="cursor: pointer">
     <summary id="article-toc-heading">
       Table of Contents
     </summary>
 
-    <ul webc:if="headings.length > 0">
+    <ul>
       <li>
         <a href="#top">Return to top</a>
       </li>

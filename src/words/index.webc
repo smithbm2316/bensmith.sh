@@ -10,9 +10,12 @@
 ---
 
 <script webc:setup>
-  let posts = collections.posts.sort((a, b) =>
-    a.data.date < b.data.date ? 1 : -1
-  );
+  // sort ISO dates lexographically with newest posts first
+  let posts = collections.posts.sort((p1, p2) => {
+    let p1ISODate = (new Date(p1.data.date)).toISOString();
+    let p2ISODate = (new Date(p2.data.date)).toISOString();
+    return p2ISODate < p1ISODate ? 1 : p2ISODate > p1ISODate ? 1 : 0;
+  });
 </script>
 
 <main class="flow">
@@ -20,7 +23,8 @@
 
   <h2>Latest Posts</h2>
   <ul class="posts-list" webc:if="posts.length > 0">
-    <li webc:for="post of posts">
+    <li webc:for='post of posts'>
+      <template @text='log(post.data.title)'></template>
       <a :href="url(post.url)" @text="post.data.title"></a>
       <time :datetime="machineDate(post.data.date)" @text="humanDate(post.data.date)"></time>
     </li>
