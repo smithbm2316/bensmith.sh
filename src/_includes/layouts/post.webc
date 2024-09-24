@@ -1,6 +1,8 @@
 ---
-layout: layouts/base-html.webc
-loadPrismCSS: true
+{
+  layout: 'layouts/base-html.webc',
+  loadPrismCSS: true,
+}
 ---
 
 <script webc:setup>

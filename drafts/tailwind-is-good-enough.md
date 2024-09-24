@@ -1,8 +1,8 @@
 ---
-title: Tailwind is good enough
-tags:
-  - tailwind
-  - css
+{
+  title: 'Tailwind is good enough',
+  tags: ['tailwind', 'css'],
+}
 ---
 
 # Tailwind is good enough.

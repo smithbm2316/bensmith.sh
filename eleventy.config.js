@@ -35,6 +35,9 @@ export default function configureEleventy(eleventyConfig) {
     templateFormats: ['html', 'md', 'njk', '11ty.js', 'webc', 'css'],
   };
 
+  // set frontmatter data template format to Javascript by default instead of YAML
+  eleventyConfig.setFrontMatterParsingOptions({ language: 'javascript' });
+
   // enable markdown headings getting turned into links automatically, using the same `slugify` function on the heading names as eleventy provides globally from `@sindresorhus/slugify`
   eleventyConfig.amendLibrary('md', (mdLib) => {
     mdLib.use(markdownItAnchor, {

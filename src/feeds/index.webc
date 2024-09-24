@@ -1,9 +1,8 @@
 ---
-layout: layouts/base.webc
-title: Feeds
-eleventyImport:
-  collections:
-    - posts
+{
+  layout: 'layouts/base.webc',
+  title: 'Feeds',
+}
 ---
 
 <main class="flow">
