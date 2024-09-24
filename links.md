@@ -27,6 +27,10 @@
 - [Understanding WebC Features and Concepts | 11ty Rocks!](https://11ty.rocks/posts/understanding-webc-features-and-concepts/)
 - [WebC scoped styles className applied to every element · Issue #18 · 11ty/eleventy-plugin-webc](https://github.com/11ty/eleventy-plugin-webc/issues/18)
 - [CSS and JavaScript as first-class citizens in Eleventy — Vadim Makeev](https://pepelsbey.dev/articles/eleventy-css-js/)
+- [eleventy vite plugin](https://www.11ty.dev/docs/server-vite/)
+- [Unit Test 11ty Pages With Vitest and Typescript | Khalid Abuhakmeh](https://khalidabuhakmeh.com/unit-test-11ty-pages-with-vitest-and-typescript)
+- [tailwindcss as a utility generator with eleventy](https://eleventy-excellent.netlify.app/blog/what-is-tailwind-css-doing-here/)
+- [tailwindcss v4 alpha](https://tailwindcss.com/blog/tailwindcss-v4-alpha#try-out-the-alpha)
 
 ## webc
 
@@ -44,8 +48,28 @@
 ## eleventy solutions
 - [fix template content too early in eleventy](https://hamatti.org/snacks/fix-templatecontent-too-early-in-eleventy)
 
-## webc bugs
+## webc/11ty bugs
+- [`addPreprocessor` doesn't work together with keyed `addExtension` · Issue #3433 · 11ty/eleventy](https://github.com/11ty/eleventy/issues/3433)
 - [:host CSS class is duplicated and appended to all children with webc:scoped](https://github.com/11ty/eleventy-plugin-webc/issues/101)
+
+## 11ty plugins
+- [eleventy-plugin-poison - npm](https://www.npmjs.com/package/eleventy-plugin-poison)
+- [eleventy-plugin-no-robots - npm](https://www.npmjs.com/package/eleventy-plugin-no-robots)
+- [eleventy-plugin-html-validate - npm](https://www.npmjs.com/package/eleventy-plugin-html-validate)
+- [eleventy-plugin-target-safe - npm](https://www.npmjs.com/package/eleventy-plugin-target-safe)
+- [eleventy-plugin-svg-sprite - npm](https://www.npmjs.com/package/eleventy-plugin-svg-sprite)
+- [eleventy-plugin-automatic-noopener - npm](https://www.npmjs.com/package/eleventy-plugin-automatic-noopener)
+- [eleventy-plugin-netlify-redirects - npm](https://www.npmjs.com/package/eleventy-plugin-netlify-redirects)
+- [eleventy-plugin-heroicons - npm](https://www.npmjs.com/package/eleventy-plugin-heroicons)
+- [eleventy-plugin-icons - npm](https://www.npmjs.com/package/eleventy-plugin-icons)
+- [eleventy-plugin-validate - npm](https://www.npmjs.com/package/eleventy-plugin-validate)
+- [eleventy-plugin-webmentions - npm](https://www.npmjs.com/package/eleventy-plugin-webmentions)
+- [@chrisburnell/eleventy-cache-webmentions - npm](https://www.npmjs.com/package/@chrisburnell/eleventy-cache-webmentions)
+- [@quasibit/eleventy-plugin-schema - npm](https://www.npmjs.com/package/@quasibit/eleventy-plugin-schema)
+- [markdown-it-eleventy-img - npm](https://www.npmjs.com/package/markdown-it-eleventy-img)
+- [@sardine/eleventy-plugin-tinysvg - npm](https://www.npmjs.com/package/@sardine/eleventy-plugin-tinysvg)
+- [eleventy-plugin-gen-favicons - npm](https://www.npmjs.com/package/eleventy-plugin-gen-favicons)
+- [eleventy-plugin-file-list - npm](https://www.npmjs.com/package/eleventy-plugin-file-list)
 
 ## load html custom data files in neovim
 - [vscode custom data file docs](https://github.com/microsoft/vscode-html-languageservice/blob/main/docs/customData.md)
