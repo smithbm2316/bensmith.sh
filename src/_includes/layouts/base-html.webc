@@ -37,7 +37,7 @@
 </head>
 
 <body>
-  <template @raw="content" webc:nokeep></template>
+  <template @raw='content' webc:nokeep></template>
 
   <!-- `defer` bucket -->
   <script :src="getBundleFileUrl('js', 'defer')" defer type="module" webc:keep></script>

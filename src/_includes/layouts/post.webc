@@ -5,47 +5,28 @@
 }
 ---
 
-<script webc:setup>
-  let postData = collections.posts.find((post) => post.page.url === page.url);
-  if (!postData) {
-    throw new Error("Couldn't find a matching post for the current page.");
-  }
-  let { data, content, rawInput } = postData;
-  // filter out eleventy general tags
-  data.tags = data.tags ? data.tags.filter(tag => tag !== 'posts' && tag !== 'postTags') : [];
-
-  // pool all the article headings from the page content into an array so we can create a TOC easily
-  /** @type {string[]} */
-  let headings = [];
-  let matches = rawInput.matchAll(/^#{1,6}\s(?<heading>.*)$/gm);
-  for (let match of matches) {
-    if (match.groups?.heading) {
-      headings.push(match.groups.heading);
-    }
-  }
-</script>
-
 <with-main-nav>
-  <main-nav :@page='page'></main-nav>
+  <main-nav :@current-url='page.url'></main-nav>
   <main class="readable">
     <article>
       <header>
-        <h1 @text="data.title"></h1>
+        <h1 @text="title"></h1>
         <div class="post-metadata">
-          <time :datetime='machineDate(data.date)' @text='humanDate(data.date)'></time>
+          <time :datetime='machineDate(date)' @text='humanDate(date)'></time>
           <ul 
-            webc:if='data.tags.length > 0' 
+            webc:if='tags && tags.length > 0' 
             class="tags-list"
           >
-            <li webc:for='tag of data.tags'>
+            <li webc:for='tag of tags.filter(tag => tag !== "posts" && tag !== "postTags")'>
               <a :href='`/tags/${tag}`' @text='tag'></a>
             </li>
           </ul>
         </div>
       </header>
 
-      <post-toc webc:if='headings.length !== 0' :headings='headings'></post-toc>
-      <div class="article-content flow" style="--flow-space: 1.5em" @raw="content"></div>
+      <!--- see src/words/words.11tydata.js for this `parseHeadings` function's definition --->
+      <post-toc :@headings='parseHeadings(content)'></post-toc>
+      <div class="article-content flow" style="--flow-space: 1.5em" @raw='content'></div>
     </article>
     <div id="return-to-top-intersection" aria-hidden="true"></div>
   </main>

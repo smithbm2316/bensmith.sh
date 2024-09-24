@@ -12,7 +12,7 @@
     <ul>
       <li webc:for="link of links">
         <a
-          :aria-current="page.url === link.url ? 'page' : undefined"
+          :aria-current="currentUrl === link.url ? 'page' : undefined"
           :href="link.url"
           @text="link.text"
         ></a>
