@@ -1,7 +1,7 @@
 @import 'tailwindcss';
-@import './styles/base.css';
-@import './styles/vars.css';
-@import './styles/components.css';
+@import './base.css';
+@import './vars.css';
+@import './components.css';
 
 /**
  * manually specify the source files to search for utilities in (replaces the

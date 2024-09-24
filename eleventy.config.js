@@ -113,6 +113,9 @@ export default function configureEleventy(eleventyConfig) {
   eleventyConfig.setServerPassthroughCopyBehavior('passthrough');
   eleventyConfig.addPassthroughCopy(`${config.dir.input}/assets`);
 
+  // ignore the `${config.dir.input}/styles` directory so that tailwind manages it instead
+  eleventyConfig.ignores.add(`${config.dir.input}`);
+
   /*
    * PLUGINS
    */
@@ -137,6 +140,7 @@ export default function configureEleventy(eleventyConfig) {
   /* END PLUGINS */
 
   eleventyConfig.setServerOptions({
+    // watch the compiled output of Tailwind
     watch: [`${config.dir.input}/assets/styles.css`],
   });
 
