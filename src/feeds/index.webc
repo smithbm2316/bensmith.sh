@@ -1,5 +1,6 @@
 ---
 {
+  permalink: '/words/feed/',
   layout: 'layouts/base.webc',
   title: 'Feeds',
 }
@@ -10,9 +11,9 @@
 
   <nav class='feeds-list-nav' aria-labelledby='feeds-title'>
     <ul class="feeds-list">
-      <li><a href="/feeds/rss.njk">RSS</a></li>
-      <li><a href="/feeds/atom.njk">Atom</a></li>
-      <li><a href="/feeds/json.njk">JSON</a></li>
+      <li><a href="/words/feed.rss.xml">RSS</a></li>
+      <li><a href="/words/feed.atom.xml">Atom</a></li>
+      <li><a href="/words/feed.json">JSON</a></li>
     </ul>
   </nav>
 

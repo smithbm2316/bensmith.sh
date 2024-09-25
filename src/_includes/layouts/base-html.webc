@@ -18,6 +18,11 @@
   <link href='/assets/young-serif.css' rel='preload' as='style' webc:keep>
   <link href='/assets/young-serif.css' rel='stylesheet' webc:keep>
 
+  <!--- rss feeds --->
+  <link href='/words/feed.rss.xml' :title='`RSS Feed for ${metadata.title}`' rel='alternate' type='application/rss+xml'>
+  <link href='/words/feed.atom.xml' :title='`Atom Feed for ${metadata.title}`' rel='alternate' type='application/atom+xml'>
+  <link href='/words/feed.json' :title='`JSON Feed for ${metadata.title}`' rel='alternate' type='application/json'>
+
   <!---
     minified catppuccin-mocha prismjs theme
     https://github.com/catppuccin/prismjs/blob/main/themes/mocha.css

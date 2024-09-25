@@ -12,7 +12,7 @@
     { url: '/', text: 'Ben Smith' },
     { url: '/projects/', text: 'Projects' },
     { url: '/words/', text: 'Writing' },
-    { url: '/feeds/', text: 'RSS' },
+    { url: '/words/feed/', text: 'RSS' },
   ];
 </script>
 

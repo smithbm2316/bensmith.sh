@@ -50,6 +50,7 @@
 - [Devon Govett on X: "More design systems should use utilities over style components..."](https://x.com/devongovett/status/1836770668953620640)
 - [Design System Retrospective | Kyle Shevlin](https://kyleshevlin.com/design-system-retrospective/)
 - [Unit Test 11ty Pages With Vitest and Typescript | Khalid Abuhakmeh](https://khalidabuhakmeh.com/unit-test-11ty-pages-with-vitest-and-typescript)
+- [rss autodiscovery](https://www.petefreitag.com/blog/rss-autodiscovery/)
 - [tailwindcss as a utility generator with eleventy](https://eleventy-excellent.netlify.app/blog/what-is-tailwind-css-doing-here/)
 - [tailwindcss v4 alpha](https://tailwindcss.com/blog/tailwindcss-v4-alpha#try-out-the-alpha)
 

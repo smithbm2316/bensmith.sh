@@ -1,4 +1,7 @@
-export default /** @type {const} */ ({
+/**
+ * Global site configuration data
+ */
+const site = /** @type {const} */ ({
   title: 'Ben Smith - Full Stack Web Developer',
   url: 'https://bensmith.sh',
   author: {
@@ -9,3 +12,5 @@ export default /** @type {const} */ ({
     "I'm a web developer with a passion for the command line, coffee, and crafting delightful user experiences for the web!",
   favicon: '/assets/favicon.ico',
 });
+
+export default site;

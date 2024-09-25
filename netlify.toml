@@ -1,5 +1,4 @@
 [[redirects]]
 from = "/blog/feed.xml"
-to = "/feeds/rss.xml"
+to = "/words/feed.rss.xml"
 status = 301
-
