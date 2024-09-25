@@ -1,0 +1,112 @@
+@theme {
+  /*
+   * color design tokens
+   * https://www.realtimecolors.com/dashboard?colors=dae0f6-191d2e-f075f0-949fd1-dae0f6
+   */
+  /* disable tailwind default colors */
+  --color-*: initial;
+
+  /* light */
+  --color-light-50: #eaeefa;
+  --color-light-100: #dae0f6;
+  --color-light-200: #adbaeb;
+  --color-light-300: #8094e0;
+  --color-light-400: #536fd5;
+  --color-light-500: #2f4ec1;
+  --color-light-600: #243c94;
+  --color-light-700: #192a66;
+  --color-light-800: #0e1739;
+  --color-light-900: #03050c;
+  --color-light-950: #000000;
+  --color-light: var(--color-light-100);
+
+  /* dark */
+  --color-dark-50: #c3c8df;
+  --color-dark-100: #a9b0d0;
+  --color-dark-200: #8e98c2;
+  --color-dark-300: #7480b3;
+  --color-dark-400: #5a68a5;
+  --color-dark-500: #4b578b;
+  --color-dark-600: #3d4770;
+  --color-dark-700: #2f3656;
+  --color-dark-800: #20253b;
+  --color-dark-900: #191d2e;
+  --color-dark-950: #161927;
+  --color-dark: var(--color-dark-900);
+
+  /* primary */
+  --color-primary-50: #fef6fe;
+  --color-primary-100: #fce3fc;
+  --color-primary-200: #f8bff8;
+  --color-primary-300: #f49af4;
+  --color-primary-400: #f075f0;
+  --color-primary-500: #eb42ea;
+  --color-primary-600: #dd18dd;
+  --color-primary-700: #aa12aa;
+  --color-primary-800: #780d78;
+  --color-primary-900: #450845;
+  --color-primary-950: #2c052c;
+  --color-primary: var(--color-primary-400);
+
+  /* secondary */
+  --color-secondary-50: #f8f9fc;
+  --color-secondary-100: #eaecf6;
+  --color-secondary-200: #cdd2ea;
+  --color-secondary-300: #b1b9dd;
+  --color-secondary-400: #949fd1;
+  --color-secondary-500: #6d7cc0;
+  --color-secondary-600: #4a5bab;
+  --color-secondary-700: #394684;
+  --color-secondary-800: #28315d;
+  --color-secondary-900: #171c35;
+  --color-secondary-950: #0f1222;
+  --color-secondary: var(--color-secondary-400);
+
+  /* foreground and background tokens */
+  --color-fg: var(--color-light);
+  --color-bg: var(--color-dark);
+  --color-bg-code: var(--color-dark-800);
+  --color-bg-flash: var(--color-dark-700);
+
+  /* 
+   * type scale
+   * https://www.fluid-type-scale.com
+   * https://www.fluid-type-scale.com/calculate?minFontSize=18&minWidth=320&minRatio=1.25&maxFontSize=16&maxWidth=1280&maxRatio=1.333&steps=xs%2Csm%2Cbase%2Cmd%2Clg%2Cxl%2Cxxl%2Cxxxl&baseStep=base&prefix=font-size&useContainerWidth=false&includeFallbacks=false&useRems=true&remValue=16&decimals=2&previewWidth=1280
+   * minFontSize: 16px
+   * minWidth: 320px
+   * minRatio: 1.25
+   * maxFontSize: 16px
+   * maxWidth: 1280px
+   * maxRatio: 1.333
+   * steps: xs,sm,base,md,lg,xl,xxl,xxxl
+   * baseStep: base
+   * prefix: font-size
+   * decimals: 2
+   * useRems: true
+   * remValue: 16
+   */
+  /* disable tailwind font sizes */
+  --font-size-*: initial;
+
+  /* fluid font scale */
+  --font-size-xs: clamp(0.64rem, -0.13vi + 0.67rem, 0.56rem);
+  --font-size-sm: clamp(0.8rem, -0.08vi + 0.82rem, 0.75rem);
+  --font-size-base: clamp(1rem, 0vi + 1rem, 1rem);
+  --font-size-md: clamp(1.25rem, 0.14vi + 1.22rem, 1.33rem);
+  --font-size-lg: clamp(1.56rem, 0.36vi + 1.49rem, 1.78rem);
+  --font-size-xl: clamp(1.95rem, 0.69vi + 1.81rem, 2.37rem);
+  --font-size-xxl: clamp(2.44rem, 1.19vi + 2.2rem, 3.16rem);
+  --font-size-xxxl: clamp(3.05rem, 1.93vi + 2.67rem, 4.21rem);
+  --font-size-xs: clamp(0.72rem, -0.26vi + 0.77rem, 0.56rem);
+  --font-size-xs--line-height: 1;
+  --font-size-sm--line-height: 1;
+  --font-size-base--line-height: 1;
+  --font-size-md--line-height: 1;
+  --font-size-lg--line-height: 1;
+  --font-size-xl--line-height: 1;
+  --font-size-xxl--line-height: 1;
+  --font-size-xxxl--line-height: 1;
+
+  /* override tailwind font family with custom serif font */
+  --font-family-serif: 'Young Serif', system-ui, serif;
+}

@@ -43,17 +43,14 @@
     /* main link list item */
     & li:first-of-type {
       line-height: 1;
-      font-size: var(--fs-lg);
-      font-family: var(--ff-serif);
-      @supports (font-variation-settings: normal) {
-        font-family: var(--ff-serif-var);
-      }
+      font-size: var(--font-size-lg);
+      font-family: var(--font-family-serif);
 
       a {
-        color: var(--secondary);
+        color: var(--color-secondary);
       }
       a:is(:hover, :active) {
-        color: var(--primary);
+        color: var(--color-primary);
       }
     }
     /* current page should have a heavier font weight, so long as it's not the homepage */

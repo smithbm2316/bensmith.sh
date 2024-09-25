@@ -40,35 +40,35 @@
     row-gap: 0.6em;
     column-gap: 1.2em;
 
-    background-color: var(--dark-950);
-    border: 0.15em solid var(--dark-700);
+    background-color: var(--color-dark-950);
+    border: 0.15em solid var(--color-dark-700);
     padding: 0.6em 0.9em;
     margin-inline: -0.9em;
 
     text-decoration: none;
 
     &:focus-visible {
-      outline-color: var(--primary);
+      outline-color: var(--color-primary);
       outline-width: 2px;
       outline-offset: 2px;
     }
 
     h2 {
-      font-size: var(--fs-lg);
+      font-size: var(--font-size-lg);
 
     }
     &:hover h2 {
-      color: var(--primary);
+      color: var(--color-primary);
     }
 
     p {
-      color: var(--secondary);
-      font-size: var(--fs-sm);
+      color: var(--color-secondary);
+      font-size: var(--font-size-sm);
       font-weight: 500;
     }
 
     &:hover p {
-      color: var(--dark-50);
+      color: var(--color-dark-50);
     }
   }
 </style>
