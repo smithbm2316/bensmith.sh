@@ -1,6 +1,6 @@
 /**
  * The config object/instance for Eleventy
- * @typedef {import('@11ty/eleventy/src/UserConfig').default} EleventyConfig
+ * @typedef {import('@11ty/eleventy').UserConfig} EleventyConfig
  */
 
 // 11ty plugins
