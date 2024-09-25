@@ -3,12 +3,9 @@ import pluginRSS from '@11ty/eleventy-plugin-rss';
 import pluginSyntaxHighlight from '@11ty/eleventy-plugin-syntaxhighlight';
 
 import dir from '#config/dir.js';
-import baseConfig from '#config/base.js';
+import baseConfig from '#config/index.js';
 
-/**
- * @param {import('@11ty/eleventy').UserConfig} eleventyConfig
- * @returns {Record<string, unknown>} Final configuration that we give to Eleventy
- */
+/** @param {import('@11ty/eleventy').UserConfig} eleventyConfig */
 export default function configureEleventy(eleventyConfig) {
   eleventyConfig.addPlugin(baseConfig);
 
@@ -29,6 +26,7 @@ export default function configureEleventy(eleventyConfig) {
   eleventyConfig.setServerOptions({
     // watch the compiled output of Tailwind
     watch: [`${dir.input}/assets/styles.css`],
+    port: 2323,
   });
 
   return {
