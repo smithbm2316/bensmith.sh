@@ -7,5 +7,5 @@ export default /** @type {const} */ ({
   },
   description:
     "I'm a web developer with a passion for the command line, coffee, and crafting delightful user experiences for the web!",
-  favicon: '/assets/favicon.svg',
+  favicon: '/assets/favicon.ico',
 });
