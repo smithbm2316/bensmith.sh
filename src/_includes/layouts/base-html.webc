@@ -4,10 +4,10 @@
   <meta charset='utf-8'>
   <meta name='viewport' content='width=device-width, initial-scale=1.0'>
 
-  <!--- <link :href="site.favicon" rel="icon" type="image/svg+xml"> --->
   <meta name='author' :content='site.author.name'>
   <meta name='description' :content='site.description'>
   <meta name='generator' content='{{ eleventy.generator }}'>
+  <link :href='site.favicon' rel='icon' type='image/vnd.microsoft.icon'>
 
   <title @text='pageTitle(title)'></title>
 

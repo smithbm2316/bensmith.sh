@@ -1,0 +1,19 @@
+{
+  "name": "Ben Smith - Full Stack Web Developer",
+  "short_name": "Ben Smith",
+  "icons": [
+    {
+      "src": "/assets/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/assets/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "theme_color": "#f075f0",
+  "background_color": "#949fd1",
+  "display": "standalone"
+}
