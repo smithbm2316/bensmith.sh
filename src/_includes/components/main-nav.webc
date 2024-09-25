@@ -1,3 +1,12 @@
+<script webc:type='js'>
+  const z = require('zod');
+  let result = z.string().min(1).safeParse(currentUrl);
+  if (!result.success) {
+    throw new Error('`current-url` is a required prop for <post-toc>.')
+  }
+  '';
+</script>
+
 <script webc:setup>
   let links = [
     { url: '/', text: 'Ben Smith' },
