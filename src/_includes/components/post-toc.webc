@@ -50,6 +50,7 @@
 
       a {
         color: var(--color-primary);
+        font-weight: 700;
       }
       a:is(:hover, :active) {
         color: var(--color-fg);
