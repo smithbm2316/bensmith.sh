@@ -17,6 +17,9 @@ import pluginWebc from '@11ty/eleventy-plugin-webc';
 import markdownItAnchor from 'markdown-it-anchor';
 import slugify from '@sindresorhus/slugify';
 
+// global config data
+import site from '#bs/_data/site.js';
+
 /**
  * @param {EleventyConfig} eleventyConfig
  * @returns {Record<string, unknown>} Final configuration that we give to Eleventy
@@ -101,7 +104,7 @@ export default function configureEleventy(eleventyConfig) {
   // format page title helper
   eleventyConfig.addFilter('pageTitle', (title) => {
     if (!title || typeof title !== 'string') {
-      return 'Ben Smith - Full Stack Web Developer';
+      return site.title;
     } else if (title.startsWith('custom:')) {
       return title.replace('custom:', '');
     } else {

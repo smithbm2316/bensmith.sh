@@ -1,4 +1,4 @@
-import site from '../_data/site.js';
+import site from '#bs/_data/site.js';
 
 export default {
   layout: null,

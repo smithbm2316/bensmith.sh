@@ -1,4 +1,4 @@
-export default {
+export default /** @type {const} */ ({
   title: 'Ben Smith - Full Stack Web Developer',
   url: 'https://bensmith.sh',
   author: {
@@ -7,5 +7,5 @@ export default {
   },
   description:
     "I'm a web developer with a passion for the command line, coffee, and crafting delightful user experiences for the web!",
-  // favicon: '/assets/favicon.svg',
-};
+  favicon: '/assets/favicon.svg',
+});
