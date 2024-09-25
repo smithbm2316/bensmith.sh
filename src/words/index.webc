@@ -24,7 +24,6 @@
   <h2>Latest Posts</h2>
   <ul class="posts-list" webc:if="posts.length > 0">
     <li webc:for='post of posts'>
-      <template @text='log(post.data.title)'></template>
       <a :href="url(post.url)" @text="post.data.title"></a>
       <time :datetime="machineDate(post.data.date)" @text="humanDate(post.data.date)"></time>
     </li>

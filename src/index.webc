@@ -21,10 +21,6 @@
 </main>
 
 <style>
-  main {
-    container: main-content / inline-size
-  }
-
   main ul {
     display: flex;
     flex-wrap: wrap;
@@ -33,8 +29,8 @@
     row-gap: 0.6em;
     column-gap: 1.2em;
 
-    background-color: var(--dark-950);
-    border: 0.15em solid var(--dark-700);
+    background-color: var(--color-dark-950);
+    border: 0.15em solid var(--color-dark-700);
     padding: 0.6em 0.9em;
     margin-inline: -0.9em;
 
@@ -43,16 +39,16 @@
     }
 
     a {
-      color: var(--primary);
+      color: var(--color-primary);
 
       &:hover,
       &:active {
-        color: var(--fg);
+        color: var(--color-fg);
       }
     }
   }
 
-  @container main-content (min-width: 60ch) {
+  @container main-content (width < 60ch) {
     main ul {
       justify-content: space-evenly;
     }

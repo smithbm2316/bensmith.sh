@@ -15,10 +15,10 @@
   right: 0.5rem;
   z-index: 10;
 
-  border: 2px solid var(--dark-800);
+  border: 2px solid var(--color-dark-800);
   border-radius: 50%;
-  background-color: var(--dark-700);
-  color: var(--fg);
+  background-color: var(--color-dark-700);
+  color: var(--color-fg);
   justify-items: center;
   align-items: center;
   transition: border-color 0.25s ease;

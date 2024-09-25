@@ -1,20 +1,38 @@
+main {
+  container: main-content / inline-size;
+}
+
 .posts-list {
   display: grid;
-  gap: 0.5em;
+  column-gap: calc(1em + 1vw);
+  align-items: center;
+  @container main-content (width > 48ch) {
+    grid-auto-rows: 1fr;
+    grid-template-columns: repeat(2, 1fr);
+  }
 
   li {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: calc(2em + 1vw);
-    border-block-end: 1px solid var(--dark-700);
+    display: grid;
+    grid-template-rows: 1fr auto;
+    row-gap: 1em;
+    @container main-content (width > 48ch) {
+      grid-template-rows: initial;
+      grid-template-columns: subgrid;
+      grid-column: 1 / -1;
+      align-items: center;
 
+      /* fallback for lack of subgrid support */
+      grid-auto-flow: column;
+      justify-content: space-between;
+    }
+
+    border-block-end: 1px solid var(--color-dark-700);
     font-weight: 500;
     padding-block: 1em;
   }
 
   a {
-    font-size: var(--fs-md);
+    font-size: var(--font-size-md);
     text-decoration: none;
     max-width: 32ch;
 
@@ -25,7 +43,14 @@
   }
 
   time {
-    font-size: var(--fs-sm);
+    color: var(--color-secondary);
+    font-size: var(--font-size-sm);
+    font-weight: 700;
+
+    @container main-content (width > 48ch) {
+      justify-self: end;
+      text-align: end;
+    }
   }
 }
 
@@ -39,9 +64,9 @@
     --padding-inline-size: 0.6em;
     --tag-hole-punch-size: 0.45em;
 
-    background-color: var(--dark-800);
+    background-color: var(--color-dark-800);
     display: inline-block;
-    font-size: var(--fs-sm);
+    font-size: var(--font-size-sm);
     font-weight: 600;
     padding-block: var(--padding-block-size);
     padding-inline-start: var(--padding-inline-size);
@@ -87,7 +112,7 @@
     &::before {
       position: absolute;
       inset: 0;
-      background-color: var(--dark-600);
+      background-color: var(--color-dark-600);
       content: "";
       clip-path: polygon(
         /* 1 */ 0% 0%,
@@ -113,7 +138,7 @@
       height: 0.45em;
       width: 0.45em;
       clip-path: circle(50% at 50% 50%);
-      background-color: var(--dark-500);
+      background-color: var(--color-dark-500);
       position: absolute;
       top: 50%;
       right: var(--tag-hole-punch-size);

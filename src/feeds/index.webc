@@ -38,12 +38,12 @@
   gap: 1em;
 
   a {
-    color: var(--primary);
+    color: var(--color-primary);
     font-weight: 600;
 
     &:hover,
     &:active {
-      color: var(--fg);
+      color: var(--color-fg);
     }
   }
 }

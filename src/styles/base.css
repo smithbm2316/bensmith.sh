@@ -1,7 +1,7 @@
 body {
-  background-color: var(--bg);
-  color: var(--fg);
-  font-size: var(--fs-base);
+  background-color: var(--color-bg);
+  color: var(--color-fg);
+  font-size: var(--font-size-base);
   min-height: 100vh;
   scroll-behavior: smooth;
   max-width: 120rem; /* 1920px */
@@ -19,59 +19,61 @@ h3,
 h4,
 h5,
 h6 {
-  color: var(--secondary);
+  color: var(--color-secondary);
   font-weight: 400;
-  font-family: var(--ff-serif);
-  @supports (font-variation-settings: normal) {
-    font-family: var(--ff-serif-var);
-  }
+  font-family: var(--font-family-serif);
 }
 h1 {
-  font-size: var(--fs-xxl);
+  font-size: var(--font-size-xxl);
 }
 h2,
 .post-heading-wrapper:has(h2) > a {
-  font-size: var(--fs-xl);
+  font-size: var(--font-size-xl);
 }
 h3,
 h4, 
 .post-heading-wrapper:has(h3) > a,
 .post-heading-wrapper:has(h4) > a 
 {
-  font-size: var(--fs-lg);
+  font-size: var(--font-size-lg);
 }
 h5,
 h6,
 .post-heading-wrapper:has(h5) > a,
 .post-heading-wrapper:has(h6) > a
 {
-  font-size: var(--fs-md);
+  font-size: var(--font-size-md);
 }
 
-/* links should go from an inherited style to --primary by default */
+/* links should go from an inherited style to --color-primary by default */
 a {
   color: inherit;
 
   &:hover,
   &:active {
-    color: var(--primary);
+    color: var(--color-primary);
   }
 }
 
 /*
  * but if they're in an paragraph or are anchor links inside of a heading on one
- * of our blog posts (with [data-anchor="true"]), go from --primary to --fg
+ * of our blog posts (with [data-anchor="true"]), go from --color-primary to --color-fg
  */
 p a,
 a[data-anchor="true"] {
-  color: var(--primary);
+  color: var(--color-primary);
 
   &:hover,
   &:active {
-    color: var(--fg);
+    color: var(--color-fg);
   }
 }
 
+/* override tailwind default of no underline for links */
+a {
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+}
 /* disable link underline by default if it's a direct child of a heading element */
 :is(h1, h2, h3, h4, h5, h6) > a {
   text-decoration-line: none;
@@ -98,9 +100,9 @@ code {
   font-family: monospace;
 }
 pre {
-  background-color: var(--dark-950);
-  border: 0.3em solid var(--dark-600);
-  font-size: var(--fs-sm);
+  background-color: var(--color-dark-950);
+  border: 0.3em solid var(--color-dark-600);
+  font-size: var(--font-size-sm);
   font-weight: 500;
   padding: var(--pre-padding);
   overflow-x: scroll;
@@ -113,7 +115,7 @@ pre {
  */
 @keyframes bg-flash {
   from {
-    background-color: var(--bg-flash);
+    background-color: var(--color-bg-flash);
   }
   to {
     background-color: transparent;
