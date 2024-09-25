@@ -1,17 +1,19 @@
-import { InputPathToUrlTransformPlugin as pluginInputPathToUrl } from '@11ty/eleventy';
+/*
+ * Defines a base configuration to be consumed by my node.js server that runs
+ * Eleventy with the programmatic API to generate server-side rendered routes
+ */
 
+// import any 11ty dependencies or plugins needed for the base config
+import { InputPathToUrlTransformPlugin as pluginInputPathToUrl } from '@11ty/eleventy';
+// import all modular configurations to add as eleventy plugins
 import dir from './dir.js';
 import collectionsConfig from './collections.js';
 import filtersConfig from './filters.js';
 import markdownConfig from './markdown.js';
 import webcConfig from './webc.js';
 
-/**
- * @param {import('@11ty/eleventy').UserConfig} eleventyConfig
- * @returns {Record<string, unknown>} Final configuration that we give to Eleventy
- */
+/** @param {import('@11ty/eleventy').UserConfig} eleventyConfig */
 export default function baseConfig(eleventyConfig) {
-  // set defualt frontmatter data template format to Javascript instead of YAML
   eleventyConfig.setFrontMatterParsingOptions({ language: 'javascript' });
 
   eleventyConfig.addPlugin(collectionsConfig);

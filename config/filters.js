@@ -1,4 +1,5 @@
 import site from '#src/_data/site.js';
+import { customAlphabet } from 'nanoid';
 
 /** @param {import('@11ty/eleventy').UserConfig} eleventyConfig */
 export default function filtersConfig(eleventyConfig) {
@@ -27,4 +28,14 @@ export default function filtersConfig(eleventyConfig) {
       return `${title} - Ben Smith`;
     }
   });
+
+  // add a nanoid filter that uses a 12-character, easy to copy/paste,
+  // collision resistant id
+  // reference on rationale: https://planetscale.com/blog/why-we-chose-nanoids-for-planetscales-api
+  eleventyConfig.addFilter('nanoid', () =>
+    customAlphabet(
+      '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz',
+      12
+    )
+  );
 }

@@ -13,7 +13,7 @@ polka()
       // make sure to let eleventy know this is being run from a script with the
       // programmatic api, not from our normal dev/prod cli builds
       source: 'script',
-      configPath: 'config/base.js',
+      configPath: 'config/index.js',
       config(/** @type {EleventyConfig} */ eleventyConfig) {
         eleventyConfig.addGlobalData('props', {
           title: 'Pong',
