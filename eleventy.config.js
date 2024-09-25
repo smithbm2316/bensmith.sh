@@ -38,7 +38,17 @@ export default function configureEleventy(eleventyConfig) {
     },
     markdownTemplateEngine: 'njk',
     htmlTemplateEngine: 'njk',
-    templateFormats: ['html', 'md', 'njk', '11ty.js', 'webc', 'css'],
+    templateFormats: [
+      'html',
+      'md',
+      'njk',
+      '11ty.js',
+      'webc',
+      // copy over these files as plain text
+      'css',
+      'txt',
+      'webmanifest',
+    ],
   });
 
   // if a post's `draft` property is truthy, ignore processing it in prod
@@ -112,12 +122,12 @@ export default function configureEleventy(eleventyConfig) {
     }
   });
 
-  // configure the `src/assets` directory to be copied into our build without Eleventy processing the files. This is where all our fonts, images, styles, and other assets will go
+  // configure the `src/assets` directory to be copied into our build without Eleventy processing the files. This is where all our fonts, images, styles, and other assets will go.
   eleventyConfig.setServerPassthroughCopyBehavior('passthrough');
   eleventyConfig.addPassthroughCopy(`${config.dir.input}/assets`);
 
   // ignore the `${config.dir.input}/styles` directory so that tailwind manages it instead
-  eleventyConfig.ignores.add(`${config.dir.input}`);
+  eleventyConfig.ignores.add(`${config.dir.input}/styles`);
 
   /*
    * PLUGINS
