@@ -18,8 +18,12 @@
   <link href='/assets/young-serif.css' rel='preload' as='style' webc:keep>
   <link href='/assets/young-serif.css' rel='stylesheet' webc:keep>
 
-  <link href='/assets/prism-theme.css' rel='preload' as='style' webc:if='loadPrismCSS' webc:keep>
-  <link href='/assets/prism-theme.css' rel='stylesheet' webc:if='loadPrismCSS' webc:keep>
+  <!---
+    minified catppuccin-mocha prismjs theme
+    https://github.com/catppuccin/prismjs/blob/main/themes/mocha.css
+  --->
+  <link href='/assets/prismjs.min.css' rel='preload' as='style' webc:if='loadPrismCSS' webc:keep>
+  <link href='/assets/prismjs.min.css' rel='stylesheet' webc:if='loadPrismCSS' webc:keep>
 
   <!--- `critical`/inline bucket --->
   <style @raw="getBundle('css', 'critical')" webc:keep></style>
