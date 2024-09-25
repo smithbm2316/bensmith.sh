@@ -6,7 +6,7 @@
 ---
 
 <with-main-nav>
-  <main-nav :@current-url='page.url'></main-nav>
+  <main-nav :@current-url='page?.url ?? "null"'></main-nav>
   <main class="readable">
     <article>
       <header>

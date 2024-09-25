@@ -8,11 +8,13 @@
     "noImplicitAny": false,
     "target": "es2022",
     "moduleResolution": "nodenext",
-    "baseUrl": "src",
+    "baseUrl": ".",
     "paths": {
-      "#bs/*": ["./*"]
+      "#config/*": ["./config/*"],
+      "#server/*": ["./server/*"],
+      "#src/*": ["./src/*"]
     }
   },
-  "include": ["eleventy.config.js", "src/**/*.js", "global.d.ts"],
+  "include": ["eleventy.config.js", "config/**/*.js", "src/**/*.js", "global.d.ts"],
   "exclude": ["node_modules", "**/node_modules/*"]
 }

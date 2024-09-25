@@ -1,0 +1,7 @@
+---
+{
+  ssr: true,
+}
+---
+<h1 @text='props?.title ?? ""'></h1>
+<p @text='props?.message ?? ""'></p>

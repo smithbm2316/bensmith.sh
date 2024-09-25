@@ -3,9 +3,8 @@
   layout: 'layouts/base-html.webc',
 }
 ---
-
 <with-main-nav>
-  <main-nav :@current-url='page.url'></main-nav>
+  <main-nav :@current-url='page?.url ?? "null"'></main-nav>
   <div class="readable">
     <template @raw='content' webc:nokeep></template>
     <div id="return-to-top-intersection" aria-hidden="true"></div>

@@ -15,7 +15,9 @@
     "build": "run-s build:tailwind build:11ty",
     "build:11ty": "rm -rf _site && eleventy",
     "build:tailwind": "tailwindcss -m -i src/styles/styles.css -o src/assets/styles.css",
-    "preview": "npm run build && eleventy-dev-server --port 2323 --dir _site --no-domdiff"
+    "preview": "npm run build && eleventy-dev-server --port 2323 --dir _site --no-domdiff",
+    "serve": "node server/index.js",
+    "serve:watch": "node --watch-paths=server server/index.js"
   },
   "devDependencies": {
     "@11ty/eleventy": "^3.0.0-beta.1",
@@ -32,9 +34,13 @@
     "tailwindcss": "^4.0.0-alpha.24"
   },
   "dependencies": {
+    "polka": "^0.5.2",
+    "sirv": "^2.0.4",
     "zod": "^3.23.8"
   },
   "imports": {
-    "#bs/*.js": "./src/*.js"
+    "#config/*.js": "./config/*.js",
+    "#server/*.js": "./server/*.js",
+    "#src/*.js": "./src/*.js"
   }
 }
