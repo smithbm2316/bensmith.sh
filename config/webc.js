@@ -1,5 +1,5 @@
 import pluginWebc from '@11ty/eleventy-plugin-webc';
-import dir from './dir.js';
+import config from './index.js';
 
 /** @param {import('@11ty/eleventy').UserConfig} eleventyConfig */
 export default function webcConfig(eleventyConfig) {
@@ -19,6 +19,6 @@ export default function webcConfig(eleventyConfig) {
     // any `.webc` files found in the top-level of our `includes` directory
     // or in the `components` directory inside of our `includes` directory
     // will be processed as global webc components.
-    components: `${dir.input}/${dir.includes}/components/*.webc`,
+    components: `${config.dir.input}/${config.dir.includes}/components/*.webc`,
   });
 }

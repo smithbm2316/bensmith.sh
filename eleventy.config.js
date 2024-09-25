@@ -2,8 +2,8 @@ import pluginDirectoryOutput from '@11ty/eleventy-plugin-directory-output';
 import pluginRSS from '@11ty/eleventy-plugin-rss';
 import pluginSyntaxHighlight from '@11ty/eleventy-plugin-syntaxhighlight';
 
-import dir from '#config/dir.js';
-import baseConfig from '#config/index.js';
+import config from '#config/index.js';
+import baseConfig from '#config/base.js';
 
 /** @param {import('@11ty/eleventy').UserConfig} eleventyConfig */
 export default function configureEleventy(eleventyConfig) {
@@ -18,31 +18,16 @@ export default function configureEleventy(eleventyConfig) {
   // Eleventy processing the files. This is where all our fonts, images,
   // styles, and other assets will go.
   eleventyConfig.setServerPassthroughCopyBehavior('passthrough');
-  eleventyConfig.addPassthroughCopy(`${dir.input}/assets`);
+  eleventyConfig.addPassthroughCopy(`${config.dir.input}/assets`);
 
   // ignore the `src/styles` directory so that tailwind manages it instead
-  eleventyConfig.ignores.add(`${dir.input}/styles`);
+  eleventyConfig.ignores.add(`${config.dir.input}/styles`);
 
   eleventyConfig.setServerOptions({
     // watch the compiled output of Tailwind
-    watch: [`${dir.input}/assets/styles.css`],
+    watch: [`${config.dir.input}/assets/styles.css`],
     port: 2323,
   });
 
-  return {
-    dir,
-    markdownTemplateEngine: 'njk',
-    htmlTemplateEngine: 'njk',
-    templateFormats: [
-      'html',
-      'md',
-      'njk',
-      '11ty.js',
-      'webc',
-      // copy over these files as plain text
-      'css',
-      'txt',
-      'webmanifest',
-    ],
-  };
+  return config;
 }

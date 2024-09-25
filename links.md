@@ -53,6 +53,7 @@
 - [rss autodiscovery](https://www.petefreitag.com/blog/rss-autodiscovery/)
 - [tailwindcss as a utility generator with eleventy](https://eleventy-excellent.netlify.app/blog/what-is-tailwind-css-doing-here/)
 - [tailwindcss v4 alpha](https://tailwindcss.com/blog/tailwindcss-v4-alpha#try-out-the-alpha)
+- [relevant 11ty Serverless plugin code that helped me figure out how to use the programmatic api to generate a page](https://github.com/11ty/eleventy/blob/v2.x/src/Serverless.js#L160)
 
 ## webc
 
@@ -104,6 +105,7 @@
 - [eleventy-plugin-gen-favicons - npm](https://www.npmjs.com/package/eleventy-plugin-gen-favicons)
 - [eleventy-plugin-file-list - npm](https://www.npmjs.com/package/eleventy-plugin-file-list)
 - [eleventy-plugin-embed-everything](https://gfscott.com/embed-everything/)
+- [eleventy-plugin-code-style-hooks: An 11ty plugin that adds classes to code elements at build time using Prism so you can highlight syntax using CSS](https://github.com/JKC-Codes/eleventy-plugin-code-style-hooks)
 
 ## starters / example projects
 - [jetbrains.com/guide - uses TS, JSX, Vitest, etc](https://github.com/JetBrains/guide)
