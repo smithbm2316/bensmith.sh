@@ -9,7 +9,7 @@
 
   <ul webc:if="projects.length > 0">
     <li webc:for="project of projects">
-      <a :href='project.url' rel="noreferrer">
+      <a :href='project.url'>
         <h2 @text='`~/${project.name}`'></h2>
         <p @text='project.description'></p>
       </a>
@@ -45,7 +45,15 @@
     padding: 0.6em 0.9em;
     margin-inline: -0.9em;
 
-    text-decoration: none;
+    text-decoration-line: none;
+
+    /* disable icon on external link, but put it on the first child of the link */
+    &:after {
+      content: none;
+    }
+    &:first-child :after {
+      content: ' \2197';
+    }
 
     &:focus-visible {
       outline-color: var(--color-primary);
@@ -55,7 +63,6 @@
 
     h2 {
       font-size: var(--font-size-lg);
-
     }
     &:hover h2 {
       color: var(--color-primary);

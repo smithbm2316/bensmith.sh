@@ -4,13 +4,13 @@
 
   <ul>
     <li webc:for="link of socials">
-      <a rel="noreferrer" :href="link.href" @text="link.text"></a>
+      <a :href="link.href" @text="link.text"></a>
     </li>
   </ul>
 
   <p>
     <span @text="p1[0]"></span>
-    <a href="https://www.vincit.com" rel="noreferrer" @text="p1[1]"></a>
+    <a href="https://www.vincit.com" @text="p1[1]"></a>
     <span @text="p1[2]"></span>
   </p>
   <p>

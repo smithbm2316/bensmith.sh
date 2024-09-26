@@ -1,0 +1,8 @@
+<script webc:type='render'>
+  function() {
+    if (!this.alt) {
+      throw new Error("Need to have an `alt` attribute for the <img> tag.");
+    }
+    return `<img src="${this.src}" alt="${this.alt}">`;
+  }
+</script>

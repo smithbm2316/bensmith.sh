@@ -83,10 +83,10 @@
 
     & > a {
       color: var(--color-primary);
-      text-decoration: none;
+      text-decoration-line: none;
 
       &:hover {
-        text-decoration: underline;
+        text-decoration-line: underline;
       }
     }
   }

@@ -60,11 +60,11 @@
 
     & a {
       text-transform: lowercase;
-      text-decoration: none;
+      text-decoration-line: none;
     }
 
     & a:is(:hover, :active, :focus-visible) {
-      text-decoration: underline;
+      text-decoration-line: underline;
     }
   }
 

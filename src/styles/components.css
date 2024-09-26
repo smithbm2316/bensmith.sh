@@ -33,12 +33,12 @@ main {
 
   a {
     font-size: var(--font-size-md);
-    text-decoration: none;
+    text-decoration-line: none;
     max-width: 32ch;
 
     &:hover,
     &:focus-visible {
-      text-decoration: underline;
+      text-decoration-line: underline;
     }
   }
 
@@ -74,7 +74,7 @@ main {
       var(--padding-block-size) + var(--padding-inline-size) +
         var(--tag-hole-punch-size)
     );
-    text-decoration: none;
+    text-decoration-line: none;
     position: relative;
     /* clips the element to match the ::before element's path, otherwise
      * the background color of this element will escape the bounds

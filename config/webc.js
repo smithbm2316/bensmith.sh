@@ -19,6 +19,9 @@ export default function webcConfig(eleventyConfig) {
     // any `.webc` files found in the top-level of our `includes` directory
     // or in the `components` directory inside of our `includes` directory
     // will be processed as global webc components.
-    components: `${config.dir.input}/${config.dir.includes}/components/*.webc`,
+    components: [
+      `${config.dir.input}/${config.dir.includes}/components/*.webc`,
+      `${config.dir.input}/${config.dir.includes}/elements/*.webc`,
+    ],
   });
 }

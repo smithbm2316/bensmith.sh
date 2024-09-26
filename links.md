@@ -54,6 +54,7 @@
 - [tailwindcss as a utility generator with eleventy](https://eleventy-excellent.netlify.app/blog/what-is-tailwind-css-doing-here/)
 - [tailwindcss v4 alpha](https://tailwindcss.com/blog/tailwindcss-v4-alpha#try-out-the-alpha)
 - [relevant 11ty Serverless plugin code that helped me figure out how to use the programmatic api to generate a page](https://github.com/11ty/eleventy/blob/v2.x/src/Serverless.js#L160)
+- [show all links to external pages from jim nielsen's blog](https://blog.jim-nielsen.com/about/external-links)
 
 ## webc
 
