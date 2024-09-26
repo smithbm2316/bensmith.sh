@@ -24,7 +24,6 @@ plugins: [
 ## downsides/gripes
 - css grid kinda sucks with tailwind
 	- to use the power of grid, you just need to use bespoke CSS (i.e. `grid-template-areas` and `grid-area: *`)
-	- 
 - logical properties support is half-assed
 	- why don't you just update `ml-*` / `pt-*` / etc utilities under the hood to use logical properties ??
 	- no `-block-` logical property utilities due to (understandable) naming collision with `-bottom` utilities
