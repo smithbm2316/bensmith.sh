@@ -31,12 +31,8 @@
 
     background-color: var(--color-dark-950);
     border: 0.15em solid var(--color-dark-700);
-    padding: 0.6em 0.9em;
+    padding: 0.9em;
     margin-inline: -0.9em;
-
-    @container main-content (width >= 45ch) {
-      justify-content: space-evenly;
-    }
 
     a {
       color: var(--color-primary);
@@ -45,12 +41,6 @@
       &:active {
         color: var(--color-fg);
       }
-    }
-  }
-
-  @container main-content (width < 60ch) {
-    main ul {
-      justify-content: space-evenly;
     }
   }
 </style>

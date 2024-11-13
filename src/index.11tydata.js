@@ -2,10 +2,11 @@ export default {
   socials: [
     { text: 'Sourcehut', href: 'https://sr.ht/~smithbm2316/' },
     { text: 'GitHub', href: 'https://github.com/smithbm2316' },
-    { text: 'LinkedIn', href: 'https://www.linkedin.com/in/smithbm2316' },
-    { text: 'Email', href: 'mailto:bsmithdev@mailbox.org' },
-    { text: 'Twitter', href: 'https://twitter.com/smithbm2316' },
+    { text: 'Bluesky', href: 'https://bsky.app/profile/bensmith.sh' },
     { text: 'YouTube', href: 'https://www.youtube.com/@smithbm2316' },
+    { text: 'Email', href: 'mailto:bsmithdev@mailbox.org' },
+    { text: 'LinkedIn', href: 'https://www.linkedin.com/in/smithbm2316' },
+    { text: 'Twitter', href: 'https://twitter.com/smithbm2316' },
   ],
   p1: [
     `I've been refining my web development skills at`,

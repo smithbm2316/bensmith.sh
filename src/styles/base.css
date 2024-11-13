@@ -54,12 +54,9 @@ a {
     color: var(--color-primary);
   }
 }
-/* show icons for external and mailto: links */
+/* show icons for external */
 a[href^='http']:after {
   content: ' \2197';
-}
-a[href^='mailto:']:after {
-  content: ' \2709';
 }
 
 /*
