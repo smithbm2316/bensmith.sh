@@ -43,5 +43,8 @@
     "#config/*.js": "./config/*.js",
     "#server/*.js": "./server/*.js",
     "#src/*.js": "./src/*.js"
+  },
+  "volta": {
+    "node": "23.2.0"
   }
 }
