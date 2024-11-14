@@ -9,8 +9,9 @@ const site = /** @type {const} */ ({
     email: 'bsmithdev@mailbox.org',
   },
   description:
-    "I'm a web developer with a passion for the command line, coffee, and crafting delightful user experiences for the web!",
+    "I'm a web developer at Thuma with a passion for the command line, coffee, and crafting delightful user experiences for the web!",
   favicon: '/assets/favicon.ico',
 });
+site.descriptionNodes = site.description.split('Thuma');
 
 export default site;

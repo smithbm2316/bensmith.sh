@@ -1,6 +1,10 @@
 <main class="flow">
   <h1>Hey, I'm Ben Smith</h1>
-  <p @text="site.description"></p>
+  <p>
+    <template webc:nokeep @text="site.descriptionNodes[0]"></template>
+    <a href="https://www.thuma.co">Thuma</a>
+    <template webc:nokeep @text="site.descriptionNodes[1]"></template>
+  </p>
 
   <ul>
     <li webc:for="link of socials">
@@ -12,6 +16,10 @@
     <span @text="p1[0]"></span>
     <a href="https://www.vincit.com" @text="p1[1]"></a>
     <span @text="p1[2]"></span>
+
+    <span @text="p1[3]"></span>
+    <a href="https://www.thuma.co" @text="p1[4]"></a>
+    <span @text="p1[5]"></span>
   </p>
   <p>
     <span @text="p2[0]"></span>

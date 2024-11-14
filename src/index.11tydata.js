@@ -9,9 +9,12 @@ export default {
     { text: 'Twitter', href: 'https://twitter.com/smithbm2316' },
   ],
   p1: [
-    `I've been refining my web development skills at`,
+    `I have been refining my web development skills at`,
     'Vincit USA',
-    ` for the last 3 years, a software development consulting agency. I've helped multiple startups launch their flagship web-based SaaS products, replaced an existing Shopify website with a more performant headless Shopify storefront, and taught several internal workshops on web accessibility and developer tools.`,
+    ` for the last 3.5 years, a software development consulting agency. I've helped multiple startups launch their flagship web-based SaaS products, replaced an existing Shopify website with a more performant headless Shopify storefront, and taught several internal workshops on web accessibility and developer tools.`,
+    `I recently joined`,
+    `Thuma`,
+    `, a retail bedroom furniture company to maintain their headless Shopify e-commerce website.`,
   ],
   p2: [
     `I've been programming and tinkering with tech since I first got my hands on a text editor and some 2012-era Youtube C programming language tutorials. However, it was an online course that I took the summer before my first year of high school from San Jose State University on an Introduction to the Java programming language that sparked an initial interest in coding well over a decade ago. While I would go on to take a Python course at my high school, write some "RobotC" code for the high school Robotics team, and a history fair website constructed with some basic HTML and CSS, it wasn't until halfway through my time in college at UC Irvine that I'd discover the passion that still burns bright today: `,
