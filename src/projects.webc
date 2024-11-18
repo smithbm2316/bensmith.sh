@@ -4,7 +4,7 @@
 }
 ---
 
-<main class="flow">
+<main class='flow'>
   <h1 @text='title'></h1>
 
   <ul webc:if="projects.length > 0">
