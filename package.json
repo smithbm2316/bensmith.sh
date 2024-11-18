@@ -20,7 +20,7 @@
     "serve:watch": "node --watch-paths=server server/index.js"
   },
   "devDependencies": {
-    "@11ty/eleventy": "^3.0.0-beta.1",
+    "@11ty/eleventy": "^3.0.0",
     "@11ty/eleventy-plugin-directory-output": "^1.0.1",
     "@11ty/eleventy-plugin-rss": "^2.0.2",
     "@11ty/eleventy-plugin-syntaxhighlight": "^5.0.0",
@@ -43,8 +43,5 @@
     "#config/*.js": "./config/*.js",
     "#server/*.js": "./server/*.js",
     "#src/*.js": "./src/*.js"
-  },
-  "volta": {
-    "node": "23.2.0"
   }
 }
