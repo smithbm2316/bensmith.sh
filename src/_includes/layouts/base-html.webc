@@ -43,6 +43,8 @@
   <link :href="getBundleFileUrl('css')" rel='preload' as='style' webc:keep>
   <link :href="getBundleFileUrl('css')" rel='stylesheet' webc:keep>
   <!--- <script :src="getBundleFileUrl('js')" type='module' webc:keep></script> --->
+
+  <script src="/assets/quicklink@2.3.0.umd.js" defer webc:keep></script>
 </head>
 
 <body>
