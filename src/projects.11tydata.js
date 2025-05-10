@@ -7,8 +7,8 @@ export default {
         'Generate a cacheable SVG spritesheet to be consumed by a JSX component with a Typescript definition.',
     },
     {
-      name: 'bensmith.sh',
-      url: 'https://github.com/smithbm2316/bensmith.sh',
+      name: 'www.bensmith.sh',
+      url: 'https://github.com/smithbm2316/www.bensmith.sh',
       description: "The source code for this very website that you're on.",
     },
     {

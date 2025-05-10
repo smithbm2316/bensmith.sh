@@ -1,6 +1,6 @@
 {
   "$schema": "https://json.schemastore.org/package.json",
-  "name": "bensmith.sh",
+  "name": "www.bensmith.sh",
   "type": "module",
   "version": "0.0.2",
   "description": "My website",

@@ -4,7 +4,7 @@ export default {
     { text: 'GitHub', href: 'https://github.com/smithbm2316' },
     { text: 'Bluesky', href: 'https://bsky.app/profile/bensmith.sh' },
     { text: 'YouTube', href: 'https://www.youtube.com/@smithbm2316' },
-    { text: 'Email', href: 'mailto:bsmithdev@mailbox.org' },
+    { text: 'Email', href: 'mailto:ben@bensmith.sh' },
     { text: 'LinkedIn', href: 'https://www.linkedin.com/in/smithbm2316' },
     { text: 'Twitter', href: 'https://twitter.com/smithbm2316' },
   ],
